@@ -5,7 +5,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 COPY src ./src
 COPY public ./public
-COPY ./next.config.mjs ./package.json ./tsconfig.json ./package-lock.json ./
+COPY ./next.config.ts ./package.json ./tsconfig.json ./package-lock.json ./
 
 RUN npm run build
 CMD npm run lint
