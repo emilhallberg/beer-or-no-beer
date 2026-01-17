@@ -7,10 +7,11 @@ import { Beer, Beers } from "@/utils/getBeers";
 type Game = {
   beers: Beers;
   beer: Beer;
-  onBeer: (guess: boolean) => void;
   score: number;
   hearts: number;
   gameOver: boolean;
+  onBeer: (guess: boolean) => void;
+  reset: () => void;
 };
 
 const GameContext = createContext<Game | undefined>(undefined);
@@ -32,11 +33,18 @@ export default function GameProvider({ children, beerPromise }: Props) {
     setBeer((prevBeer) => beers[beers.indexOf(prevBeer) + 1]);
   };
 
+  const reset = () => {
+    "use memo";
+    setScore(0);
+    setHearts(3);
+    setBeer((prevBeer) => beers[beers.indexOf(prevBeer) + 1]);
+  };
+
   const gameOver = hearts === 0;
 
   return (
     <GameContext.Provider
-      value={{ beers, beer, onBeer, score, hearts, gameOver }}
+      value={{ beers, beer, onBeer, score, hearts, gameOver, reset }}
     >
       {children}
     </GameContext.Provider>

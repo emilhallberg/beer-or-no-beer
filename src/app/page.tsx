@@ -5,7 +5,13 @@ export default function StartPage() {
   return (
     <div className="grid">
       <div className="grid place-content-center p-4">
-        <Image src="/logo.svg" alt="Logo" width={100} height={100} />
+        <Image
+          src="/logo.svg"
+          alt="Logo"
+          width={100}
+          height={100}
+          loading="eager"
+        />
       </div>
       <div className="grid place-content-center p-4">
         <Link href="/play">

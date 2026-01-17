@@ -2,16 +2,16 @@
 
 import { useGame } from "@/app/play/_/game-provider";
 
-export default function BeerButton() {
-  const { onBeer } = useGame();
+export default function PlayAgainButton() {
+  const { reset } = useGame();
 
   return (
     <button
       onClick={() => {
-        onBeer(true);
+        reset();
       }}
     >
-      Beer
+      Play Again
     </button>
   );
 }

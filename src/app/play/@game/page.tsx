@@ -1,16 +1,19 @@
+"use client";
+
+import { Activity } from "react";
+
 import BeerButton from "@/app/play/_/beer-button";
 import BeerHearts from "@/app/play/_/beer-hearts";
 import BeerHero from "@/app/play/_/beer-hero";
 import BeerScore from "@/app/play/_/beer-score";
-import GameProvider from "@/app/play/_/game-provider";
+import { useGame } from "@/app/play/_/game-provider";
 import NoBeerButton from "@/app/play/_/no-beer-button";
-import getBeers from "@/utils/getBeers";
 
-export default function PlayPage() {
-  const beerPromise = getBeers();
+export default function GameSlot() {
+  const { gameOver } = useGame();
 
   return (
-    <GameProvider beerPromise={beerPromise}>
+    <Activity mode={gameOver ? "hidden" : "visible"}>
       <div className="h-svh grid grid-rows-[max-content_1fr_max-content] p-6">
         <header className="h-20 flex place-content-between">
           <BeerHearts />
@@ -24,6 +27,6 @@ export default function PlayPage() {
           <NoBeerButton />
         </footer>
       </div>
-    </GameProvider>
+    </Activity>
   );
 }
