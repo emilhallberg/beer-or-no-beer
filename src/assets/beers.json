@@ -1,0 +1,1502 @@
+[
+  {
+    "name": "Hoptimus Prime",
+    "description": "A double IPA from Ruckus Brewing with aggressive hop bitterness, citrus, and pine, named for a Transformers nod.",
+    "real": true
+  },
+  {
+    "name": "Beard Beer",
+    "description": "A Rogue Ales brew using yeast from the brewer’s beard, offering funky, earthy flavors with a crisp finish.",
+    "real": true
+  },
+  {
+    "name": "Pisner",
+    "description": "A Danish pilsner by Nørrebro Bryghus, made with barley fertilized by festival urine, crisp and sustainable.",
+    "real": true
+  },
+  {
+    "name": "Silence of the Lambics",
+    "description": "A Southwest lambic-style sour with tart cherry and funky notes, named after the chilling film.",
+    "real": true
+  },
+  {
+    "name": "Citrus Got Real",
+    "description": "A tart ale from Springdale Barrel Room with vibrant citrus, named by a brewer’s daughter for its zesty kick.",
+    "real": true
+  },
+  {
+    "name": "Moose Knuckle Stout",
+    "description": "A rich stout from The Phoenix Ale Brewery with chocolate and coffee, named for a cheeky Canadian term.",
+    "real": true
+  },
+  {
+    "name": "Bag of Screaming Goats",
+    "description": "A West Virginia sour ale with wild fruit flavors, named for a viral internet meme.",
+    "real": true
+  },
+  {
+    "name": "Bitter & Twisted",
+    "description": "A golden ale from Harviestoun Brewery with five hop strains, offering a citrusy, bitter edge.",
+    "real": true
+  },
+  {
+    "name": "Cyborg Brain Juice",
+    "description": "A hazy IPA from Devil’s Backbone with tropical fruit and resinous hops, evoking a sci-fi vibe.",
+    "real": true
+  },
+  {
+    "name": "Fake Plastic Trees IPA",
+    "description": "A West Coast IPA inspired by Radiohead, with piney hops and a crisp, clean finish.",
+    "real": true
+  },
+  {
+    "name": "My Eyes Are Up Here!",
+    "description": "A West Virginia pale ale with bright, citrusy hops and a playful, cheeky name.",
+    "real": true
+  },
+  {
+    "name": "Up, Up, Down, Down, Left, Right, Left, Right, B, A, Select, Start",
+    "description": "A nerdy West Virginia IPA with retro gaming nostalgia and bold hop character.",
+    "real": true
+  },
+  {
+    "name": "I Got My Cicerone On Untappd",
+    "description": "A hoppy pale ale from Young Blood Beer Company, poking fun at beer certification culture.",
+    "real": true
+  },
+  {
+    "name": "Everyone Looks Like Guy Fieri",
+    "description": "A bold IPA from Young Blood Beer Company, named with a nod to the TV chef’s iconic style.",
+    "real": true
+  },
+  {
+    "name": "Cat Box Peanutbutter Porter",
+    "description": "A New Jersey porter with nutty peanut butter flavors, named for a cringe-worthy joke.",
+    "real": true
+  },
+  {
+    "name": "Oops I Hopped My Pants",
+    "description": "A Northeast IPA with intense hoppiness and a playful, embarrassing name.",
+    "real": true
+  },
+  {
+    "name": "Nitro Imperial Pumpking",
+    "description": "A Southern Tier pumpkin ale with spiced, creamy notes, enhanced by a bold nitro pour.",
+    "real": true
+  },
+  {
+    "name": "Bolos and Bling",
+    "description": "A Southwest ale with blue corn, named for turquoise jewelry culture and local flair.",
+    "real": true
+  },
+  {
+    "name": "Atrial Rubicite",
+    "description": "A Jester King barrel-aged raspberry sour, juicy yet dry with a funky, tart edge.",
+    "real": true
+  },
+  {
+    "name": "Lazy Bird Brown",
+    "description": "A Birdsong Brewing brown ale inspired by John Coltrane, with nutty malt flavors.",
+    "real": true
+  },
+  {
+    "name": "Higher Ground IPA",
+    "description": "A Birdsong Brewing West Coast IPA, named after Stevie Wonder with bold, citrusy hops.",
+    "real": true
+  },
+  {
+    "name": "Sweater Puppies",
+    "description": "A homebrewer’s milk stout, creamy and sweet with a cozy, playful name.",
+    "real": true
+  },
+  {
+    "name": "Kentucky Brunch",
+    "description": "A Toppling Goliath barrel-aged stout, rich with coffee and mocha notes.",
+    "real": true
+  },
+  {
+    "name": "Beer : Barrel : Time",
+    "description": "A Side Project stout blend aged in bourbon barrels, with chocolate and coconut flavors.",
+    "real": true
+  },
+  {
+    "name": "O.W.K. 2023",
+    "description": "A Side Project vanilla-heavy stout, aged in Pappy Van Winkle barrels for complexity.",
+    "real": true
+  },
+  {
+    "name": "Midnight Hopper Ale",
+    "description": "A bold pale ale with citrusy hops and caramel malt, evoking a starry night brew.",
+    "real": false
+  },
+  {
+    "name": "Frostbite Lager",
+    "description": "A crisp lager with a clean finish and subtle herbal notes, inspired by winter’s chill.",
+    "real": false
+  },
+  {
+    "name": "Ember Stout",
+    "description": "A rich stout with roasted malt, dark chocolate, and coffee, warm as a hearth.",
+    "real": false
+  },
+  {
+    "name": "Twilight Wheat",
+    "description": "A hazy wheat beer with orange peel and coriander, brewed for dusk sipping.",
+    "real": false
+  },
+  {
+    "name": "Ironclad IPA",
+    "description": "A hop-heavy IPA with pine and grapefruit aromas, strong as a fortress.",
+    "real": false
+  },
+  {
+    "name": "Sable Porter",
+    "description": "A smooth porter with velvety chocolate and smoked malt, dark as midnight.",
+    "real": false
+  },
+  {
+    "name": "Gilded Pilsner",
+    "description": "A classic pilsner with a crisp bite and floral hop finish, gleaming like gold.",
+    "real": false
+  },
+  {
+    "name": "Starfall Saison",
+    "description": "A farmhouse ale with spicy yeast and a dry, fruity finish, inspired by meteor showers.",
+    "real": false
+  },
+  {
+    "name": "Raven’s Red",
+    "description": "A malty red ale with caramel sweetness and balanced hops, dark as a bird’s wing.",
+    "real": false
+  },
+  {
+    "name": "Cinder Bock",
+    "description": "A robust bock with toffee and toasted bread flavors, warm as smoldering ash.",
+    "real": false
+  },
+  {
+    "name": "Moonlit Märzen",
+    "description": "A smooth Oktoberfest-style beer with bready malt and noble hops, brewed under moonlight.",
+    "real": false
+  },
+  {
+    "name": "Driftwood Dunkel",
+    "description": "A dark lager with roasted nut and caramel undertones, evoking weathered coastal wood.",
+    "real": false
+  },
+  {
+    "name": "Stormbreak Stout",
+    "description": "A creamy imperial stout with espresso and vanilla, bold as a tempest’s end.",
+    "real": false
+  },
+  {
+    "name": "Hearthside Hefeweizen",
+    "description": "A hefeweizen with banana and clove aromas, crafted for cozy evenings.",
+    "real": false
+  },
+  {
+    "name": "Shadowpine Ale",
+    "description": "A resinous pale ale with piney hops and a crisp, forest-inspired finish.",
+    "real": false
+  },
+  {
+    "name": "Crimson Clover Lager",
+    "description": "A light lager with honey sweetness and floral notes, red as a sunset field.",
+    "real": false
+  },
+  {
+    "name": "Ashen Amber",
+    "description": "A balanced amber ale with toasty malt and subtle citrus hops, smoky as a dying fire.",
+    "real": false
+  },
+  {
+    "name": "Mistmoor IPA",
+    "description": "A hazy IPA with juicy mango and pineapple, evoking coastal fog.",
+    "real": false
+  },
+  {
+    "name": "Glacier Gose",
+    "description": "A tart gose with sea salt and coriander, inspired by icy landscapes.",
+    "real": false
+  },
+  {
+    "name": "Copper Kettle Kölsch",
+    "description": "A light, crisp kölsch with delicate fruit esters and a clean finish.",
+    "real": false
+  },
+  {
+    "name": "Bramblethorn Sour",
+    "description": "A tart sour ale with blackberry and rosehip, evoking wild hedgerows.",
+    "real": false
+  },
+  {
+    "name": "Ironwood Imperial",
+    "description": "A bold imperial stout with oak-aged richness and dark fruit undertones.",
+    "real": false
+  },
+  {
+    "name": "Saffron Sunset Ale",
+    "description": "A golden ale with saffron and honey for a warm, aromatic finish.",
+    "real": false
+  },
+  {
+    "name": "Obsidian Oatmeal Stout",
+    "description": "A creamy stout with roasted barley and smooth oatmeal, dark as volcanic glass.",
+    "real": false
+  },
+  {
+    "name": "Frostfang Pale Ale",
+    "description": "A hop-forward pale ale with citrus zest and a crisp, icy bite.",
+    "real": false
+  },
+  {
+    "name": "Full Circle Pale Ale",
+    "description": "A Stone Brewing pale ale made with recycled wastewater, crisp and eco-friendly with citrusy hops.",
+    "real": true
+  },
+  {
+    "name": "Chief of Chiefs",
+    "description": "A Bearded Iris double IPA, dry-hopped with Simcoe, Citra, and Mosaic for intense tropical flavors.",
+    "real": true
+  },
+  {
+    "name": "Callisto Tripel",
+    "description": "A Belgian-style tripel from Ecliptic Brewing with black currant notes, named after a Jupiter moon.",
+    "real": true
+  },
+  {
+    "name": "Phobos Red Ale",
+    "description": "A malty red ale from Ecliptic Brewing, named for a Martian moon with caramel and hop balance.",
+    "real": true
+  },
+  {
+    "name": "Mommy? Sorry!",
+    "description": "A West Virginia IPA with a humorous name and punchy, citrusy hop profile.",
+    "real": true
+  },
+  {
+    "name": "I Can’t Believe It’s Not Rubber",
+    "description": "A quirky IPA from a craft brewery, with a name poking fun at synthetic flavors and bold hops.",
+    "real": true
+  },
+  {
+    "name": "Newporter Menthol Porter",
+    "description": "A Northeast porter with a cool, minty twist, brewed with a bold and unusual name.",
+    "real": true
+  },
+  {
+    "name": "Goya Black Bean Stout",
+    "description": "A stout from a small brewery, inspired by savory Latin flavors with roasted malt.",
+    "real": true
+  },
+  {
+    "name": "Slip It In Cider",
+    "description": "A crisp cider from a boutique cidery, apple-forward with a cheeky, playful name.",
+    "real": true
+  },
+  {
+    "name": "Free Will Pale Ale",
+    "description": "A Birdsong Brewing pale ale named after a Rush song, with bright, citrusy hops.",
+    "real": true
+  },
+  {
+    "name": "Orbiter IPA",
+    "description": "A hoppy IPA from Ecliptic Brewing, named for celestial orbits with vibrant citrus notes.",
+    "real": true
+  },
+  {
+    "name": "Vibes",
+    "description": "A Side Project stout with rich, barrel-aged character, named for its cool, laid-back feel.",
+    "real": true
+  },
+  {
+    "name": "Gen",
+    "description": "A Side Project stout with deep malt complexity, part of their barrel-aged blend series.",
+    "real": true
+  },
+  {
+    "name": "Chocolate",
+    "description": "A Side Project stout with intense cocoa notes, aged in bourbon barrels for richness.",
+    "real": true
+  },
+  {
+    "name": "Stop Trashing Our Bathroom",
+    "description": "A West Virginia IPA with a humorous name, calling out rowdy patrons with bold hops.",
+    "real": true
+  },
+  {
+    "name": "X Æ A-12",
+    "description": "A West Virginia experimental ale named after Elon Musk’s child, with wild, funky flavors.",
+    "real": true
+  },
+  {
+    "name": "Rain Fruited Sour",
+    "description": "A vibrant sour ale with rotating fruit additions, refreshing and tart.",
+    "real": true
+  },
+  {
+    "name": "Rewind Lager",
+    "description": "A crisp lager with a nostalgic name, brewed for easy-drinking sessions.",
+    "real": true
+  },
+  {
+    "name": "Plaid Panda Porter",
+    "description": "A rich porter with coffee and chocolate notes, named for a quirky brewery mascot.",
+    "real": true
+  },
+  {
+    "name": "Sasquatch Sweat Stout",
+    "description": "A Pacific Northwest imperial stout, evoking mythical forest vibes with roasted malt.",
+    "real": true
+  },
+  {
+    "name": "Gizmo’s Grog",
+    "description": "A spiced ale from a small brewery, named after a fictional pirate’s brew.",
+    "real": true
+  },
+  {
+    "name": "Quantum Quaff",
+    "description": "A hazy IPA with experimental hops, named for a sci-fi-inspired brewery.",
+    "real": true
+  },
+  {
+    "name": "Furry Footprint Ale",
+    "description": "A light ale with fruity notes, named after a cryptid-themed brewery.",
+    "real": true
+  },
+  {
+    "name": "Tangerine Tornado",
+    "description": "A citrusy wheat beer from a Florida brewery, bursting with tangerine zest.",
+    "real": true
+  },
+  {
+    "name": "Disco Vampire",
+    "description": "A funky saison from a Midwest brewery, with spicy yeast and a glittery, quirky name.",
+    "real": true
+  },
+  {
+    "name": "Willowisp Wheat",
+    "description": "A light wheat beer with chamomile and lemon peel, evoking a dreamy, ethereal vibe.",
+    "real": false
+  },
+  {
+    "name": "Nightshade Nitro",
+    "description": "A nitrogenated porter with velvety dark chocolate and berry notes, smooth and rich.",
+    "real": false
+  },
+  {
+    "name": "Thornridge Tripel",
+    "description": "A Belgian-style tripel with spicy yeast and candied fruit, inspired by rugged hills.",
+    "real": false
+  },
+  {
+    "name": "Ironquill IPA",
+    "description": "A West Coast IPA with grapefruit and resinous pine, sharp as a quill’s point.",
+    "real": false
+  },
+  {
+    "name": "Duskwood Doppelbock",
+    "description": "A rich doppelbock with caramelized malt and dark fruit, evoking twilight forests.",
+    "real": false
+  },
+  {
+    "name": "Starling Saison",
+    "description": "A dry saison with peppery yeast and citrus zest, light as a bird’s flight.",
+    "real": false
+  },
+  {
+    "name": "Cinderfall Cream Ale",
+    "description": "A smooth cream ale with light malt sweetness and a clean, crisp finish.",
+    "real": false
+  },
+  {
+    "name": "Frostveil Fruited Sour",
+    "description": "A tart sour with passionfruit and guava, inspired by winter’s misty veils.",
+    "real": false
+  },
+  {
+    "name": "Oakenspire Ale",
+    "description": "A malty ale with oak-aged depth and subtle vanilla, strong as an ancient tree.",
+    "real": false
+  },
+  {
+    "name": "Tidewalker IPA",
+    "description": "A juicy IPA with tropical hops, evoking coastal breezes and ocean waves.",
+    "real": false
+  },
+  {
+    "name": "Hollowstone Hefe",
+    "description": "A hefeweizen with banana and spice, named for ancient quarry landscapes.",
+    "real": false
+  },
+  {
+    "name": "Emberlake Lager",
+    "description": "A crisp lager with toasted malt and noble hop aroma, warm as a lakeside fire.",
+    "real": false
+  },
+  {
+    "name": "Ironbloom Blonde",
+    "description": "A light blonde ale with floral hops and a hint of honey sweetness.",
+    "real": false
+  },
+  {
+    "name": "Shadowmere Stout",
+    "description": "A robust stout with roasted coffee and dark chocolate, deep as a shadowed lake.",
+    "real": false
+  },
+  {
+    "name": "Frosthollow Pilsner",
+    "description": "A clean pilsner with crisp malt and spicy hop notes, cold as a winter valley.",
+    "real": false
+  },
+  {
+    "name": "Dawnridge Dunkel",
+    "description": "A dark lager with nutty malt and a smooth caramel finish, soft as morning light.",
+    "real": false
+  },
+  {
+    "name": "Starweave Saison",
+    "description": "A farmhouse ale with herbal notes and a dry, refreshing finish, celestial in vibe.",
+    "real": false
+  },
+  {
+    "name": "Crimsonquartz IPA",
+    "description": "A bold IPA with ruby red color and intense citrus hop flavors, vibrant and striking.",
+    "real": false
+  },
+  {
+    "name": "Moonharrow Märzen",
+    "description": "A rich Oktoberfest beer with bready malt and a touch of spice, brewed under moonlight.",
+    "real": false
+  },
+  {
+    "name": "Ironveil Imperial",
+    "description": "A strong imperial stout with barrel-aged depth and toffee notes, dark and mysterious.",
+    "real": false
+  },
+  {
+    "name": "Twilight Tangerine Ale",
+    "description": "A citrusy ale with tangerine zest and a light, refreshing body, dusk-inspired.",
+    "real": false
+  },
+  {
+    "name": "Ashbloom Amber",
+    "description": "A balanced amber ale with caramel malt and subtle hop bitterness, smoky and warm.",
+    "real": false
+  },
+  {
+    "name": "Stormquell Sour",
+    "description": "A tart sour ale with blueberry and lavender, vibrant and calming like a storm’s end.",
+    "real": false
+  },
+  {
+    "name": "Glimmerforge Golden Ale",
+    "description": "A light golden ale with crisp malt and delicate floral hops, bright as forged metal.",
+    "real": false
+  },
+  {
+    "name": "Frostquartz Pale Ale",
+    "description": "A hoppy pale ale with citrus and a crisp finish, inspired by icy crystal formations.",
+    "real": false
+  },
+  {
+    "name": "Polygamy Porter",
+    "description": "A Wasatch Brewery porter with chocolate and roasted malt, named with a cheeky nod to Utah’s history.",
+    "real": true
+  },
+  {
+    "name": "Arrogant Bastard Ale",
+    "description": "A bold ale from Stone Brewing with intense hops and caramel malt, named for its brash attitude.",
+    "real": true
+  },
+  {
+    "name": "Zombie Dust",
+    "description": "A Three Floyds pale ale with Citra hops, bursting with tropical and citrus flavors.",
+    "real": true
+  },
+  {
+    "name": "Plaid Habit",
+    "description": "A Boulevard Brewing barrel-aged brown ale with smoky malt, named for Canadian whisky vibes.",
+    "real": true
+  },
+  {
+    "name": "Gandhi-Bot",
+    "description": "A New England Brewing double IPA with juicy hops, named after a quirky robot reference.",
+    "real": true
+  },
+  {
+    "name": "Panty Peeler",
+    "description": "A Pelican Brewing tripel with fruity esters, named with a risqué, playful twist.",
+    "real": true
+  },
+  {
+    "name": "Sexual Chocolate",
+    "description": "A Foothills Brewing imperial stout with rich cocoa and malt, named for a sultry vibe.",
+    "real": true
+  },
+  {
+    "name": "Homo Erectus",
+    "description": "A Walking Man Brewing imperial IPA with bold hops, named for a cheeky anthropological nod.",
+    "real": true
+  },
+  {
+    "name": "Bourbon County Goose Island",
+    "description": "A Goose Island barrel-aged stout with deep bourbon and chocolate notes, iconic and bold.",
+    "real": true
+  },
+  {
+    "name": "Duck-Rabbit Milk Stout",
+    "description": "A creamy stout from Duck-Rabbit Brewery with sweet lactose and roasted malt.",
+    "real": true
+  },
+  {
+    "name": "Old Leghumper",
+    "description": "A Thirsty Dog Brewing porter with robust malt and a humorous, quirky name.",
+    "real": true
+  },
+  {
+    "name": "Voodoo Doughnut",
+    "description": "A Rogue Ales ale inspired by bacon-maple donuts, sweet and smoky with a gimmicky name.",
+    "real": true
+  },
+  {
+    "name": "Breakfast of Champions",
+    "description": "A Mikkeller stout with coffee and oats, named for a bold morning-inspired brew.",
+    "real": true
+  },
+  {
+    "name": "Lips of Faith",
+    "description": "A New Belgium sour series with tart fruit and funk, named for experimental devotion.",
+    "real": true
+  },
+  {
+    "name": "Hop Stoopid",
+    "description": "A Lagunitas double IPA with massive hop bitterness, named for its intense flavor.",
+    "real": true
+  },
+  {
+    "name": "Dark Lord",
+    "description": "A Three Floyds imperial stout with molasses and coffee, named for a sinister vibe.",
+    "real": true
+  },
+  {
+    "name": "Scurvy Fighter",
+    "description": "A Vitamin Sea Brewing IPA with citrusy hops, named for its zesty, health-inspired theme.",
+    "real": true
+  },
+  {
+    "name": "Barrel-Aged Abominable",
+    "description": "A Fremont Brewing winter ale with barrel-aged warmth and spice, named for a yeti-like creature.",
+    "real": true
+  },
+  {
+    "name": "Fist City",
+    "description": "A Revolution Brewing pale ale with bright hops, named for a punchy Chicago vibe.",
+    "real": true
+  },
+  {
+    "name": "Ninja vs. Unicorn",
+    "description": "A Pipeworks Brewing double IPA with juicy hops, named for a mythical showdown.",
+    "real": true
+  },
+  {
+    "name": "Pliny the Elder",
+    "description": "A Russian River double IPA with piney and citrus hops, named for a historical figure.",
+    "real": true
+  },
+  {
+    "name": "Heady Topper",
+    "description": "An Alchemist double IPA with intense tropical hops, named for a head-spinning experience.",
+    "real": true
+  },
+  {
+    "name": "Sump Coffee Stout",
+    "description": "A Perennial Artisan Ales stout with rich coffee and chocolate, named for a unique roast.",
+    "real": true
+  },
+  {
+    "name": "Mornin’ Latte",
+    "description": "A Toppling Goliath stout with coffee and cream, named for a breakfast-inspired sip.",
+    "real": true
+  },
+  {
+    "name": "Jesus On A Forklift",
+    "description": "A Listermann Brewing barrel-aged stout with bold bourbon notes, named for a quirky exclamation.",
+    "real": true
+  },
+  {
+    "name": "Starveil Wheat",
+    "description": "A light wheat beer with lemon zest and spice, inspired by a celestial curtain.",
+    "real": false
+  },
+  {
+    "name": "Ironhollow Stout",
+    "description": "A robust stout with roasted malt and toffee, evoking ancient forge fires.",
+    "real": false
+  },
+  {
+    "name": "Frostgloom IPA",
+    "description": "A hazy IPA with tropical mango and citrus, named for misty winter mornings.",
+    "real": false
+  },
+  {
+    "name": "Duskquill Lager",
+    "description": "A crisp lager with noble hops and a hint of caramel, soft as twilight shadows.",
+    "real": false
+  },
+  {
+    "name": "Thornharrow Saison",
+    "description": "A dry saison with peppery yeast and herbal notes, inspired by wild fields.",
+    "real": false
+  },
+  {
+    "name": "Cinderquartz Ale",
+    "description": "A malty ale with toasty notes and subtle hops, glowing like volcanic stone.",
+    "real": false
+  },
+  {
+    "name": "Moonspire Sour",
+    "description": "A tart sour with raspberry and hibiscus, evoking lunar-lit landscapes.",
+    "real": false
+  },
+  {
+    "name": "Oakshade Pilsner",
+    "description": "A clean pilsner with floral hops and crisp malt, shaded by ancient trees.",
+    "real": false
+  },
+  {
+    "name": "Bramblequell Porter",
+    "description": "A smooth porter with blackberry and chocolate, inspired by forest springs.",
+    "real": false
+  },
+  {
+    "name": "Stormbloom IPA",
+    "description": "A juicy IPA with pineapple and grapefruit, vibrant as a storm-cleared sky.",
+    "real": false
+  },
+  {
+    "name": "Frostspire Hefeweizen",
+    "description": "A hefeweizen with banana and clove, evoking icy mountain peaks.",
+    "real": false
+  },
+  {
+    "name": "Shadowquartz Red Ale",
+    "description": "A malty red ale with caramel and subtle hops, dark as gemstone shadows.",
+    "real": false
+  },
+  {
+    "name": "Glimmerhollow Bock",
+    "description": "A rich bock with toffee and dark fruit, inspired by glowing valleys.",
+    "real": false
+  },
+  {
+    "name": "Tidequill Blonde",
+    "description": "A light blonde ale with floral hops and honey, crisp as coastal tides.",
+    "real": false
+  },
+  {
+    "name": "Ironfrost Imperial",
+    "description": "A bold imperial stout with barrel-aged depth and cocoa, cold as forged steel.",
+    "real": false
+  },
+  {
+    "name": "Dawnveil Märzen",
+    "description": "An Oktoberfest beer with bready malt and spice, soft as morning mist.",
+    "real": false
+  },
+  {
+    "name": "Starquell Pale Ale",
+    "description": "A hoppy pale ale with citrus zest, inspired by a starry, quiet night.",
+    "real": false
+  },
+  {
+    "name": "Ashquartz Gose",
+    "description": "A tart gose with sea salt and lemon, smoky as volcanic ash.",
+    "real": false
+  },
+  {
+    "name": "Moonquartz Kölsch",
+    "description": "A crisp kölsch with delicate fruit esters, glowing like lunar stone.",
+    "real": false
+  },
+  {
+    "name": "Thornspire Stout",
+    "description": "A creamy stout with roasted coffee and vanilla, rugged as thorny peaks.",
+    "real": false
+  },
+  {
+    "name": "Frostbloom Amber",
+    "description": "A balanced amber ale with caramel and hops, inspired by icy flowers.",
+    "real": false
+  },
+  {
+    "name": "Oakquell Saison",
+    "description": "A dry saison with herbal yeast and oak notes, calm as a wooded spring.",
+    "real": false
+  },
+  {
+    "name": "Cinderbloom IPA",
+    "description": "A bold IPA with citrus and pine, glowing like embers in a breeze.",
+    "real": false
+  },
+  {
+    "name": "Shadowspire Lager",
+    "description": "A clean lager with noble hops and malt, dark as a shadowed ridge.",
+    "real": false
+  },
+  {
+    "name": "Glimmerquartz Ale",
+    "description": "A light ale with floral hops and crisp malt, bright as sparkling stone.",
+    "real": false
+  },
+  {
+    "name": "Yellow Snow IPA",
+    "description": "A Rogue Ales IPA with bold citrus hops, named with a cheeky nod to winter mishaps.",
+    "real": true
+  },
+  {
+    "name": "Buttface Amber",
+    "description": "A Big Time Brewery amber ale with caramel malt, named for a humorous, irreverent vibe.",
+    "real": true
+  },
+  {
+    "name": "Hop Whore",
+    "description": "A Tyranena Brewing imperial IPA with intense hop bitterness, named for its bold flavor.",
+    "real": true
+  },
+  {
+    "name": "Barrel-Aged Sump",
+    "description": "A Perennial Artisan Ales stout with rich coffee and bourbon notes, aged for depth.",
+    "real": true
+  },
+  {
+    "name": "Satan’s Pony",
+    "description": "A South Street Brewery amber ale with malty sweetness, named for a fiery equine twist.",
+    "real": true
+  },
+  {
+    "name": "Wookie Jack",
+    "description": "A Firestone Walker black rye IPA with spicy rye and hops, named for a Star Wars nod.",
+    "real": true
+  },
+  {
+    "name": "Bourbon Barrel Plead the 5th",
+    "description": "A Dark Horse Brewing imperial stout with bourbon and chocolate, named for legal defiance.",
+    "real": true
+  },
+  {
+    "name": "Moo Thunder",
+    "description": "A Butternuts Beer & Ale stout with creamy malt, named for a farm-inspired rumble.",
+    "real": true
+  },
+  {
+    "name": "Hop Nosh Tangerine",
+    "description": "A Uinta Brewing IPA with juicy tangerine and hops, named for its bold bite.",
+    "real": true
+  },
+  {
+    "name": "Puppers",
+    "description": "A Stack Brewing golden ale, light and crisp, named for a Letterkenny-inspired dog.",
+    "real": true
+  },
+  {
+    "name": "Goat Boy",
+    "description": "A Southern Tier weizenbock with banana and clove, named for a quirky character.",
+    "real": true
+  },
+  {
+    "name": "Wailing Wench",
+    "description": "A Middle Ages Brewing strong ale with malty depth, named for a medieval cry.",
+    "real": true
+  },
+  {
+    "name": "Hop Devil",
+    "description": "A Victory Brewing IPA with bold hops and malt, named for its devilish kick.",
+    "real": true
+  },
+  {
+    "name": "Freak of Nature",
+    "description": "A Wicked Weed double IPA with intense tropical hops, named for its wild flavor.",
+    "real": true
+  },
+  {
+    "name": "Coconut Curry Hefeweizen",
+    "description": "A New Belgium hefeweizen with coconut and curry spice, named for its bold fusion.",
+    "real": true
+  },
+  {
+    "name": "Pumking",
+    "description": "A Southern Tier pumpkin ale with spiced pie flavors, named for its regal fall vibe.",
+    "real": true
+  },
+  {
+    "name": "Warlock",
+    "description": "A Southern Tier imperial stout with pumpkin and spice, named for a magical twist.",
+    "real": true
+  },
+  {
+    "name": "Mad Elf",
+    "description": "A Tröegs Brewing ale with cherry and honey, named for a festive, mischievous spirit.",
+    "real": true
+  },
+  {
+    "name": "Hopfenstark Boson de Higgs",
+    "description": "A Hopfenstark saison with funky yeast, named for a quirky physics reference.",
+    "real": true
+  },
+  {
+    "name": "Punkin Ale",
+    "description": "A Dogfish Head pumpkin ale with spiced malt, named for a playful fall vibe.",
+    "real": true
+  },
+  {
+    "name": "Fat Tire",
+    "description": "A New Belgium amber ale with toasty malt, named for a bike-inspired journey.",
+    "real": true
+  },
+  {
+    "name": "Grapefruit Sculpin",
+    "description": "A Ballast Point IPA with grapefruit zest, named for a fishy, citrusy twist.",
+    "real": true
+  },
+  {
+    "name": "Sip of Sunshine",
+    "description": "A Lawson’s Finest Liquids IPA with juicy hops, named for a sunny sip.",
+    "real": true
+  },
+  {
+    "name": "Lunch",
+    "description": "A Maine Beer Company IPA with tropical hops, named for a simple, bold meal.",
+    "real": true
+  },
+  {
+    "name": "KBS Maple Mackinac Fudge",
+    "description": "A Founders Brewing stout with coffee and fudge, named for a sweet island treat.",
+    "real": true
+  },
+  {
+    "name": "Glimmerquell Wheat",
+    "description": "A light wheat beer with citrus and spice, inspired by sparkling mountain springs.",
+    "real": false
+  },
+  {
+    "name": "Ironbloom Stout",
+    "description": "A robust stout with roasted malt and cocoa, evoking forged iron flowers.",
+    "real": false
+  },
+  {
+    "name": "Frostquartz IPA",
+    "description": "A juicy IPA with tropical mango and citrus, named for icy crystal formations.",
+    "real": false
+  },
+  {
+    "name": "Shadowquell Lager",
+    "description": "A crisp lager with noble hops and malt, dark as a shadowed valley.",
+    "real": false
+  },
+  {
+    "name": "Thornfrost Saison",
+    "description": "A dry saison with peppery yeast and herbal notes, inspired by frosty thorns.",
+    "real": false
+  },
+  {
+    "name": "Cinderfrost Ale",
+    "description": "A malty ale with toasty caramel and hops, glowing like frosty embers.",
+    "real": false
+  },
+  {
+    "name": "Moonbloom Sour",
+    "description": "A tart sour with raspberry and hibiscus, evoking lunar-lit blossoms.",
+    "real": false
+  },
+  {
+    "name": "Oakquartz Pilsner",
+    "description": "A clean pilsner with floral hops and crisp malt, shaded by ancient oaks.",
+    "real": false
+  },
+  {
+    "name": "Bramblefrost Porter",
+    "description": "A smooth porter with blackberry and chocolate, inspired by frosty forest paths.",
+    "real": false
+  },
+  {
+    "name": "Stormspire IPA",
+    "description": "A bold IPA with citrus and pine, vibrant as a storm-cleared peak.",
+    "real": false
+  },
+  {
+    "name": "Frostquartz Hefeweizen",
+    "description": "A hefeweizen with banana and clove, evoking icy quartz crystals.",
+    "real": false
+  },
+  {
+    "name": "Shadowspire Red Ale",
+    "description": "A malty red ale with caramel and hops, dark as shadowed ridges.",
+    "real": false
+  },
+  {
+    "name": "Glimmerbloom Bock",
+    "description": "A rich bock with toffee and dark fruit, glowing like a valley beacon.",
+    "real": false
+  },
+  {
+    "name": "Tidespire Blonde",
+    "description": "A light blonde ale with floral hops and honey, crisp as ocean waves.",
+    "real": false
+  },
+  {
+    "name": "Ironquartz Imperial",
+    "description": "A bold imperial stout with barrel-aged depth and cocoa, strong as forged stone.",
+    "real": false
+  },
+  {
+    "name": "Dawnfrost Märzen",
+    "description": "An Oktoberfest beer with bready malt and spice, soft as frosty dawn.",
+    "real": false
+  },
+  {
+    "name": "Starquartz Pale Ale",
+    "description": "A hoppy pale ale with citrus zest, inspired by starry crystal nights.",
+    "real": false
+  },
+  {
+    "name": "Ashquell Gose",
+    "description": "A tart gose with sea salt and lemon, smoky as volcanic ash.",
+    "real": false
+  },
+  {
+    "name": "Moonspire Kölsch",
+    "description": "A crisp kölsch with delicate fruit esters, glowing like lunar peaks.",
+    "real": false
+  },
+  {
+    "name": "Thornbloom Stout",
+    "description": "A creamy stout with roasted coffee and vanilla, rugged as thorny blossoms.",
+    "real": false
+  },
+  {
+    "name": "Frostquell Amber",
+    "description": "A balanced amber ale with caramel and hops, inspired by icy valleys.",
+    "real": false
+  },
+  {
+    "name": "Oakbloom Saison",
+    "description": "A dry saison with herbal yeast and oak, calm as a wooded spring.",
+    "real": false
+  },
+  {
+    "name": "Cinderquartz IPA",
+    "description": "A bold IPA with citrus and pine, glowing like embers in quartz.",
+    "real": false
+  },
+  {
+    "name": "Shadowfrost Lager",
+    "description": "A clean lager with noble hops and malt, dark as a frosty shadow.",
+    "real": false
+  },
+  {
+    "name": "Glimmerspire Ale",
+    "description": "A light ale with floral hops and crisp malt, bright as sparkling peaks.",
+    "real": false
+  },
+  {
+    "name": "Bitchin’ Camaro",
+    "description": "A Listermann Brewing IPA with juicy hops, named for a Dead Milkmen song and pure ‘80s swagger.",
+    "real": true
+  },
+  {
+    "name": "Moose Drool",
+    "description": "A Big Sky Brewing brown ale with rich malt and chocolate, named for a hilariously unappetizing image.",
+    "real": true
+  },
+  {
+    "name": "Lizard of Koz",
+    "description": "A Founders Brewing stout with blueberry and vanilla, named for a quirky, cosmic lizard vibe.",
+    "real": true
+  },
+  {
+    "name": "Bark Lord",
+    "description": "A Three Floyds stout with dark roast and malt, riffing on a Sith-inspired pun.",
+    "real": true
+  },
+  {
+    "name": "Hoppin’ Eagle",
+    "description": "A Triple C Brewing IPA with bold citrus hops, named for a patriotic, hoppy soar.",
+    "real": true
+  },
+  {
+    "name": "Paddle Me IPA",
+    "description": "A Palmetto Brewing IPA with piney hops, named with a cheeky nod to kayaking puns.",
+    "real": true
+  },
+  {
+    "name": "Hoperation Overload",
+    "description": "A DESTIHL Brewery double IPA with intense hops, named for a military-style hop assault.",
+    "real": true
+  },
+  {
+    "name": "Squirrel Nut Zipper",
+    "description": "A Front Street Brewery brown ale with nutty malt, named for a retro candy and swing band.",
+    "real": true
+  },
+  {
+    "name": "Donkey Punch",
+    "description": "A Steamworks Brewing strong ale with bold malt, named for a crude, punchy joke.",
+    "real": true
+  },
+  {
+    "name": "Boatswain H.L.V. Ale",
+    "description": "A Rhinelander Brewing ale with heavy malt, named for a sci-fi heavy lift vessel.",
+    "real": true
+  },
+  {
+    "name": "Wookey Jack",
+    "description": "A Firestone Walker black rye IPA with spicy rye, named for a Star Wars-inspired wookiee.",
+    "real": true
+  },
+  {
+    "name": "G’Knight",
+    "description": "An Oskar Blues imperial red ale with sticky hops, named for a fallen brewer’s nickname.",
+    "real": true
+  },
+  {
+    "name": "Hop Juju",
+    "description": "A Fat Head’s Brewery imperial IPA with juicy hops, named for a magical hop charm.",
+    "real": true
+  },
+  {
+    "name": "Porkslap Pale Ale",
+    "description": "A Butternuts Beer & Ale pale ale with crisp hops, named for a farmyard wrestling move.",
+    "real": true
+  },
+  {
+    "name": "Schlafly Tasmanian Devil",
+    "description": "A Schlafly IPA with Australian hops, named for a cartoonish, devilish creature.",
+    "real": true
+  },
+  {
+    "name": "Bourbon Barrel Hellfighter",
+    "description": "A Karbach Brewing porter with bourbon and chocolate, named for a gritty military nod.",
+    "real": true
+  },
+  {
+    "name": "Old Chub",
+    "description": "An Oskar Blues Scotch ale with smoky malt, named for a cheeky, chubby reference.",
+    "real": true
+  },
+  {
+    "name": "Hop Nosh IPA",
+    "description": "A Uinta Brewing IPA with grapefruit hops, named for a playful hop-munching vibe.",
+    "real": true
+  },
+  {
+    "name": "Tractor Beam",
+    "description": "A New Barons Brewing IPA with cosmic hops, named for a sci-fi pulling force.",
+    "real": true
+  },
+  {
+    "name": "Juicy Pants",
+    "description": "A Flying Dog IPA with tropical hops, named for a fruity, cheeky explosion.",
+    "real": true
+  },
+  {
+    "name": "Bourbon Barrel Aged Plead the Fifth",
+    "description": "A Dark Horse Brewing stout with bourbon and molasses, named for legal shenanigans.",
+    "real": true
+  },
+  {
+    "name": "Hopfenstark Ostalgia",
+    "description": "A Hopfenstark altbier with malty depth, named for nostalgic East German vibes.",
+    "real": true
+  },
+  {
+    "name": "Bourbon Barrel Aged Dark Apparition",
+    "description": "A Jackie O’s Brewery stout with rich bourbon notes, named for a ghostly figure.",
+    "real": true
+  },
+  {
+    "name": "Drunk Monk",
+    "description": "A Three Floyds hefeweizen with banana and clove, named for a tipsy monastic vibe.",
+    "real": true
+  },
+  {
+    "name": "Sasquatch Stout",
+    "description": "A 105 West Brewing stout with roasted malt, named for a mythical forest creature.",
+    "real": true
+  },
+  {
+    "name": "Gigglejuice IPA",
+    "description": "A juicy IPA with tropical hops and a zesty finish, named for a laugh-inducing brew.",
+    "real": false
+  },
+  {
+    "name": "Unicorn Fart Ale",
+    "description": "A light ale with glittery citrus notes, named for a mythical creature’s sparkly emission.",
+    "real": false
+  },
+  {
+    "name": "Hop Tickler",
+    "description": "A bold IPA with piney hops, named for a cheeky hop-induced chuckle.",
+    "real": false
+  },
+  {
+    "name": "Snoozebutton Stout",
+    "description": "A creamy stout with coffee and chocolate, named for morning procrastination.",
+    "real": false
+  },
+  {
+    "name": "Waffle Stomper Wheat",
+    "description": "A wheat beer with maple and spice, named for a breakfast-inspired stomp.",
+    "real": false
+  },
+  {
+    "name": "Tummy Tickler Sour",
+    "description": "A tart sour with peach and mango, named for a giggle-worthy fruit blast.",
+    "real": false
+  },
+  {
+    "name": "Ninja Nectar Pilsner",
+    "description": "A crisp pilsner with floral hops, named for a stealthy, refreshing sip.",
+    "real": false
+  },
+  {
+    "name": "Chuckleberry Porter",
+    "description": "A smooth porter with berry and chocolate, named for a laugh-inducing fruit.",
+    "real": false
+  },
+  {
+    "name": "Gigglesnort Saison",
+    "description": "A dry saison with peppery yeast, named for a snort-worthy farmhouse brew.",
+    "real": false
+  },
+  {
+    "name": "Bananarama Bock",
+    "description": "A rich bock with banana and toffee, named for a fruity, musical vibe.",
+    "real": false
+  },
+  {
+    "name": "Snickerdoodle Märzen",
+    "description": "An Oktoberfest beer with cinnamon and malt, named for a cookie-inspired laugh.",
+    "real": false
+  },
+  {
+    "name": "Tickle Me IPA",
+    "description": "A hoppy IPA with citrus and pine, named for a giggle-inducing hop punch.",
+    "real": false
+  },
+  {
+    "name": "Goofball Gose",
+    "description": "A tart gose with sea salt and lemon, named for a playful, zesty sip.",
+    "real": false
+  },
+  {
+    "name": "Wacko Jacko Ale",
+    "description": "A light ale with floral hops, named for a quirky, jack-o’-lantern vibe.",
+    "real": false
+  },
+  {
+    "name": "Chortle Chiller Lager",
+    "description": "A crisp lager with noble hops, named for a laugh-out-loud refreshment.",
+    "real": false
+  },
+  {
+    "name": "Sillypants Stout",
+    "description": "A creamy stout with roasted malt and vanilla, named for absurd comfort.",
+    "real": false
+  },
+  {
+    "name": "Hops and Dreams IPA",
+    "description": "A juicy IPA with tropical hops, named for a dreamy hop fantasy.",
+    "real": false
+  },
+  {
+    "name": "Guffaw Grog",
+    "description": "A malty ale with caramel notes, named for a pirate’s hearty laugh.",
+    "real": false
+  },
+  {
+    "name": "Zany Zest Sour",
+    "description": "A tart sour with grapefruit and lime, named for a wacky citrus burst.",
+    "real": false
+  },
+  {
+    "name": "Kooky Kölsch",
+    "description": "A crisp kölsch with delicate fruit esters, named for a quirky, light sip.",
+    "real": false
+  },
+  {
+    "name": "Belly Laugh Barleywine",
+    "description": "A rich barleywine with toffee and fruit, named for a deep, hearty chuckle.",
+    "real": false
+  },
+  {
+    "name": "Snarf Snarf Saison",
+    "description": "A dry saison with herbal yeast, named for a Pinky and the Brain-inspired giggle.",
+    "real": false
+  },
+  {
+    "name": "Wobble Waffle Ale",
+    "description": "A light ale with maple and spice, named for a wobbly breakfast treat.",
+    "real": false
+  },
+  {
+    "name": "Gigglemalt Red",
+    "description": "A malty red ale with caramel and hops, named for a silly, malt-heavy chuckle.",
+    "real": false
+  },
+  {
+    "name": "Gigglefizz Pilsner",
+    "description": "A crisp pilsner with floral hops, named for a bubbly, laugh-inducing sip.",
+    "real": false
+  },
+  {
+    "name": "Bitchin’ Camaro",
+    "description": "A Listermann Brewing IPA with juicy hops, named for a Dead Milkmen song and pure ‘80s swagger.",
+    "real": true
+  },
+  {
+    "name": "Moose Drool",
+    "description": "A Big Sky Brewing brown ale with rich malt and chocolate, named for a hilariously unappetizing image.",
+    "real": true
+  },
+  {
+    "name": "Lizard of Koz",
+    "description": "A Founders Brewing stout with blueberry and vanilla, named for a quirky, cosmic lizard vibe.",
+    "real": true
+  },
+  {
+    "name": "Bark Lord",
+    "description": "A Three Floyds stout with dark roast and malt, riffing on a Sith-inspired pun.",
+    "real": true
+  },
+  {
+    "name": "Hoppin’ Eagle",
+    "description": "A Triple C Brewing IPA with bold citrus hops, named for a patriotic, hoppy soar.",
+    "real": true
+  },
+  {
+    "name": "Paddle Me IPA",
+    "description": "A Palmetto Brewing IPA with piney hops, named with a cheeky nod to kayaking puns.",
+    "real": true
+  },
+  {
+    "name": "Hoperation Overload",
+    "description": "A DESTIHL Brewery double IPA with intense hops, named for a military-style hop assault.",
+    "real": true
+  },
+  {
+    "name": "Squirrel Nut Zipper",
+    "description": "A Front Street Brewery brown ale with nutty malt, named for a retro candy and swing band.",
+    "real": true
+  },
+  {
+    "name": "Donkey Punch",
+    "description": "A Steamworks Brewing strong ale with bold malt, named for a crude, punchy joke.",
+    "real": true
+  },
+  {
+    "name": "Boatswain H.L.V. Ale",
+    "description": "A Rhinelander Brewing ale with heavy malt, named for a sci-fi heavy lift vessel.",
+    "real": true
+  },
+  {
+    "name": "Wookey Jack",
+    "description": "A Firestone Walker black rye IPA with spicy rye, named for a Star Wars-inspired wookiee.",
+    "real": true
+  },
+  {
+    "name": "G’Knight",
+    "description": "An Oskar Blues imperial red ale with sticky hops, named for a fallen brewer’s nickname.",
+    "real": true
+  },
+  {
+    "name": "Hop Juju",
+    "description": "A Fat Head’s Brewery imperial IPA with juicy hops, named for a magical hop charm.",
+    "real": true
+  },
+  {
+    "name": "Porkslap Pale Ale",
+    "description": "A Butternuts Beer & Ale pale ale with crisp hops, named for a farmyard wrestling move.",
+    "real": true
+  },
+  {
+    "name": "Schlafly Tasmanian Devil",
+    "description": "A Schlafly IPA with Australian hops, named for a cartoonish, devilish creature.",
+    "real": true
+  },
+  {
+    "name": "Bourbon Barrel Hellfighter",
+    "description": "A Karbach Brewing porter with bourbon and chocolate, named for a gritty military nod.",
+    "real": true
+  },
+  {
+    "name": "Old Chub",
+    "description": "An Oskar Blues Scotch ale with smoky malt, named for a cheeky, chubby reference.",
+    "real": true
+  },
+  {
+    "name": "Hop Nosh IPA",
+    "description": "A Uinta Brewing IPA with grapefruit hops, named for a playful hop-munching vibe.",
+    "real": true
+  },
+  {
+    "name": "Tractor Beam",
+    "description": "A New Barons Brewing IPA with cosmic hops, named for a sci-fi pulling force.",
+    "real": true
+  },
+  {
+    "name": "Juicy Pants",
+    "description": "A Flying Dog IPA with tropical hops, named for a fruity, cheeky explosion.",
+    "real": true
+  },
+  {
+    "name": "Bourbon Barrel Aged Plead the Fifth",
+    "description": "A Dark Horse Brewing stout with bourbon and molasses, named for legal shenanigans.",
+    "real": true
+  },
+  {
+    "name": "Hopfenstark Ostalgia",
+    "description": "A Hopfenstark altbier with malty depth, named for nostalgic East German vibes.",
+    "real": true
+  },
+  {
+    "name": "Bourbon Barrel Aged Dark Apparition",
+    "description": "A Jackie O’s Brewery stout with rich bourbon notes, named for a ghostly figure.",
+    "real": true
+  },
+  {
+    "name": "Drunk Monk",
+    "description": "A Three Floyds hefeweizen with banana and clove, named for a tipsy monastic vibe.",
+    "real": true
+  },
+  {
+    "name": "Sasquatch Stout",
+    "description": "A 105 West Brewing stout with roasted malt, named for a mythical forest creature.",
+    "real": true
+  },
+  {
+    "name": "Gigglejuice IPA",
+    "description": "A juicy IPA with tropical hops and a zesty finish, named for a laugh-inducing brew.",
+    "real": false
+  },
+  {
+    "name": "Unicorn Fart Ale",
+    "description": "A light ale with glittery citrus notes, named for a mythical creature’s sparkly emission.",
+    "real": false
+  },
+  {
+    "name": "Hop Tickler",
+    "description": "A bold IPA with piney hops, named for a cheeky hop-induced chuckle.",
+    "real": false
+  },
+  {
+    "name": "Snoozebutton Stout",
+    "description": "A creamy stout with coffee and chocolate, named for morning procrastination.",
+    "real": false
+  },
+  {
+    "name": "Waffle Stomper Wheat",
+    "description": "A wheat beer with maple and spice, named for a breakfast-inspired stomp.",
+    "real": false
+  },
+  {
+    "name": "Tummy Tickler Sour",
+    "description": "A tart sour with peach and mango, named for a giggle-worthy fruit blast.",
+    "real": false
+  },
+  {
+    "name": "Ninja Nectar Pilsner",
+    "description": "A crisp pilsner with floral hops, named for a stealthy, refreshing sip.",
+    "real": false
+  },
+  {
+    "name": "Chuckleberry Porter",
+    "description": "A smooth porter with berry and chocolate, named for a laugh-inducing fruit.",
+    "real": false
+  },
+  {
+    "name": "Gigglesnort Saison",
+    "description": "A dry saison with peppery yeast, named for a snort-worthy farmhouse brew.",
+    "real": false
+  },
+  {
+    "name": "Bananarama Bock",
+    "description": "A rich bock with banana and toffee, named for a fruity, musical vibe.",
+    "real": false
+  },
+  {
+    "name": "Snickerdoodle Märzen",
+    "description": "An Oktoberfest beer with cinnamon and malt, named for a cookie-inspired laugh.",
+    "real": false
+  },
+  {
+    "name": "Tickle Me IPA",
+    "description": "A hoppy IPA with citrus and pine, named for a giggle-inducing hop punch.",
+    "real": false
+  },
+  {
+    "name": "Goofball Gose",
+    "description": "A tart gose with sea salt and lemon, named for a playful, zesty sip.",
+    "real": false
+  },
+  {
+    "name": "Wacko Jacko Ale",
+    "description": "A light ale with floral hops, named for a quirky, jack-o’-lantern vibe.",
+    "real": false
+  },
+  {
+    "name": "Chortle Chiller Lager",
+    "description": "A crisp lager with noble hops, named for a laugh-out-loud refreshment.",
+    "real": false
+  },
+  {
+    "name": "Sillypants Stout",
+    "description": "A creamy stout with roasted malt and vanilla, named for absurd comfort.",
+    "real": false
+  },
+  {
+    "name": "Hops and Dreams IPA",
+    "description": "A juicy IPA with tropical hops, named for a dreamy hop fantasy.",
+    "real": false
+  },
+  {
+    "name": "Guffaw Grog",
+    "description": "A malty ale with caramel notes, named for a pirate’s hearty laugh.",
+    "real": false
+  },
+  {
+    "name": "Zany Zest Sour",
+    "description": "A tart sour with grapefruit and lime, named for a wacky citrus burst.",
+    "real": false
+  },
+  {
+    "name": "Kooky Kölsch",
+    "description": "A crisp kölsch with delicate fruit esters, named for a quirky, light sip.",
+    "real": false
+  },
+  {
+    "name": "Belly Laugh Barleywine",
+    "description": "A rich barleywine with toffee and fruit, named for a deep, hearty chuckle.",
+    "real": false
+  },
+  {
+    "name": "Snarf Snarf Saison",
+    "description": "A dry saison with herbal yeast, named for a Pinky and the Brain-inspired giggle.",
+    "real": false
+  },
+  {
+    "name": "Wobble Waffle Ale",
+    "description": "A light ale with maple and spice, named for a wobbly breakfast treat.",
+    "real": false
+  },
+  {
+    "name": "Gigglemalt Red",
+    "description": "A malty red ale with caramel and hops, named for a silly, malt-heavy chuckle.",
+    "real": false
+  },
+  {
+    "name": "Gigglefizz Pilsner",
+    "description": "A crisp pilsner with floral hops, named for a bubbly, laugh-inducing sip.",
+    "real": false
+  }
+]

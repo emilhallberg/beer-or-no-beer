@@ -1,9 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default function StartPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <Image src="/logo.svg" alt="Logo" width={250} height={250} />
+    <div className="grid">
+      <div className="grid place-content-center p-4">
+        <Image src="/logo.svg" alt="Logo" width={100} height={100} />
+      </div>
+      <div className="grid place-content-center p-4">
+        <Link href="/play">
+          <button>Start Game</button>
+        </Link>
+      </div>
+      <div className="grid place-content-center p-4">
+        <h1>Leaderboard</h1>
+      </div>
     </div>
   );
 }
