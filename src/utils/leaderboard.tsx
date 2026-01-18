@@ -45,6 +45,7 @@ export async function updateLeaderboard(name: string, score: number) {
     access: "public",
     contentType: "application/json",
     allowOverwrite: true,
+    cacheControlMaxAge: 60,
   })
     .then((result) => {
       console.debug("Leaderboard updated", result);

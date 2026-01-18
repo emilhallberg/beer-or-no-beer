@@ -16,6 +16,8 @@ type Game = {
   reset: () => void;
   userEntry: UserEntry | null;
   newHighScore: boolean;
+  showHint: boolean;
+  result: Array<{ beer: Beer; correct: boolean }>;
 };
 
 const GameContext = createContext<Game | undefined>(undefined);
@@ -36,6 +38,8 @@ export default function GameProvider({
   const [beer, setBeer] = useState(beers[0]);
   const [score, setScore] = useState(0);
   const [hearts, setHearts] = useState(3);
+  const [showHint, setShowHint] = useState(false);
+  const [result, setResult] = useState<Game["result"]>([]);
   const { user } = useUser();
 
   const nextBeer = () => {
@@ -45,7 +49,9 @@ export default function GameProvider({
 
   const onBeer = (guess: boolean) => {
     "use memo";
+    setShowHint(false);
     const correct = beer.real === guess;
+    setResult((prevResult) => [...prevResult, { beer, correct }]);
 
     setHearts((prevHearts) => {
       if (correct) {
@@ -85,6 +91,11 @@ export default function GameProvider({
     }
   }, [gameOver, score, user, userEntry]);
 
+  useEffect(() => {
+    const id = setTimeout(() => setShowHint(true), 15000);
+    return () => clearTimeout(id);
+  }, [beer]);
+
   return (
     <GameContext.Provider
       value={{
@@ -97,6 +108,8 @@ export default function GameProvider({
         reset,
         userEntry,
         newHighScore,
+        showHint,
+        result,
       }}
     >
       {children}
