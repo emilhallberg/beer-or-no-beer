@@ -31,7 +31,7 @@ export async function getUserEntry(): Promise<UserEntry | null> {
 
   return getLeaderboard().then(
     (leaderboard) =>
-      leaderboard.find(({ userId }) => userId === userId) ?? null,
+      leaderboard.find((userEntry) => userEntry.userId === userId) ?? null,
   );
 }
 
