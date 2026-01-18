@@ -1,23 +1,11 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-
-import Link from "next/link";
+import PlayButton from "@/app/(start)/_/play-button";
 
 export default function StartPage() {
   return (
     <div className="grid">
-      <SignedIn>
-        <div className="grid place-content-center p-4">
-          <UserButton />
-        </div>
-      </SignedIn>
       <div className="grid place-content-center p-4">
-        <Link href="/play">
-          <button>Start Game</button>
-        </Link>
+        <PlayButton />
       </div>
-      <SignedOut>
-        <SignInButton mode="modal" />
-      </SignedOut>
     </div>
   );
 }

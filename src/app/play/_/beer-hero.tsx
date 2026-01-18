@@ -5,5 +5,5 @@ import { useGame } from "@/app/play/_/game-provider";
 export default function BeerHero() {
   const { beer } = useGame();
 
-  return <h1>{beer.name}</h1>;
+  return <h1 className="text-4xl text-center font-bold">{beer.name}</h1>;
 }

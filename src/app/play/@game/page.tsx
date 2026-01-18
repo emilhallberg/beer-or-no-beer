@@ -26,7 +26,7 @@ export default function GameSlot() {
         <main className="h-full grid place-content-center">
           <BeerHero />
         </main>
-        <footer className="h-20 flex place-content-between">
+        <footer className="h-20 grid grid-cols-2 gap-4">
           <BeerButton />
           <NoBeerButton />
         </footer>

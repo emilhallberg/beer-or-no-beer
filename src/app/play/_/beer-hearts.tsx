@@ -6,10 +6,10 @@ export default function BeerHearts() {
   const { hearts } = useGame();
 
   return (
-    <div>
+    <h2 className="w-20 text-2xl">
       {Array.from({ length: hearts }, (_, i) => (
-        <span key={i}>&#9829;</span>
+        <span key={i}>🍺</span>
       ))}
-    </div>
+    </h2>
   );
 }
