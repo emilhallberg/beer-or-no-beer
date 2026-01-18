@@ -24,7 +24,7 @@ const eslintConfig = defineConfig([
     },
     rules: {
       "prettier/prettier": ["error", { endOfLine: "auto" }],
-      "no-console": ["warn", { allow: ["error", "info"] }],
+      "no-console": ["warn", { allow: ["error", "info", "debug"] }],
       "react-hooks/exhaustive-deps": "error",
       "simple-import-sort/exports": "error",
       "unused-imports/no-unused-imports": "error",
