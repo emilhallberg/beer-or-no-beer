@@ -12,7 +12,10 @@ export async function getLeaderboard() {
 
   return Promise.all(
     leaderboard.blobs.map(({ url }) =>
-      fetch(url, { cache: "no-cache" })
+      fetch(url, {
+        headers: { "Cache-Control": "no-store" },
+        cache: "no-cache",
+      })
         .then((response) => response.json())
         .catch(() => null),
     ),
