@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ClerkProvider } from "@clerk/nextjs";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -25,12 +26,14 @@ type Props = Readonly<{ children: ReactNode }>;
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className="max-w-screen-sm mx-auto min-h-screen">{children}</div>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <div className="max-w-screen-sm mx-auto min-h-screen">{children}</div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

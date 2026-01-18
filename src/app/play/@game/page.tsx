@@ -1,6 +1,7 @@
 "use client";
 
 import { Activity } from "react";
+import { SignedIn, UserAvatar } from "@clerk/nextjs";
 
 import BeerButton from "@/app/play/_/beer-button";
 import BeerHearts from "@/app/play/_/beer-hearts";
@@ -17,6 +18,9 @@ export default function GameSlot() {
       <div className="h-svh grid grid-rows-[max-content_1fr_max-content] p-6">
         <header className="h-20 flex place-content-between">
           <BeerHearts />
+          <SignedIn>
+            <UserAvatar />
+          </SignedIn>
           <BeerScore />
         </header>
         <main className="h-full grid place-content-center">
