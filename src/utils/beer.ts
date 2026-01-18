@@ -2,7 +2,7 @@
 
 import BEERS from "@/assets/beers.json";
 
-export default async function getBeers() {
+export async function getBeers() {
   return BEERS.sort(() => Math.random() - 0.5);
 }
 

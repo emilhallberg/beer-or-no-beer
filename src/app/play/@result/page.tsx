@@ -12,7 +12,7 @@ import { useGame } from "@/app/play/_/game-provider";
 import PlayAgainButton from "@/app/play/_/play-again-button";
 
 export default function ResultSlot() {
-  const { gameOver } = useGame();
+  const { gameOver, newHighScore } = useGame();
   const pathname = usePathname();
 
   return (
@@ -22,6 +22,7 @@ export default function ResultSlot() {
           <UserAvatar />
         </SignedIn>
         <BeerScore />
+        {newHighScore ? <h1>New High Score!</h1> : <h1>Game Over!</h1>}
         <div className="grid grid-cols-3">
           <PlayAgainButton />
           <ChallengeButton />

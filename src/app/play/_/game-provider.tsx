@@ -1,8 +1,10 @@
 "use client";
 
-import { createContext, ReactNode, use, useState } from "react";
+import { createContext, ReactNode, use, useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
-import { Beer, Beers } from "@/utils/getBeers";
+import { Beer, Beers } from "@/utils/beer";
+import { updateLeaderboard, UserEntry } from "@/utils/leaderboard";
 
 type Game = {
   beers: Beers;
@@ -12,25 +14,55 @@ type Game = {
   gameOver: boolean;
   onBeer: (guess: boolean) => void;
   reset: () => void;
+  userEntry: UserEntry | null;
+  newHighScore: boolean;
 };
 
 const GameContext = createContext<Game | undefined>(undefined);
 
-type Props = { children: ReactNode; beerPromise: Promise<Beers> };
+type Props = {
+  children: ReactNode;
+  beerPromise: Promise<Beers>;
+  userEntryPromise: Promise<UserEntry | null>;
+};
 
-export default function GameProvider({ children, beerPromise }: Props) {
+export default function GameProvider({
+  children,
+  beerPromise,
+  userEntryPromise,
+}: Props) {
   const beers = use(beerPromise);
+  const userEntry = use(userEntryPromise);
   const [beer, setBeer] = useState(beers[0]);
   const [score, setScore] = useState(0);
   const [hearts, setHearts] = useState(3);
+  const { user } = useUser();
+
+  const nextBeer = () => {
+    "use memo";
+    setBeer((prevBeer) => beers[beers.indexOf(prevBeer) + 1]);
+  };
 
   const onBeer = (guess: boolean) => {
     "use memo";
     const correct = beer.real === guess;
 
-    setScore((prevScore) => prevScore + (correct ? 1 : 0));
-    setHearts((prevHearts) => (correct ? prevHearts : prevHearts - 1));
-    setBeer((prevBeer) => beers[beers.indexOf(prevBeer) + 1]);
+    setHearts((prevHearts) => {
+      if (correct) {
+        setScore((prevScore) => prevScore + 1);
+        nextBeer();
+        return prevHearts;
+      }
+
+      const newHearts = prevHearts - 1;
+
+      if (newHearts === 0) {
+        return newHearts;
+      }
+
+      nextBeer();
+      return newHearts;
+    });
   };
 
   const reset = () => {
@@ -41,10 +73,31 @@ export default function GameProvider({ children, beerPromise }: Props) {
   };
 
   const gameOver = hearts === 0;
+  const newHighScore = !!userEntry && userEntry.score < score;
+
+  useEffect(() => {
+    if (gameOver) {
+      if (userEntry && userEntry.score < score) {
+        void updateLeaderboard(userEntry.name, score);
+      } else if (user && user.fullName && userEntry === null) {
+        void updateLeaderboard(user.fullName, score);
+      }
+    }
+  }, [gameOver, score, user, userEntry]);
 
   return (
     <GameContext.Provider
-      value={{ beers, beer, onBeer, score, hearts, gameOver, reset }}
+      value={{
+        beers,
+        beer,
+        onBeer,
+        score,
+        hearts,
+        gameOver,
+        reset,
+        userEntry,
+        newHighScore,
+      }}
     >
       {children}
     </GameContext.Provider>

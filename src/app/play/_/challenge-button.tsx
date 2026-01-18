@@ -1,14 +1,21 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
+
 import { useGame } from "@/app/play/_/game-provider";
 
 export default function ChallengeButton() {
+  const { user } = useUser();
   const { score } = useGame();
 
   return (
     <button
       onClick={async () => {
         const query = new URLSearchParams({});
+
+        if (user?.fullName) {
+          query.set("from", user.fullName);
+        }
 
         query.set("score", score.toString());
 
