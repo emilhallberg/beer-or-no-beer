@@ -76,6 +76,7 @@ export default function GameProvider({
     setScore(0);
     setHearts(3);
     setBeer((prevBeer) => beers[beers.indexOf(prevBeer) + 1]);
+    setResult([]);
   };
 
   const gameOver = hearts === 0;
