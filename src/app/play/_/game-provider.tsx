@@ -1,26 +1,82 @@
 "use client";
 
-import { createContext, ReactNode, use, useEffect, useState } from "react";
+import { createContext, ReactNode, use, useEffect, useReducer } from "react";
 import { useUser } from "@clerk/nextjs";
 
 import { Beer, Beers } from "@/utils/beer";
 import { updateLeaderboard, UserEntry } from "@/utils/leaderboard";
 
-type Game = {
+const BEER_STORAGE_KEY = "beer-storage" as const;
+
+type State = {
   beers: Beers;
   beer: Beer;
   score: number;
   hearts: number;
   gameOver: boolean;
-  onBeer: (guess: boolean) => void;
-  reset: () => void;
   userEntry: UserEntry | null;
   newHighScore: boolean;
   showHint: boolean;
   result: Array<{ beer: Beer; correct: boolean }>;
 };
 
+type Game = State & {
+  onBeer: (guess: boolean) => void;
+  reset: () => void;
+};
+
 const GameContext = createContext<Game | undefined>(undefined);
+
+type Action =
+  | { type: "GUESS"; payload: boolean }
+  | { type: "RESET" }
+  | { type: "HINT"; payload: boolean };
+
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case "GUESS":
+      const correct = state.beer.real === action.payload;
+      const score = state.score + (correct ? 1 : 0);
+      const hearts = state.hearts - (correct ? 0 : 1);
+      const gameOver = hearts === 0;
+
+      if (gameOver) {
+        localStorage.setItem(BEER_STORAGE_KEY, JSON.stringify(state));
+      }
+
+      return {
+        ...state,
+        score,
+        hearts,
+        beer: gameOver
+          ? state.beer
+          : state.beers[state.beers.indexOf(state.beer) + 1],
+        result: [...state.result, { beer: state.beer, correct }],
+        gameOver,
+        showHint: false,
+        newHighScore: !!state.userEntry && state.userEntry.score < score,
+      } satisfies State;
+    case "HINT":
+      return { ...state, showHint: action.payload };
+    case "RESET":
+      localStorage.removeItem(BEER_STORAGE_KEY);
+      return initialState;
+    default:
+      return state;
+  }
+};
+
+const initialState: State = {
+  beers: [{ name: "", real: true, description: "" }],
+  beer: { name: "", real: true, description: "" },
+  score: 0,
+  hearts: 3,
+  gameOver: false,
+  userEntry: null,
+  newHighScore: false,
+  showHint: false,
+  result: [],
+};
 
 type Props = {
   children: ReactNode;
@@ -35,84 +91,45 @@ export default function GameProvider({
 }: Props) {
   const beers = use(beerPromise);
   const userEntry = use(userEntryPromise);
-  const [beer, setBeer] = useState(beers[0]);
-  const [score, setScore] = useState(0);
-  const [hearts, setHearts] = useState(3);
-  const [showHint, setShowHint] = useState(false);
-  const [result, setResult] = useState<Game["result"]>([]);
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    beers,
+    beer: beers[0],
+    userEntry,
+  });
+
   const { user } = useUser();
 
-  const nextBeer = () => {
-    "use memo";
-    setBeer((prevBeer) => beers[beers.indexOf(prevBeer) + 1]);
+  const onBeer: Game["onBeer"] = (guess) => {
+    dispatch({ type: "GUESS", payload: guess });
   };
 
-  const onBeer = (guess: boolean) => {
-    "use memo";
-    setShowHint(false);
-    const correct = beer.real === guess;
-    setResult((prevResult) => [...prevResult, { beer, correct }]);
-
-    setHearts((prevHearts) => {
-      if (correct) {
-        setScore((prevScore) => prevScore + 1);
-        nextBeer();
-        return prevHearts;
-      }
-
-      const newHearts = prevHearts - 1;
-
-      if (newHearts === 0) {
-        return newHearts;
-      }
-
-      nextBeer();
-      return newHearts;
-    });
+  const reset: Game["reset"] = () => {
+    dispatch({ type: "RESET" });
   };
-
-  const reset = () => {
-    "use memo";
-    setScore(0);
-    setHearts(3);
-    setBeer((prevBeer) => beers[beers.indexOf(prevBeer) + 1]);
-    setResult([]);
-  };
-
-  const gameOver = hearts === 0;
-  const newHighScore = !!userEntry && userEntry.score < score;
 
   useEffect(() => {
-    if (gameOver) {
-      if (userEntry && userEntry.score < score) {
-        void updateLeaderboard(userEntry.name, score);
-      } else if (user && user.fullName && userEntry === null) {
-        void updateLeaderboard(user.fullName, score);
-      }
+    if (state.userEntry && state.userEntry.score < state.score) {
+      void updateLeaderboard(state.userEntry.name, state.score).then(() => {
+        localStorage.removeItem(BEER_STORAGE_KEY);
+      });
+    } else if (user && user.fullName && userEntry === null) {
+      void updateLeaderboard(user.fullName, state.score).then(() => {
+        localStorage.removeItem(BEER_STORAGE_KEY);
+      });
     }
-  }, [gameOver, score, user, userEntry]);
+  }, [state.gameOver, state.score, state.userEntry, user, userEntry]);
 
   useEffect(() => {
-    const id = setTimeout(() => setShowHint(true), 15000);
+    const id = setTimeout(
+      () => dispatch({ type: "HINT", payload: true }),
+      15000,
+    );
     return () => clearTimeout(id);
-  }, [beer]);
+  }, []);
 
   return (
-    <GameContext.Provider
-      value={{
-        beers,
-        beer,
-        onBeer,
-        score,
-        hearts,
-        gameOver,
-        reset,
-        userEntry,
-        newHighScore,
-        showHint,
-        result,
-      }}
-    >
+    <GameContext.Provider value={{ ...state, onBeer, reset }}>
       {children}
     </GameContext.Provider>
   );
