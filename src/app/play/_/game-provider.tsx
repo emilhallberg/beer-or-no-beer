@@ -84,8 +84,8 @@ const reducer = (state: State, action: Action) => {
 };
 
 const initialState: State = {
-  beers: [{ name: "", real: true, description: "" }],
-  beer: { name: "", real: true, description: "" },
+  beers: [{ id: 0, name: "", real: true, description: "", createdAt: "" }],
+  beer: { id: 0, name: "", real: true, description: "", createdAt: "" },
   score: 0,
   hearts: 3,
   gameOver: false,

@@ -1,9 +1,18 @@
 "use server";
 
-import BEERS from "@/assets/beers.json";
+import { createClient } from "@/utils/supabase/server";
 
 export async function getBeers() {
-  return BEERS.sort(() => Math.random() - 0.5).slice(0, 100);
+  const supabase = await createClient();
+
+  const result = await supabase.from("random_beers").select().limit(100);
+
+  if (result.error) {
+    console.debug("Beers not fetched", result.error);
+    return [];
+  }
+
+  return result.data;
 }
 
 export type Beers = Awaited<ReturnType<typeof getBeers>>;

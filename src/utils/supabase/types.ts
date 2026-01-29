@@ -14,6 +14,30 @@ export type Database = {
   };
   public: {
     Tables: {
+      beers: {
+        Row: {
+          createdAt: string;
+          description: string;
+          id: number;
+          name: string;
+          real: boolean;
+        };
+        Insert: {
+          createdAt?: string;
+          description: string;
+          id?: number;
+          name: string;
+          real: boolean;
+        };
+        Update: {
+          createdAt?: string;
+          description?: string;
+          id?: number;
+          name?: string;
+          real?: boolean;
+        };
+        Relationships: [];
+      };
       leaderboard: {
         Row: {
           createdAt: string;
@@ -40,7 +64,30 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      random_beers: {
+        Row: {
+          createdAt: string | null;
+          description: string | null;
+          id: number | null;
+          name: string | null;
+          real: boolean | null;
+        };
+        Insert: {
+          createdAt?: string | null;
+          description?: string | null;
+          id?: number | null;
+          name?: string | null;
+          real?: boolean | null;
+        };
+        Update: {
+          createdAt?: string | null;
+          description?: string | null;
+          id?: number | null;
+          name?: string | null;
+          real?: boolean | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       [_ in never]: never;
