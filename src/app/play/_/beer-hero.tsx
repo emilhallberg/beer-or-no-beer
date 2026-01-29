@@ -10,9 +10,6 @@ export default function BeerHero() {
       <h1 className="text-4xl text-center font-bold line-clamp-2">
         {beer.name}
       </h1>
-      <p className={`text-center ${showHint ? "opacity-100" : "opacity-0"}`}>
-        {beer.description}
-      </p>
     </div>
   );
 }
