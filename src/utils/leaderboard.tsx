@@ -32,6 +32,8 @@ export async function getLeaderboard() {
 export async function getUserEntry(): Promise<UserEntry | null> {
   const { userId } = await auth();
 
+  return null;
+
   return getLeaderboard().then(
     (leaderboard) =>
       leaderboard.find((userEntry) => userEntry.userId === userId) ?? null,

@@ -1,10 +1,19 @@
 "use client";
 
-import { createContext, ReactNode, use, useEffect, useReducer } from "react";
+import {
+  createContext,
+  ReactNode,
+  use,
+  useEffect,
+  useReducer,
+  useSyncExternalStore,
+} from "react";
 import { useUser } from "@clerk/nextjs";
 
+import Image from "next/image";
+
 import { Beer, Beers } from "@/utils/beer";
-import { updateLeaderboard, UserEntry } from "@/utils/leaderboard";
+import { UserEntry } from "@/utils/leaderboard";
 
 const BEER_STORAGE_KEY = "beer-storage" as const;
 
@@ -18,6 +27,7 @@ type State = {
   newHighScore: boolean;
   showHint: boolean;
   result: Array<{ beer: Beer; correct: boolean }>;
+  loading: boolean;
 };
 
 type Game = State & {
@@ -29,8 +39,10 @@ const GameContext = createContext<Game | undefined>(undefined);
 
 type Action =
   | { type: "GUESS"; payload: boolean }
-  | { type: "RESET" }
-  | { type: "HINT"; payload: boolean };
+  | { type: "RESET"; payload: { beers: Beers; userEntry: UserEntry | null } }
+  | { type: "HINT"; payload: boolean }
+  | { type: "LOADING"; payload: boolean }
+  | { type: "INIT"; payload: State };
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
@@ -40,11 +52,7 @@ const reducer = (state: State, action: Action) => {
       const hearts = state.hearts - (correct ? 0 : 1);
       const gameOver = hearts === 0;
 
-      if (gameOver) {
-        localStorage.setItem(BEER_STORAGE_KEY, JSON.stringify(state));
-      }
-
-      return {
+      const nextState: State = {
         ...state,
         score,
         hearts,
@@ -55,12 +63,28 @@ const reducer = (state: State, action: Action) => {
         gameOver,
         showHint: false,
         newHighScore: !!state.userEntry && state.userEntry.score < score,
-      } satisfies State;
+      };
+
+      if (gameOver) {
+        localStorage.setItem(BEER_STORAGE_KEY, JSON.stringify(nextState));
+      }
+
+      return nextState;
     case "HINT":
       return { ...state, showHint: action.payload };
+    case "LOADING":
+      return { ...state, loading: action.payload };
     case "RESET":
       localStorage.removeItem(BEER_STORAGE_KEY);
-      return initialState;
+      return {
+        ...initialState,
+        beers: action.payload.beers,
+        beer: action.payload.beers[0],
+        userEntry: action.payload.userEntry,
+        loading: false,
+      };
+    case "INIT":
+      return action.payload;
     default:
       return state;
   }
@@ -76,7 +100,42 @@ const initialState: State = {
   newHighScore: false,
   showHint: false,
   result: [],
+  loading: true,
 };
+
+function initState(
+  { beers, userEntry }: Pick<State, "userEntry" | "beers">,
+  store: string | null,
+): State {
+  const fallback: State = {
+    ...initialState,
+    beers,
+    beer: beers[0],
+    userEntry: userEntry,
+    loading: false,
+  };
+
+  try {
+    if (!store) return fallback;
+
+    const parsed = JSON.parse(store) as Partial<State>;
+
+    const beer = parsed.beer
+      ? (beers.find((b) => b.name === parsed.beer!.name) ?? beers[0])
+      : beers[0];
+
+    return {
+      ...fallback,
+      ...parsed,
+      beers,
+      beer,
+      userEntry,
+    };
+  } catch (error) {
+    console.error(error);
+    return fallback;
+  }
+}
 
 type Props = {
   children: ReactNode;
@@ -91,12 +150,21 @@ export default function GameProvider({
 }: Props) {
   const beers = use(beerPromise);
   const userEntry = use(userEntryPromise);
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    beers,
-    beer: beers[0],
-    userEntry,
-  });
+
+  const store = useSyncExternalStore(
+    (callback) => {
+      window.addEventListener("storage", callback);
+      return () => window.removeEventListener("storage", callback);
+    },
+    () => {
+      return localStorage.getItem(BEER_STORAGE_KEY) ?? null;
+    },
+    () => {
+      return null;
+    },
+  );
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const { user } = useUser();
 
@@ -105,18 +173,20 @@ export default function GameProvider({
   };
 
   const reset: Game["reset"] = () => {
-    dispatch({ type: "RESET" });
+    dispatch({ type: "RESET", payload: { beers, userEntry } });
   };
 
   useEffect(() => {
-    if (state.userEntry && state.userEntry.score < state.score) {
-      void updateLeaderboard(state.userEntry.name, state.score).then(() => {
-        localStorage.removeItem(BEER_STORAGE_KEY);
-      });
-    } else if (user && user.fullName && userEntry === null) {
-      void updateLeaderboard(user.fullName, state.score).then(() => {
-        localStorage.removeItem(BEER_STORAGE_KEY);
-      });
+    dispatch({ type: "INIT", payload: initState({ beers, userEntry }, store) });
+  }, [beers, store, userEntry]);
+
+  useEffect(() => {
+    if (state.gameOver) {
+      if (state.userEntry && state.userEntry.score < state.score) {
+        // void updateLeaderboard(state.userEntry.name, state.score);
+      } else if (user && user.fullName && userEntry === null) {
+        // void updateLeaderboard(user.fullName, state.score);
+      }
     }
   }, [state.gameOver, state.score, state.userEntry, user, userEntry]);
 
@@ -130,7 +200,20 @@ export default function GameProvider({
 
   return (
     <GameContext.Provider value={{ ...state, onBeer, reset }}>
-      {children}
+      {state.loading ? (
+        <div className="h-screen grid place-content-center">
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={300}
+            height={300}
+            loading="eager"
+            className="animate-pulse"
+          />
+        </div>
+      ) : (
+        children
+      )}
     </GameContext.Provider>
   );
 }
