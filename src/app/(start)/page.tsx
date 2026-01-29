@@ -1,6 +1,7 @@
 import { SignedOut } from "@clerk/nextjs";
 
 import PlayButton from "@/app/(start)/_/play-button";
+import ResetLocalStorage from "@/app/(start)/_/reset-local-storage";
 import SignInButton from "@/app/play/_/sign-in-button";
 
 export default async function StartPage() {
@@ -11,6 +12,7 @@ export default async function StartPage() {
         <SignedOut>
           <SignInButton />
         </SignedOut>
+        <ResetLocalStorage />
       </div>
     </div>
   );

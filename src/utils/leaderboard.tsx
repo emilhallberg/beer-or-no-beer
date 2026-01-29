@@ -15,7 +15,19 @@ export async function getLeaderboard() {
     return [];
   }
 
-  return leaderboard.data.sort((a, b) => b.score - a.score);
+  // Deduplicate by userId in case historical duplicates exist
+  const byUser = leaderboard.data.reduce<Map<string, UserEntry>>(
+    (map, row: any) => {
+      const entry = row as UserEntry;
+      const existing = map.get(entry.userId);
+      if (!existing || entry.score > existing.score)
+        map.set(entry.userId, entry);
+      return map;
+    },
+    new Map(),
+  );
+
+  return Array.from(byUser.values()).sort((a, b) => b.score - a.score);
 }
 
 export async function getUserEntry(): Promise<UserEntry | null> {
@@ -35,17 +47,35 @@ export async function updateLeaderboard(name: string, score: number) {
 
   const supabase = await createClient();
 
-  const blob = { userId, name, score };
-  console.debug("Update leaderboard", blob);
-  const result = await supabase.from("leaderboard").upsert(blob);
+  const payload = { userId, name, score };
+  console.debug("Update leaderboard (upsert by userId)", payload);
 
-  if (result.error) {
-    console.error("Leaderboard not updated", result.error);
+  // Try UPDATE first to avoid accidental duplicate INSERTs if unique constraints are missing
+  const updated = await supabase
+    .from("leaderboard")
+    .update({ name, score })
+    .eq("userId", userId)
+    .select();
+
+  if (updated.error) {
+    console.error("Leaderboard update failed", updated.error);
+  }
+
+  if (updated.data && updated.data.length > 0) {
+    console.debug("Leaderboard updated", updated.data);
+    return updated.data;
+  }
+
+  // No existing row, INSERT new
+  const inserted = await supabase.from("leaderboard").insert(payload).select();
+
+  if (inserted.error) {
+    console.error("Leaderboard insert failed", inserted.error);
     return null;
   }
 
-  console.debug("Leaderboard updated", result.data);
-  return result.data;
+  console.debug("Leaderboard inserted", inserted.data);
+  return inserted.data;
 }
 
 export type Leaderboard = Awaited<ReturnType<typeof getLeaderboard>>;

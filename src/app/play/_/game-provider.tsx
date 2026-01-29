@@ -13,7 +13,7 @@ import { useUser } from "@clerk/nextjs";
 import { Beer, Beers } from "@/utils/beer";
 import { updateLeaderboard, UserEntry } from "@/utils/leaderboard";
 
-const BEER_STORAGE_KEY = "beer-storage" as const;
+export const BEER_STORAGE_KEY = "beer-storage" as const;
 
 type State = {
   beers: Beers;
