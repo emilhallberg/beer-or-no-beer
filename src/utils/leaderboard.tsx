@@ -48,34 +48,20 @@ export async function updateLeaderboard(name: string, score: number) {
   const supabase = await createClient();
 
   const payload = { userId, name, score };
-  console.debug("Update leaderboard (upsert by userId)", payload);
+  console.debug("Update leaderboard", payload);
 
-  // Try UPDATE first to avoid accidental duplicate INSERTs if unique constraints are missing
   const updated = await supabase
     .from("leaderboard")
-    .update({ name, score })
-    .eq("userId", userId)
-    .select();
+    .upsert(payload, { onConflict: "userId" });
 
   if (updated.error) {
-    console.error("Leaderboard update failed", updated.error);
-  }
-
-  if (updated.data && updated.data.length > 0) {
-    console.debug("Leaderboard updated", updated.data);
-    return updated.data;
-  }
-
-  // No existing row, INSERT new
-  const inserted = await supabase.from("leaderboard").insert(payload).select();
-
-  if (inserted.error) {
-    console.error("Leaderboard insert failed", inserted.error);
+    console.debug("Leaderboard not updated", updated.error);
     return null;
   }
 
-  console.debug("Leaderboard inserted", inserted.data);
-  return inserted.data;
+  console.debug("Leaderboard updated", updated.data);
+
+  return updated.data;
 }
 
 export type Leaderboard = Awaited<ReturnType<typeof getLeaderboard>>;
