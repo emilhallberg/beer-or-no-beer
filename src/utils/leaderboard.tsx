@@ -1,38 +1,25 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { list, put } from "@vercel/blob";
 
-const KEY = "leaderboard";
+import { createClient } from "@/utils/supabase/server";
 
 export type UserEntry = { userId: string; name: string; score: number };
 
 export async function getLeaderboard() {
-  const leaderboard = await list({ prefix: `${KEY}/` });
+  const supabase = await createClient();
+  const leaderboard = await supabase.from("leaderboard").select();
 
-  return Promise.all(
-    leaderboard.blobs.map(({ url }) =>
-      fetch(url, {
-        headers: { "Cache-Control": "no-store" },
-        cache: "no-cache",
-      })
-        .then((response) => response.json())
-        .catch(() => null),
-    ),
-  ).then((blobs) => {
-    return blobs
-      .reduce<Array<UserEntry>>((arr, blob) => {
-        if (blob) return [...arr, blob];
-        return arr;
-      }, [])
-      .sort((a, b) => b.score - a.score);
-  });
+  if (leaderboard.error) {
+    console.error("Leaderboard not fetched", leaderboard.error);
+    return [];
+  }
+
+  return leaderboard.data.sort((a, b) => b.score - a.score);
 }
 
 export async function getUserEntry(): Promise<UserEntry | null> {
   const { userId } = await auth();
-
-  return null;
 
   return getLeaderboard().then(
     (leaderboard) =>
@@ -43,23 +30,22 @@ export async function getUserEntry(): Promise<UserEntry | null> {
 export async function updateLeaderboard(name: string, score: number) {
   const { userId } = await auth();
 
+  if (!userId)
+    throw new Error("Cannot update leaderboard without a logged in user");
+
+  const supabase = await createClient();
+
   const blob = { userId, name, score };
   console.debug("Update leaderboard", blob);
+  const result = await supabase.from("leaderboard").upsert(blob);
 
-  return put(`${KEY}/${userId}`, JSON.stringify(blob), {
-    access: "public",
-    contentType: "application/json",
-    allowOverwrite: true,
-    cacheControlMaxAge: 60,
-  })
-    .then((result) => {
-      console.debug("Leaderboard updated", result);
-      return result;
-    })
-    .catch((error) => {
-      console.error("Leaderboard not updated", error);
-      return null;
-    });
+  if (result.error) {
+    console.error("Leaderboard not updated", result.error);
+    return null;
+  }
+
+  console.debug("Leaderboard updated", result.data);
+  return result.data;
 }
 
 export type Leaderboard = Awaited<ReturnType<typeof getLeaderboard>>;
