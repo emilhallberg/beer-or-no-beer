@@ -10,6 +10,8 @@ import {
 } from "react";
 import { useUser } from "@clerk/nextjs";
 
+import { useRouter } from "next/navigation";
+
 import { Beer, Beers } from "@/utils/beer";
 import { updateLeaderboard, UserEntry } from "@/utils/leaderboard";
 
@@ -139,6 +141,7 @@ export default function GameProvider({
   beerPromise,
   userEntryPromise,
 }: Props) {
+  const { refresh } = useRouter();
   const beers = use(beerPromise);
   const userEntry = use(userEntryPromise);
 
@@ -169,6 +172,7 @@ export default function GameProvider({
   };
 
   const reset: Game["reset"] = () => {
+    refresh();
     dispatch({ type: "RESET", payload: { beers, userEntry } });
   };
 
@@ -177,7 +181,7 @@ export default function GameProvider({
   }, [beers, store, userEntry]);
 
   useEffect(() => {
-    if (state.gameOver) {
+    if (state.gameOver && state.score > 0) {
       if (state.userEntry && state.userEntry.score < state.score) {
         void updateLeaderboard(state.userEntry.name, state.score);
       } else if (user && user.fullName && userEntry === null) {
