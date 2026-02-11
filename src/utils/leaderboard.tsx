@@ -15,10 +15,8 @@ export async function getLeaderboard() {
     return [];
   }
 
-  // Deduplicate by userId in case historical duplicates exist
   const byUser = leaderboard.data.reduce<Map<string, UserEntry>>(
-    (map, row: any) => {
-      const entry = row as UserEntry;
+    (map, entry: UserEntry) => {
       const existing = map.get(entry.userId);
       if (!existing || entry.score > existing.score)
         map.set(entry.userId, entry);
