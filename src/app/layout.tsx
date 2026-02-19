@@ -33,10 +33,8 @@ export default function RootLayout({ children }: Props) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <div className="max-w-screen-sm mx-auto min-h-screen">
-            {children}
-            <DrinkBackground />
-          </div>
+          <DrinkBackground />
+          <div className="max-w-screen-sm mx-auto min-h-screen">{children}</div>
         </body>
       </html>
     </ClerkProvider>
