@@ -4,6 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import DrinkBackground from "@/ui/DrinkBackground";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,7 +33,10 @@ export default function RootLayout({ children }: Props) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <div className="max-w-screen-sm mx-auto min-h-screen">{children}</div>
+          <div className="max-w-screen-sm mx-auto min-h-screen">
+            {children}
+            <DrinkBackground />
+          </div>
         </body>
       </html>
     </ClerkProvider>
