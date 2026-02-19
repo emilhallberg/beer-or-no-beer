@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 type Vec2 = { x: number; y: number };
 
@@ -200,7 +200,7 @@ export default function DrinkBackground() {
 
       // Subtle background tint (helps it feel like a background layer)
       // No fixed style/colors requested, but we need some. Keep it neutral & soft.
-      ctx2d.fillStyle = "rgba(10, 12, 16, 0.55)";
+      ctx2d.fillStyle = "rgb(151,132,23)";
       ctx2d.fillRect(0, 0, w, h);
 
       // --- liquid geometry ---
@@ -447,7 +447,7 @@ export default function DrinkBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10 h-full w-full pointer-events-none"
+      className="fixed inset-0 z-0 h-[100dvh] w-screen pointer-events-none"
       aria-hidden="true"
     />
   );

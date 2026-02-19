@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0c10",
+  themeColor: "#978417",
   viewportFit: "cover",
 };
 
@@ -35,11 +35,20 @@ export default function RootLayout({ children }: Props) {
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+          />
+          <meta name="theme-color" content="#0a0c10" />
+        </head>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased relative isolate overflow-x-hidden`}
         >
           <DrinkBackground />
-          <div className="max-w-screen-sm mx-auto min-h-screen">{children}</div>
+          <div className="relative z-10 max-w-screen-sm mx-auto min-h-screen">
+            {children}
+          </div>
         </body>
       </html>
     </ClerkProvider>
