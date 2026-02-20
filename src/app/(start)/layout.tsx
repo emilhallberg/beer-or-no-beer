@@ -11,7 +11,7 @@ type Props = {
 export default function StartLayout({ children, leaderboard }: Props) {
   return (
     <div className="grid">
-      <div className="h-20 grid justify-center p-4">
+      <div className="p-6 pt-4 pb-4 grid justify-center bg-[var(--background)] rounded-b-3xl border-b-4 border-amber-700">
         <SignedIn>
           <UserButton />
         </SignedIn>
