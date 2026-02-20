@@ -447,7 +447,7 @@ export default function DrinkBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 h-[100dvh] w-screen pointer-events-none"
+      className="absolute inset-0 z-0"
       aria-hidden="true"
     />
   );
