@@ -191,12 +191,17 @@ export default function GameProvider({
   }, [state.gameOver, state.score, state.userEntry, user, userEntry]);
 
   useEffect(() => {
+    if (state.gameOver) return;
+
+    dispatch({ type: "HINT", payload: false });
+
     const id = setTimeout(
       () => dispatch({ type: "HINT", payload: true }),
       15000,
     );
+
     return () => clearTimeout(id);
-  }, []);
+  }, [state.beer, state.gameOver]);
 
   return (
     <GameContext.Provider value={{ ...state, onBeer, reset }}>
