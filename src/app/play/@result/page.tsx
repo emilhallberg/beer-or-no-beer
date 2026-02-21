@@ -14,7 +14,7 @@ export default function ResultSlot() {
 
   return (
     <Activity mode={gameOver ? "visible" : "hidden"}>
-      <div className="h-svh grid place-content-center text-center gap-6">
+      <div className="grid place-content-center text-center gap-6 p-6">
         {newHighScore ? (
           <h2 className="text-4xl uppercase">New High Score!</h2>
         ) : (

@@ -33,7 +33,7 @@ export default function RootLayout({ children }: Props) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased relative isolate overflow-x-hidden`}
         >
-          <div className="relative z-10">{children}</div>
+          <main className="relative z-10 w-screen">{children}</main>
           <DrinkBackground />
         </body>
       </html>
