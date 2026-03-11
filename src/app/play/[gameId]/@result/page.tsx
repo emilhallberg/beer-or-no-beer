@@ -10,7 +10,7 @@ import PlayAgainButton from "@/app/play/_/play-again-button";
 import SignInButton from "@/app/play/_/sign-in-button";
 
 export default function ResultSlot() {
-  const { gameOver, newHighScore, score, result } = useGame();
+  const { gameOver, newHighScore, result, score } = useGame();
 
   return (
     <Activity mode={gameOver ? "visible" : "hidden"}>
@@ -34,7 +34,7 @@ export default function ResultSlot() {
           <ol>
             {result.map((item) => (
               <li
-                key={item.beer.name}
+                key={`${item.beer.id}-${item.createdAt}`}
                 className={item.correct ? "text-green-700" : "text-red-800"}
               >
                 {item.beer.name}

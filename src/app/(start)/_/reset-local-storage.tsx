@@ -6,7 +6,11 @@ import { BEER_STORAGE_KEY } from "@/app/play/_/game-provider";
 
 export default function ResetLocalStorage() {
   useEffect(() => {
-    localStorage.removeItem(BEER_STORAGE_KEY);
+    for (const key of Object.keys(localStorage)) {
+      if (key === BEER_STORAGE_KEY || key.startsWith(`${BEER_STORAGE_KEY}:`)) {
+        localStorage.removeItem(key);
+      }
+    }
   }, []);
 
   return null;
