@@ -1,5 +1,31 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Supabase Database
+
+The repo now includes a local Supabase schema and seed flow for the tables the app expects:
+
+- `public.beers`
+- `public.leaderboard`
+- `public.random_beers`
+
+`supabase/seed.sql` is intentionally empty right now and can be filled in manually when you are ready to add seed data.
+
+### Reset the local database
+
+1. Start Supabase locally if it is not already running:
+
+```bash
+supabase start
+```
+
+2. Reset the database and re-run migrations + seed:
+
+```bash
+npm run supabase:db:reset
+```
+
+After reset, the local database will contain the app schema and whatever SQL you add to `supabase/seed.sql`.
+
 ## Getting Started
 
 First, run the development server:
