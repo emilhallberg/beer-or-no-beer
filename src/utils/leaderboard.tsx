@@ -1,7 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
-
+import { getActorId, isActorGuest } from "@/utils/actor";
 import { createClient } from "@/utils/supabase/server";
 
 type CompletedGameRow = {
@@ -16,9 +15,16 @@ type CompletedGameRow = {
   userId: string | null;
 };
 
+type ProfileRow = {
+  displayName: string | null;
+  id: string;
+  imageUrl: string | null;
+};
+
 export type UserEntry = {
   accuracy: number;
   bestStreak: number;
+  imageUrl: string | null;
   name: string;
   score: number;
   userId: string;
@@ -43,23 +49,57 @@ export type CompletedGameInput = {
   endedAt: string;
   guesses: CompletedGameGuessInput[];
   livesRemaining: number;
+  playerImageUrl: string | null;
   playerName: string | null;
   score: number;
   startingLives: number;
   totalGuesses: number;
 };
 
-function toUserEntry(game: CompletedGameRow): UserEntry | null {
+function normalizePlayerName(playerName: string | null) {
+  const trimmedName = playerName?.trim();
+
+  if (!trimmedName) return "Anonymous";
+
+  if (/^anon(?:y|o)+m(?:o|u)+s$/i.test(trimmedName)) {
+    return "Anonymous";
+  }
+
+  return trimmedName;
+}
+
+function toUserEntry(
+  game: CompletedGameRow,
+  profile?: ProfileRow,
+): UserEntry | null {
   if (!game.userId || !game.endedAt) return null;
 
   return {
     userId: game.userId,
-    name: game.playerName ?? "Anonymous",
+    name: normalizePlayerName(profile?.displayName ?? game.playerName),
+    imageUrl: profile?.imageUrl ?? null,
     score: game.score,
     bestStreak: game.bestStreak,
     accuracy:
       game.totalGuesses === 0 ? 0 : game.correctGuesses / game.totalGuesses,
   };
+}
+
+async function getProfilesByIds(userIds: string[]) {
+  if (userIds.length === 0) return new Map<string, ProfileRow>();
+
+  const supabase = await createClient();
+  const profiles = await supabase
+    .from("profiles")
+    .select("id, displayName, imageUrl")
+    .in("id", userIds);
+
+  if (profiles.error) {
+    console.error("Profiles not fetched", profiles.error);
+    return new Map<string, ProfileRow>();
+  }
+
+  return new Map(profiles.data.map((profile) => [profile.id, profile]));
 }
 
 export async function getLeaderboard() {
@@ -71,6 +111,7 @@ export async function getLeaderboard() {
     )
     .not("endedAt", "is", null)
     .not("userId", "is", null)
+    .not("userId", "like", "guest:%")
     .order("score", { ascending: false })
     .order("endedAt", { ascending: false });
 
@@ -79,8 +120,17 @@ export async function getLeaderboard() {
     return [];
   }
 
+  const profilesById = await getProfilesByIds(
+    Array.from(
+      new Set(games.data.flatMap((game) => (game.userId ? [game.userId] : []))),
+    ),
+  );
+
   const byUser = games.data.reduce<Map<string, UserEntry>>((map, game) => {
-    const entry = toUserEntry(game);
+    const entry = toUserEntry(
+      game,
+      game.userId ? profilesById.get(game.userId) : undefined,
+    );
 
     if (!entry) return map;
     if (!map.has(entry.userId)) map.set(entry.userId, entry);
@@ -92,9 +142,7 @@ export async function getLeaderboard() {
 }
 
 export async function getUserEntry(): Promise<UserEntry | null> {
-  const { userId } = await auth();
-
-  if (!userId) return null;
+  const actorId = await getActorId();
 
   const supabase = await createClient();
   const bestGame = await supabase
@@ -102,7 +150,7 @@ export async function getUserEntry(): Promise<UserEntry | null> {
     .select(
       "id, userId, playerName, score, bestStreak, correctGuesses, totalGuesses, livesRemaining, endedAt",
     )
-    .eq("userId", userId)
+    .eq("userId", actorId)
     .not("endedAt", "is", null)
     .order("score", { ascending: false })
     .order("endedAt", { ascending: false })
@@ -114,7 +162,14 @@ export async function getUserEntry(): Promise<UserEntry | null> {
     return null;
   }
 
-  return bestGame.data ? toUserEntry(bestGame.data) : null;
+  const profilesById = await getProfilesByIds([actorId]);
+  const entry = bestGame.data
+    ? toUserEntry(bestGame.data, profilesById.get(actorId))
+    : null;
+
+  if (!entry) return null;
+
+  return isActorGuest(actorId) ? { ...entry, userId: actorId } : entry;
 }
 
 export type Leaderboard = Awaited<ReturnType<typeof getLeaderboard>>;

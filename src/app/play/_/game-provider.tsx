@@ -6,22 +6,26 @@ import {
   use,
   useEffect,
   useReducer,
-  useSyncExternalStore,
+  useRef,
 } from "react";
 import { useUser } from "@clerk/nextjs";
 
+import type { Route } from "next";
 import { useRouter } from "next/navigation";
 
+import { GAME_SCORE_EVENT } from "@/app/play/_/game-events";
 import { Beer, Beers } from "@/utils/beer";
-import { completeGame, createGame } from "@/utils/game";
+import {
+  completeGame,
+  PersistedGameState,
+  saveGameProgress,
+} from "@/utils/game";
 import { UserEntry } from "@/utils/leaderboard";
 
 export const BEER_STORAGE_KEY = "beer-storage" as const;
 const STARTING_LIVES = 3 as const;
-
-export function getBeerStorageKey(gameId: string) {
-  return `${BEER_STORAGE_KEY}:${gameId}`;
-}
+const BASE_POINTS_PER_CORRECT_GUESS = 100 as const;
+const STREAK_BONUS_STEP = 10 as const;
 
 type GuessResult = {
   beer: Beer;
@@ -43,11 +47,9 @@ type State = {
   endedAt: string | null;
   endReason: "abandoned" | "lives_exhausted" | null;
   gameOver: boolean;
-  isSavingGame: boolean;
   lives: number;
   newHighScore: boolean;
   result: GuessResult[];
-  savedGameId: number | null;
   saveStatus: "error" | "idle" | "saved" | "saving";
   score: number;
   showHint: boolean;
@@ -58,7 +60,6 @@ type State = {
 
 type Game = State & {
   onBeer: (guess: boolean) => void;
-  reset: () => void;
 };
 
 const GameContext = createContext<Game | undefined>(undefined);
@@ -72,9 +73,13 @@ type Action =
   | { type: "SAVE_SUCCESS"; payload: number };
 
 const initialBeer = {
+  abv: 0,
+  brewery: "",
   id: 0,
+  meta: {},
   name: "",
   real: true,
+  type: "",
   description: "",
   createdAt: "",
 } satisfies Beer;
@@ -87,11 +92,9 @@ const initialState: State = {
   endedAt: null,
   endReason: null,
   gameOver: false,
-  isSavingGame: false,
   lives: STARTING_LIVES,
   newHighScore: false,
   result: [],
-  savedGameId: null,
   saveStatus: "idle",
   score: 0,
   showHint: false,
@@ -104,6 +107,12 @@ function ensureBeers(beers: Beers): Beers {
   return beers.length > 0 ? beers : [initialBeer];
 }
 
+function getPointsAwarded(streakAfterGuess: number, correct: boolean) {
+  if (!correct) return 0;
+
+  return BASE_POINTS_PER_CORRECT_GUESS + streakAfterGuess * STREAK_BONUS_STEP;
+}
+
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "GUESS": {
@@ -112,7 +121,7 @@ const reducer = (state: State, action: Action): State => {
       const correct = state.beer.real === action.payload;
       const streakBeforeGuess = state.streak;
       const streakAfterGuess = correct ? streakBeforeGuess + 1 : 0;
-      const pointsAwarded = correct ? 100 + streakAfterGuess : 0;
+      const pointsAwarded = getPointsAwarded(streakAfterGuess, correct);
       const lives = state.lives - (correct ? 0 : 1);
       const gameOver = lives === 0;
       const createdAt = new Date().toISOString();
@@ -155,122 +164,63 @@ const reducer = (state: State, action: Action): State => {
     case "INIT":
       return action.payload;
     case "SAVE_PENDING":
-      return { ...state, isSavingGame: true, saveStatus: "saving" };
+      return { ...state, saveStatus: "saving" };
     case "SAVE_SUCCESS":
-      return {
-        ...state,
-        isSavingGame: false,
-        savedGameId: action.payload,
-        saveStatus: "saved",
-      };
+      return { ...state, saveStatus: "saved" };
     case "SAVE_ERROR":
-      return { ...state, isSavingGame: false, saveStatus: "error" };
+      return { ...state, saveStatus: "error" };
     default:
       return state;
   }
 };
 
 function initState(
-  { beers, userEntry }: Pick<State, "beers" | "userEntry">,
-  gameId: string,
-  store: string | null,
+  game: PersistedGameState,
+  userEntry: UserEntry | null,
 ): State {
-  const safeBeers = ensureBeers(beers);
-  const fallback: State = {
+  return {
     ...initialState,
-    beers: safeBeers,
-    beer: safeBeers[0],
+    ...game,
+    beers: ensureBeers(game.beers),
+    beer: game.beer,
     userEntry,
   };
-
-  try {
-    if (!store) return fallback;
-
-    const parsed = JSON.parse(store) as Partial<State>;
-    const beer = parsed.beer
-      ? (safeBeers.find((candidate) => candidate.name === parsed.beer?.name) ??
-        safeBeers[0])
-      : safeBeers[0];
-
-    return {
-      ...fallback,
-      ...parsed,
-      beers: safeBeers,
-      beer,
-      userEntry,
-      savedGameId: parsed.savedGameId ?? Number(gameId),
-      isSavingGame: false,
-      saveStatus: (parsed.savedGameId
-        ? "saved"
-        : "idle") satisfies State["saveStatus"],
-    };
-  } catch (error) {
-    console.error(error);
-    return fallback;
-  }
 }
 
 type Props = {
-  beerPromise: Promise<Beers>;
   children: ReactNode;
   gameId: string;
-  userEntryPromise: Promise<UserEntry | null>;
+  initialGameState: PersistedGameState;
+  userEntry: UserEntry | null;
 };
 
 export default function GameProvider({
   children,
-  beerPromise,
   gameId,
-  userEntryPromise,
+  initialGameState,
+  userEntry,
 }: Props) {
-  const { push, refresh } = useRouter();
-  const beers = ensureBeers(use(beerPromise));
-  const userEntry = use(userEntryPromise);
+  const { replace } = useRouter();
   const { user } = useUser();
-  const storageKey = getBeerStorageKey(gameId);
+  const summaryPath = `/play/${gameId}/summary` as Route;
+  const lastPersistedResultCountRef = useRef(initialGameState.result.length);
 
-  const store = useSyncExternalStore(
-    (callback) => {
-      window.addEventListener("storage", callback);
-      return () => window.removeEventListener("storage", callback);
-    },
-    () => localStorage.getItem(storageKey) ?? null,
-    () => null,
+  const [state, dispatch] = useReducer(
+    reducer,
+    initState(initialGameState, userEntry),
   );
-
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    beers,
-    beer: beers[0],
-    savedGameId: Number(gameId),
-    userEntry,
-  });
 
   const onBeer: Game["onBeer"] = (guess) => {
     dispatch({ type: "GUESS", payload: guess });
   };
 
-  const reset: Game["reset"] = () => {
-    void createGame().then((nextGameId) => {
-      localStorage.removeItem(storageKey);
-      push(`/play/${nextGameId}`);
-    });
-  };
-
-  useEffect(() => {
-    dispatch({
-      type: "INIT",
-      payload: initState({ beers, userEntry }, gameId, store),
-    });
-  }, [beers, gameId, store, userEntry]);
-
   useEffect(() => {
     if (!state.gameOver || state.saveStatus !== "idle" || !state.endedAt)
       return;
-
     dispatch({ type: "SAVE_PENDING" });
 
     void completeGame(Number(gameId), {
+      playerImageUrl: user?.imageUrl ?? null,
       playerName: user?.fullName ?? null,
       score: state.score,
       bestStreak: state.bestStreak,
@@ -298,11 +248,10 @@ export default function GameProvider({
       }
 
       dispatch({ type: "SAVE_SUCCESS", payload: savedGame.id });
-      refresh();
+      replace(summaryPath);
     });
   }, [
     gameId,
-    refresh,
     state.bestStreak,
     state.correctGuesses,
     state.endedAt,
@@ -314,12 +263,58 @@ export default function GameProvider({
     state.score,
     state.totalGuesses,
     user?.fullName,
+    user?.imageUrl,
+    replace,
+    summaryPath,
   ]);
 
   useEffect(() => {
-    if (!state.gameOver) return;
-    localStorage.setItem(storageKey, JSON.stringify(state));
-  }, [state, storageKey]);
+    if (state.gameOver) return;
+    if (state.result.length === lastPersistedResultCountRef.current) return;
+
+    lastPersistedResultCountRef.current = state.result.length;
+
+    void saveGameProgress(Number(gameId), {
+      playerImageUrl: user?.imageUrl ?? null,
+      playerName: user?.fullName ?? null,
+      score: state.score,
+      bestStreak: state.bestStreak,
+      correctGuesses: state.correctGuesses,
+      totalGuesses: state.totalGuesses,
+      startingLives: STARTING_LIVES,
+      livesRemaining: state.lives,
+      guesses: state.result.map((item) => ({
+        beerId: item.beer.id,
+        guess: item.guess,
+        correctAnswer: item.correctAnswer,
+        isCorrect: item.correct,
+        streakBeforeGuess: item.streakBeforeGuess,
+        streakAfterGuess: item.streakAfterGuess,
+        pointsAwarded: item.pointsAwarded,
+        lifeDelta: item.lifeDelta,
+        createdAt: item.createdAt,
+      })),
+    });
+  }, [
+    gameId,
+    state.bestStreak,
+    state.correctGuesses,
+    state.gameOver,
+    state.lives,
+    state.result,
+    state.score,
+    state.totalGuesses,
+    user?.fullName,
+    user?.imageUrl,
+  ]);
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent(GAME_SCORE_EVENT, {
+        detail: { score: state.score },
+      }),
+    );
+  }, [state.score]);
 
   useEffect(() => {
     if (state.gameOver) return;
@@ -335,7 +330,7 @@ export default function GameProvider({
   }, [state.beer, state.gameOver]);
 
   return (
-    <GameContext.Provider value={{ ...state, onBeer, reset }}>
+    <GameContext.Provider value={{ ...state, onBeer }}>
       {children}
     </GameContext.Provider>
   );

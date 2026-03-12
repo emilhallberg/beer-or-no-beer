@@ -36,25 +36,37 @@ export type Database = {
     Tables: {
       beers: {
         Row: {
+          abv: number;
+          brewery: string;
           createdAt: string;
           description: string;
           id: number;
+          meta: Json;
           name: string;
           real: boolean;
+          type: string;
         };
         Insert: {
+          abv: number;
+          brewery: string;
           createdAt?: string;
           description: string;
           id?: number;
+          meta?: Json;
           name: string;
           real: boolean;
+          type: string;
         };
         Update: {
+          abv?: number;
+          brewery?: string;
           createdAt?: string;
           description?: string;
           id?: number;
+          meta?: Json;
           name?: string;
           real?: boolean;
+          type?: string;
         };
         Relationships: [];
       };
@@ -125,6 +137,7 @@ export type Database = {
       games: {
         Row: {
           bestStreak: number;
+          beerIds: number[];
           correctGuesses: number;
           createdAt: string;
           endedAt: string | null;
@@ -139,6 +152,7 @@ export type Database = {
         };
         Insert: {
           bestStreak?: number;
+          beerIds?: number[];
           correctGuesses?: number;
           createdAt?: string;
           endedAt?: string | null;
@@ -153,6 +167,7 @@ export type Database = {
         };
         Update: {
           bestStreak?: number;
+          beerIds?: number[];
           correctGuesses?: number;
           createdAt?: string;
           endedAt?: string | null;
@@ -167,29 +182,65 @@ export type Database = {
         };
         Relationships: [];
       };
+      profiles: {
+        Row: {
+          createdAt: string;
+          displayName: string | null;
+          id: string;
+          imageUrl: string | null;
+          updatedAt: string;
+        };
+        Insert: {
+          createdAt?: string;
+          displayName?: string | null;
+          id: string;
+          imageUrl?: string | null;
+          updatedAt?: string;
+        };
+        Update: {
+          createdAt?: string;
+          displayName?: string | null;
+          id?: string;
+          imageUrl?: string | null;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       random_beers: {
         Row: {
+          abv: number | null;
+          brewery: string | null;
           createdAt: string | null;
           description: string | null;
           id: number | null;
+          meta: Json | null;
           name: string | null;
           real: boolean | null;
+          type: string | null;
         };
         Insert: {
+          abv?: number | null;
+          brewery?: string | null;
           createdAt?: string | null;
           description?: string | null;
           id?: number | null;
+          meta?: Json | null;
           name?: string | null;
           real?: boolean | null;
+          type?: string | null;
         };
         Update: {
+          abv?: number | null;
+          brewery?: string | null;
           createdAt?: string | null;
           description?: string | null;
           id?: number | null;
+          meta?: Json | null;
           name?: string | null;
           real?: boolean | null;
+          type?: string | null;
         };
         Relationships: [];
       };
