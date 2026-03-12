@@ -4,6 +4,6 @@ type Props = {
   children: ReactNode;
 };
 
-export default function PlayLayout({ children }: Props) {
+export default function PlayGameLayout({ children }: Props) {
   return children;
 }

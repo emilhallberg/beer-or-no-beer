@@ -2,11 +2,12 @@
 
 import { useUser } from "@clerk/nextjs";
 
-import { useGame } from "@/app/play/_/game-provider";
+type Props = {
+  score: number;
+};
 
-export default function ChallengeButton() {
+export default function ChallengeButton({ score }: Props) {
   const { user } = useUser();
-  const { score } = useGame();
 
   return (
     <button

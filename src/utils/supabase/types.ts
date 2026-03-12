@@ -7,58 +7,202 @@ export type Json =
   | Json[];
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.1";
+  graphql_public: {
+    Tables: {
+      [_ in never]: never;
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json;
+          operationName?: string;
+          query?: string;
+          variables?: Json;
+        };
+        Returns: Json;
+      };
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
   public: {
     Tables: {
       beers: {
         Row: {
+          abv: number;
+          brewery: string;
           createdAt: string;
           description: string;
           id: number;
+          meta: Json;
           name: string;
           real: boolean;
+          type: string;
         };
         Insert: {
+          abv: number;
+          brewery: string;
           createdAt?: string;
           description: string;
           id?: number;
+          meta?: Json;
           name: string;
           real: boolean;
+          type: string;
         };
         Update: {
+          abv?: number;
+          brewery?: string;
           createdAt?: string;
           description?: string;
           id?: number;
+          meta?: Json;
           name?: string;
           real?: boolean;
+          type?: string;
         };
         Relationships: [];
       };
-      leaderboard: {
+      game_guesses: {
+        Row: {
+          beerId: number;
+          correctAnswer: boolean;
+          createdAt: string;
+          gameId: number;
+          guess: boolean;
+          id: number;
+          isCorrect: boolean;
+          lifeDelta: number;
+          pointsAwarded: number;
+          streakAfterGuess: number;
+          streakBeforeGuess: number;
+        };
+        Insert: {
+          beerId: number;
+          correctAnswer: boolean;
+          createdAt?: string;
+          gameId: number;
+          guess: boolean;
+          id?: number;
+          isCorrect: boolean;
+          lifeDelta: number;
+          pointsAwarded?: number;
+          streakAfterGuess?: number;
+          streakBeforeGuess?: number;
+        };
+        Update: {
+          beerId?: number;
+          correctAnswer?: boolean;
+          createdAt?: string;
+          gameId?: number;
+          guess?: boolean;
+          id?: number;
+          isCorrect?: boolean;
+          lifeDelta?: number;
+          pointsAwarded?: number;
+          streakAfterGuess?: number;
+          streakBeforeGuess?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "game_guesses_beerId_fkey";
+            columns: ["beerId"];
+            isOneToOne: false;
+            referencedRelation: "beers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "game_guesses_beerId_fkey";
+            columns: ["beerId"];
+            isOneToOne: false;
+            referencedRelation: "random_beers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "game_guesses_gameId_fkey";
+            columns: ["gameId"];
+            isOneToOne: false;
+            referencedRelation: "games";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      games: {
+        Row: {
+          bestStreak: number;
+          beerIds: number[];
+          correctGuesses: number;
+          createdAt: string;
+          endedAt: string | null;
+          endReason: string | null;
+          id: number;
+          livesRemaining: number;
+          playerName: string | null;
+          score: number;
+          startingLives: number;
+          totalGuesses: number;
+          userId: string | null;
+        };
+        Insert: {
+          bestStreak?: number;
+          beerIds?: number[];
+          correctGuesses?: number;
+          createdAt?: string;
+          endedAt?: string | null;
+          endReason?: string | null;
+          id?: number;
+          livesRemaining: number;
+          playerName?: string | null;
+          score: number;
+          startingLives?: number;
+          totalGuesses?: number;
+          userId?: string | null;
+        };
+        Update: {
+          bestStreak?: number;
+          beerIds?: number[];
+          correctGuesses?: number;
+          createdAt?: string;
+          endedAt?: string | null;
+          endReason?: string | null;
+          id?: number;
+          livesRemaining?: number;
+          playerName?: string | null;
+          score?: number;
+          startingLives?: number;
+          totalGuesses?: number;
+          userId?: string | null;
+        };
+        Relationships: [];
+      };
+      profiles: {
         Row: {
           createdAt: string;
-          id: number;
-          name: string;
-          score: number;
-          userId: string;
+          displayName: string | null;
+          id: string;
+          imageUrl: string | null;
+          updatedAt: string;
         };
         Insert: {
           createdAt?: string;
-          id?: number;
-          name: string;
-          score: number;
-          userId: string;
+          displayName?: string | null;
+          id: string;
+          imageUrl?: string | null;
+          updatedAt?: string;
         };
         Update: {
           createdAt?: string;
-          id?: number;
-          name?: string;
-          score?: number;
-          userId?: string;
+          displayName?: string | null;
+          id?: string;
+          imageUrl?: string | null;
+          updatedAt?: string;
         };
         Relationships: [];
       };
@@ -66,25 +210,37 @@ export type Database = {
     Views: {
       random_beers: {
         Row: {
+          abv: number | null;
+          brewery: string | null;
           createdAt: string | null;
           description: string | null;
           id: number | null;
+          meta: Json | null;
           name: string | null;
           real: boolean | null;
+          type: string | null;
         };
         Insert: {
+          abv?: number | null;
+          brewery?: string | null;
           createdAt?: string | null;
           description?: string | null;
           id?: number | null;
+          meta?: Json | null;
           name?: string | null;
           real?: boolean | null;
+          type?: string | null;
         };
         Update: {
+          abv?: number | null;
+          brewery?: string | null;
           createdAt?: string | null;
           description?: string | null;
           id?: number | null;
+          meta?: Json | null;
           name?: string | null;
           real?: boolean | null;
+          type?: string | null;
         };
         Relationships: [];
       };
@@ -222,6 +378,9 @@ export type CompositeTypes<
     : never;
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },

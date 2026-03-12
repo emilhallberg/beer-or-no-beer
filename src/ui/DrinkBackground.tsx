@@ -2,6 +2,10 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
+import { usePathname } from "next/navigation";
+
+import { GAME_SCORE_EVENT } from "@/app/play/_/game-events";
+
 type Vec2 = { x: number; y: number };
 
 function clamp(v: number, a: number, b: number) {
@@ -35,8 +39,16 @@ type Foam = {
   life: number; // 1..0
 };
 
-export default function DrinkBackground() {
+type Props = {
+  highScore: number;
+  userHighScore: number;
+};
+
+export default function DrinkBackground({ highScore, userHighScore }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const scoreRef = useRef(0);
+  const displayedScoreRef = useRef(0);
+  const pathname = usePathname();
 
   // Mouse position is tracked globally, but we smooth inside the animation loop.
   const mouseRef = useRef<Vec2>({ x: 0.5, y: 0.5 });
@@ -58,9 +70,11 @@ export default function DrinkBackground() {
       springK: 14, // higher = snappier
       damping: 0.86, // 0..1 (lower = more damped)
       maxTilt: 0.85, // normalized max pseudo-tilt
+      fillRiseSpeed: 3.2,
 
       // Liquid
-      baseFill: 0.72, // 0..1 (how "full" the scene is)
+      minFill: 0.12,
+      maxFill: 0.92,
       surfaceWobble: 10, // px amplitude at max
       surfaceCurve: 0.8, // 0..1 curve strength
 
@@ -79,6 +93,9 @@ export default function DrinkBackground() {
   );
 
   useEffect(() => {
+    const isPlayRoute = pathname.startsWith("/play/");
+    const baseScore = isPlayRoute ? 0 : userHighScore;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -205,7 +222,16 @@ export default function DrinkBackground() {
 
       // --- liquid geometry ---
       // Fill line is height from bottom.
-      const fill = clamp(settings.baseFill + tilt.y * 0.05, 0.45, 0.9);
+      displayedScoreRef.current = lerp(
+        displayedScoreRef.current,
+        scoreRef.current,
+        clamp(dt * settings.fillRiseSpeed, 0, 1),
+      );
+
+      const progressTarget = Math.max(highScore, 1000);
+      const progress = clamp(displayedScoreRef.current / progressTarget, 0, 1);
+      const baseFill = lerp(settings.minFill, settings.maxFill, progress);
+      const fill = clamp(baseFill + tilt.y * 0.03, settings.minFill, 0.96);
       const liquidTopY = h * (1 - fill);
 
       // Surface line endpoints (tilt.x controls slope)
@@ -428,11 +454,20 @@ export default function DrinkBackground() {
       tiltVelRef.current.y += rand(-0.6, 0.6);
     };
 
+    const onScoreChange = (event: Event) => {
+      const nextScore = (event as CustomEvent<{ score?: number }>).detail
+        ?.score;
+      scoreRef.current = Math.max(0, nextScore ?? 0);
+    };
+
     resize();
     initBubbles();
+    scoreRef.current = baseScore;
+    displayedScoreRef.current = baseScore;
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("click", onClick);
+    window.addEventListener(GAME_SCORE_EVENT, onScoreChange as EventListener);
 
     raf = requestAnimationFrame(draw);
 
@@ -441,8 +476,12 @@ export default function DrinkBackground() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("click", onClick);
+      window.removeEventListener(
+        GAME_SCORE_EVENT,
+        onScoreChange as EventListener,
+      );
     };
-  }, [settings]);
+  }, [highScore, pathname, settings, userHighScore]);
 
   return (
     <canvas ref={canvasRef} className="fixed inset-0 z-0" aria-hidden="true" />

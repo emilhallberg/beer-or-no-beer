@@ -5,10 +5,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 The repo now includes a local Supabase schema and seed flow for the tables the app expects:
 
 - `public.beers`
-- `public.leaderboard`
+- `public.games`
+- `public.game_guesses`
+- `public.profiles`
 - `public.random_beers`
 
-`supabase/seed.sql` is intentionally empty right now and can be filled in manually when you are ready to add seed data.
+`supabase/seed.sql` seeds the beer catalog and restores the current local leaderboard so `db reset` keeps the visible standings.
 
 ### Reset the local database
 
@@ -24,7 +26,7 @@ supabase start
 npm run supabase:db:reset
 ```
 
-After reset, the local database will contain the app schema and whatever SQL you add to `supabase/seed.sql`.
+After reset, the local database will contain the app schema, the seeded beers, and the preserved leaderboard entries from `supabase/seed.sql`.
 
 ## Getting Started
 

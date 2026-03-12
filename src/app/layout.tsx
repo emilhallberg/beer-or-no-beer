@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import DrinkBackground from "@/ui/DrinkBackground";
+import { getLeaderboard, getUserEntry } from "@/utils/leaderboard";
 
 import "./globals.css";
 
@@ -26,7 +27,14 @@ export const metadata: Metadata = {
 
 type Props = Readonly<{ children: ReactNode }>;
 
-export default function RootLayout({ children }: Props) {
+export default async function RootLayout({ children }: Props) {
+  const [leaderboard, userEntry] = await Promise.all([
+    getLeaderboard(),
+    getUserEntry(),
+  ]);
+  const highScore = leaderboard[0]?.score ?? 0;
+  const userHighScore = userEntry?.score ?? 0;
+
   return (
     <ClerkProvider>
       <html lang="en">
@@ -34,7 +42,10 @@ export default function RootLayout({ children }: Props) {
           className={`${geistSans.variable} ${geistMono.variable} antialiased relative isolate overflow-x-hidden`}
         >
           <main className="relative z-10 w-screen">{children}</main>
-          <DrinkBackground />
+          <DrinkBackground
+            highScore={highScore}
+            userHighScore={userHighScore}
+          />
         </body>
       </html>
     </ClerkProvider>
