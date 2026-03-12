@@ -9,16 +9,16 @@ export default async function LeaderboardSlot() {
   return (
     <div className="flex min-h-[80vh] flex-col rounded-t-3xl border-t-4 border-amber-500 bg-[var(--background)] p-4 text-white">
       <div className="mb-4 flex items-end justify-between gap-3 border-b border-amber-200/20 pb-3">
-        <h1 className="text-2xl uppercase">Leaderboard</h1>
+        <h1 className="text-2xl uppercase">Topplista</h1>
         <p className="text-right text-xs uppercase tracking-[0.28em] text-amber-200/70">
-          Best runs only
+          Endast bästa rundor
         </p>
       </div>
       <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,0.7fr)_minmax(0,0.55fr)_minmax(0,0.55fr)] gap-3 px-3 pb-2 text-[0.65rem] uppercase tracking-[0.28em] text-amber-200/60">
-        <span>Rank</span>
-        <span className="text-right">Score</span>
-        <span className="text-right">Accuracy</span>
-        <span className="text-right">Streak</span>
+        <span>Placering</span>
+        <span className="text-right">Poäng</span>
+        <span className="text-right">Träffsäkerhet</span>
+        <span className="text-right">Svit</span>
       </div>
       <ol className="grid gap-2">
         {leaderboard.map(
@@ -35,7 +35,7 @@ export default async function LeaderboardSlot() {
                   {imageUrl ? (
                     <Image
                       src={imageUrl}
-                      alt={`${name} avatar`}
+                      alt={`${name} profilbild`}
                       width={44}
                       height={44}
                       className="hidden h-11 w-11 rounded-full border border-amber-200/20 object-cover sm:block"

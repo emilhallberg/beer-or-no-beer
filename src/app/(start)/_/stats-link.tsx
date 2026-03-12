@@ -6,7 +6,7 @@ export default function StatsLink() {
       href="/stats"
       className="grid h-15 w-full place-items-center rounded border-b-4 border-amber-700 bg-amber-900 px-4 py-2 font-bold text-white uppercase transition-colors hover:border-amber-500 hover:bg-amber-700"
     >
-      Beer Stats
+      Ölstatistik
     </Link>
   );
 }

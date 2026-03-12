@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Beer or No Beer?",
   description:
-    "Put your taste (and trivia) skills to the test with Beer or No Beer, the quiz that challenges you to decide: Is it a real beer name or not?",
+    "Sätt smaklökarna och ölkunskaperna på prov i Beer or No Beer?, quizet där du måste avgöra om ett ölnamn är på riktigt eller inte.",
 };
 
 type Props = Readonly<{ children: ReactNode }>;
@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: Props) {
 
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="sv">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased relative isolate overflow-x-hidden`}
         >

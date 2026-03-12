@@ -7,7 +7,7 @@ export default function PulsatingLogo() {
         <span className="text-5xl drop-shadow-sm">🍺</span>
       </div>
       <div className="text-sm uppercase tracking-widest opacity-80">
-        Loading game…
+        Laddar spel…
       </div>
     </div>
   );

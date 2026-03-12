@@ -12,7 +12,7 @@ export default function BeerButton() {
         onBeer(true);
       }}
     >
-      Beer
+      Öl
     </button>
   );
 }
