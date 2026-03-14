@@ -123,7 +123,7 @@ export default function BeerMenu() {
           <div
             id={menuId}
             role="menu"
-            className="absolute left-1/2 top-[calc(100%+0.75rem)] z-30 grid min-w-64 -translate-x-1/2 gap-2 rounded-[1.75rem] border-2 border-amber-700 bg-[var(--background)] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+            className="absolute left-1/2 top-[calc(100%+0.75rem)] z-30 grid w-64 -translate-x-1/2 gap-2 rounded-[1.75rem] border-2 border-amber-700 bg-[var(--background)] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
           >
             <Link
               href="/"
