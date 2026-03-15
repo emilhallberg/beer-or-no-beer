@@ -13,7 +13,7 @@ export default function BeerScore() {
       <div className="flex min-w-0 items-center gap-2 rounded-full border border-amber-500/60 bg-amber-900/80 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
         <div className="flex items-baseline gap-1">
           <NumberFlow
-            className="text-lg font-bold tabular-nums"
+            className="text-sm font-bold tabular-nums sm:text-lg"
             value={score}
           />
         </div>
@@ -22,7 +22,7 @@ export default function BeerScore() {
       <div className="flex min-w-0 items-center gap-2 rounded-full border border-orange-400/50 bg-orange-950/75 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
         <div className="flex items-baseline gap-1">
           <NumberFlow
-            className="text-lg font-bold tabular-nums"
+            className="text-sm font-bold tabular-nums sm:text-lg"
             value={streak}
           />
         </div>

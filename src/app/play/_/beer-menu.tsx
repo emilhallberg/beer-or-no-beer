@@ -105,7 +105,7 @@ export default function BeerMenu() {
           onClick={() => setIsMenuOpen((current) => !current)}
         >
           <span className="sr-only">Open game menu</span>
-          <div className="relative size-14 overflow-hidden rounded-full bg-amber-50/95 ring-2 ring-amber-300/60">
+          <div className="relative size-10 overflow-hidden rounded-full bg-amber-50/95 ring-2 ring-amber-300/60 sm:size-14">
             <Image
               src="/logo.svg"
               alt="Beer or No Beer?"
