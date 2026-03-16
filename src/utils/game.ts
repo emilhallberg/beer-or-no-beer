@@ -2,6 +2,7 @@
 
 import { getActorId, isActorGuest } from "@/utils/actor";
 import { Beer, Beers } from "@/utils/beer";
+import { getLeaderboard } from "@/utils/leaderboard";
 import { createClient } from "@/utils/supabase/server";
 import { Tables } from "@/utils/supabase/types";
 
@@ -106,9 +107,26 @@ export type PersistedGameState = {
 };
 
 export type CompletedGameSummary = {
+  overallRank: number | null;
+  stats: {
+    accuracy: number;
+    averageAbv: number | null;
+    bestStreak: number;
+    correctFakeGuesses: number;
+    correctGuesses: number;
+    correctRealGuesses: number;
+    fakeBeers: number;
+    livesRemaining: number;
+    mostSeenBeerType: string | null;
+    realBeers: number;
+    totalGuesses: number;
+    totalPointsAwarded: number;
+    uniqueBreweries: number;
+  };
   newHighScore: boolean;
   result: PersistedGuessResult[];
   score: number;
+  totalRankedPlayers: number;
 };
 
 function shuffleIds(ids: number[]): number[] {
@@ -119,22 +137,83 @@ function shuffleIds(ids: number[]): number[] {
   return ids;
 }
 
+function roundToSingleDecimal(value: number) {
+  return Math.round(value * 10) / 10;
+}
+
+function buildCompletedGameStats(
+  result: PersistedGuessResult[],
+  game: Pick<
+    GameRow,
+    "bestStreak" | "correctGuesses" | "livesRemaining" | "totalGuesses"
+  >,
+): CompletedGameSummary["stats"] {
+  const typeCounts = new Map<string, number>();
+  const breweryNames = new Set<string>();
+  let realBeers = 0;
+  let fakeBeers = 0;
+  let correctRealGuesses = 0;
+  let correctFakeGuesses = 0;
+  let totalAbv = 0;
+
+  for (const guess of result) {
+    breweryNames.add(guess.beer.brewery);
+    typeCounts.set(guess.beer.type, (typeCounts.get(guess.beer.type) ?? 0) + 1);
+    totalAbv += guess.beer.abv;
+
+    if (guess.beer.real) {
+      realBeers += 1;
+
+      if (guess.correct) {
+        correctRealGuesses += 1;
+      }
+
+      continue;
+    }
+
+    fakeBeers += 1;
+
+    if (guess.correct) {
+      correctFakeGuesses += 1;
+    }
+  }
+
+  const [mostSeenBeerType] = Array.from(typeCounts.entries()).sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1];
+    return a[0].localeCompare(b[0], "sv");
+  });
+
+  return {
+    accuracy:
+      game.totalGuesses === 0 ? 0 : game.correctGuesses / game.totalGuesses,
+    averageAbv:
+      result.length > 0 ? roundToSingleDecimal(totalAbv / result.length) : null,
+    bestStreak: game.bestStreak,
+    correctFakeGuesses,
+    correctGuesses: game.correctGuesses,
+    correctRealGuesses,
+    fakeBeers,
+    livesRemaining: game.livesRemaining,
+    mostSeenBeerType: mostSeenBeerType?.[0] ?? null,
+    realBeers,
+    totalGuesses: game.totalGuesses,
+    totalPointsAwarded: result.reduce(
+      (total, guess) => total + guess.pointsAwarded,
+      0,
+    ),
+    uniqueBreweries: breweryNames.size,
+  };
+}
+
 async function fetchRandomBeerIds(
   supabase: Awaited<ReturnType<typeof createClient>>,
   excludeIds: number[] = [],
 ): Promise<number[]> {
   const half = DEFAULT_DECK_SIZE / 2;
-  const exclusion =
-    excludeIds.length > 0 ? `(${excludeIds.join(",")})` : null;
+  const exclusion = excludeIds.length > 0 ? `(${excludeIds.join(",")})` : null;
 
-  let realQuery = supabase
-    .from("random_beers")
-    .select("id")
-    .eq("real", true);
-  let fakeQuery = supabase
-    .from("random_beers")
-    .select("id")
-    .eq("real", false);
+  let realQuery = supabase.from("random_beers").select("id").eq("real", true);
+  let fakeQuery = supabase.from("random_beers").select("id").eq("real", false);
 
   if (exclusion) {
     realQuery = realQuery.not("id", "in", exclusion);
@@ -484,7 +563,8 @@ export async function getCompletedGameSummary(
     supabase,
     guesses.map((guess) => guess.beerId),
   );
-  const previousBest = await supabase
+  const result = buildGuessResults(guesses, beers);
+  const previousBestPromise = supabase
     .from("games")
     .select("score")
     .eq("userId", actorId)
@@ -494,15 +574,29 @@ export async function getCompletedGameSummary(
     .order("endedAt", { ascending: false })
     .limit(1)
     .maybeSingle();
+  const leaderboardPromise = isActorGuest(actorId)
+    ? Promise.resolve([])
+    : getLeaderboard();
+  const [previousBest, leaderboard] = await Promise.all([
+    previousBestPromise,
+    leaderboardPromise,
+  ]);
 
   if (previousBest.error) {
     console.error("Previous best score not fetched", previousBest.error);
   }
 
+  const overallRank = leaderboard.findIndex(
+    (entry) => entry.userId === actorId,
+  );
+
   return {
     newHighScore:
       previousBest.data !== null ? previousBest.data.score < game.score : false,
-    result: buildGuessResults(guesses, beers),
+    overallRank: overallRank >= 0 ? overallRank + 1 : null,
+    result,
     score: game.score,
+    stats: buildCompletedGameStats(result, game),
+    totalRankedPlayers: leaderboard.length,
   };
 }

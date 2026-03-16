@@ -19,7 +19,7 @@ export default function StartLayout({ children, leaderboard }: Props) {
       <div className="h-[80vh] grid place-content-center">
         <Image
           src="/logo.svg"
-          alt="Logo"
+          alt="Logotyp"
           width={300}
           height={300}
           loading="eager"

@@ -104,7 +104,7 @@ export default function BeerMenu() {
           className="group flex items-center justify-center rounded-full border border-amber-500/60 bg-amber-950/80 p-2 shadow-[0_8px_24px_rgba(0,0,0,0.24)] transition hover:border-amber-300 hover:bg-amber-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
           onClick={() => setIsMenuOpen((current) => !current)}
         >
-          <span className="sr-only">Open game menu</span>
+          <span className="sr-only">Öppna spelmenyn</span>
           <div className="relative size-10 overflow-hidden rounded-full bg-amber-50/95 ring-2 ring-amber-300/60 sm:size-14">
             <Image
               src="/logo.svg"
@@ -131,7 +131,7 @@ export default function BeerMenu() {
               role="menuitem"
               onClick={() => setIsMenuOpen(false)}
             >
-              <span>Home</span>
+              <span>Hem</span>
               <Home className="size-4" strokeWidth={2.25} />
             </Link>
             <button
@@ -140,7 +140,7 @@ export default function BeerMenu() {
               role="menuitem"
               onClick={onChallenge}
             >
-              <span>Challenge</span>
+              <span>Utmana</span>
               <Share2 className="size-4" strokeWidth={2.25} />
             </button>
             <SignedOut>
@@ -151,7 +151,7 @@ export default function BeerMenu() {
                   role="menuitem"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <span>Sign In</span>
+                  <span>Logga in</span>
                   <LogIn className="size-4" strokeWidth={2.25} />
                 </button>
               </ClerkSignInButton>
@@ -162,7 +162,7 @@ export default function BeerMenu() {
                   role="menuitem"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <span>Sign Up</span>
+                  <span>Skapa konto</span>
                   <UserPlus className="size-4" strokeWidth={2.25} />
                 </button>
               </ClerkSignUpButton>
@@ -173,7 +173,7 @@ export default function BeerMenu() {
               role="menuitem"
               onClick={openHelp}
             >
-              <span>Help</span>
+              <span>Hjälp</span>
               <CircleHelp className="size-4" strokeWidth={2.25} />
             </button>
           </div>
@@ -194,7 +194,7 @@ export default function BeerMenu() {
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300">
-                  How To Play
+                  Så spelar du
                 </p>
                 <h2
                   id="beer-menu-help-title"
@@ -208,30 +208,30 @@ export default function BeerMenu() {
                 className="rounded-full border border-amber-600 p-2 text-amber-200 transition hover:bg-amber-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
                 onClick={() => setIsHelpOpen(false)}
               >
-                <span className="sr-only">Close help</span>
+                <span className="sr-only">Stäng hjälp</span>
                 <X className="size-4" strokeWidth={2.25} />
               </button>
             </div>
             <div className="space-y-4 text-sm leading-6 text-amber-100/90">
               <p>
-                A drink name appears on screen. Pick <strong>Beer</strong> if
-                you think it is a real brew, or <strong>No Beer</strong> if it
-                is fake.
+                Ett dryckesnamn visas på skärmen. Välj <strong>Öl</strong> om du
+                tror att det är en riktig öl, eller <strong>Inte öl</strong> om
+                du tror att det är fejk.
               </p>
               <p>
-                Every correct guess adds points. Your current streak is{" "}
-                <strong>{streak}</strong>. Each correct answer gives{" "}
-                <strong>100</strong> points plus <strong>10</strong> bonus
-                points per streak level.
+                Varje rätt gissning ger poäng. Din nuvarande svit är{" "}
+                <strong>{streak}</strong>. Varje rätt svar ger{" "}
+                <strong>100</strong> poäng plus <strong>10</strong> bonuspoäng
+                per svitnivå.
               </p>
               <p>
-                You start with three lives. A wrong answer costs one life, and
-                the run ends when they are gone. Your current score is{" "}
+                Du börjar med tre liv. Ett fel svar kostar ett liv, och rundan
+                är slut när alla är borta. Din nuvarande poäng är{" "}
                 <strong>{score}</strong>.
               </p>
               <p>
-                Use <strong>Challenge</strong> to share your score and see if
-                someone else can beat it.
+                Använd <strong>Utmana</strong> för att dela din poäng och se om
+                någon annan kan slå den.
               </p>
             </div>
           </div>

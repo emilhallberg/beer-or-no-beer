@@ -30,7 +30,7 @@ export default function ChallengeButton({ score }: Props) {
           });
       }}
     >
-      Challenge
+      Utmana
     </button>
   );
 }

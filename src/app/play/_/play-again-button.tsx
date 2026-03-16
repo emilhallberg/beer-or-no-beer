@@ -16,7 +16,7 @@ export default function PlayAgainButton() {
         });
       }}
     >
-      Play Again
+      Spela igen
     </button>
   );
 }

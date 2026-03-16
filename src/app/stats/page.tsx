@@ -40,7 +40,7 @@ function StatCard({
 }
 
 export const metadata = {
-  title: "Beer Stats | Beer or No Beer?",
+  title: "Ölstatistik | Beer or No Beer?",
 };
 
 export default async function StatsPage() {
@@ -59,84 +59,84 @@ export default async function StatsPage() {
               Beer or No Beer
             </p>
             <h1 className="mt-3 text-4xl font-black tracking-tight text-balance sm:text-5xl">
-              Beer stats worth bragging about
+              Ölstatistik att skryta om
             </h1>
             <p className="mt-4 max-w-xl text-sm leading-6 text-amber-50/80 sm:text-base">
-              Your profile now tracks brewery loyalty and average strength, and
-              the recognition board is split so real beers and fake beers get
-              their own spotlight.
+              Din profil visar nu vilket bryggeri du är mest lojal mot och din
+              genomsnittliga alkoholhalt, och topplistan är uppdelad så att
+              riktiga och fejkade öl får varsin kategori.
             </p>
           </div>
           <Link
             href="/"
             className="grid h-12 place-items-center rounded border-b-4 border-amber-700 bg-amber-950 px-4 font-bold text-white uppercase transition-colors hover:border-amber-500 hover:bg-amber-400"
           >
-            Back to start
+            Till startsidan
           </Link>
         </div>
 
         <section className="grid gap-4 lg:grid-cols-2">
           <StatCard
-            eyebrow="Your Stats"
-            title="Most loyal brewery"
-            value={loyalBrewery?.name ?? "No data yet"}
+            eyebrow="Din statistik"
+            title="Mest lojala bryggeri"
+            value={loyalBrewery?.name ?? "Ingen data än"}
             detail={
               loyalBrewery
-                ? `You have seen beers from this brewery ${loyalBrewery.totalGuesses} times: ${loyalBrewery.realGuesses} real and ${loyalBrewery.fakeGuesses} fake.`
-                : "Finish a run first to unlock your brewery loyalty."
+                ? `Du har sett öl från det här bryggeriet ${loyalBrewery.totalGuesses} gånger: ${loyalBrewery.realGuesses} riktiga och ${loyalBrewery.fakeGuesses} fejkade.`
+                : "Slutför en runda först för att låsa upp din bryggerilojalitet."
             }
           />
           <StatCard
-            eyebrow="Your Stats"
-            title="Average beer strength"
-            value={averageAbv ? formatAbv(averageAbv.overall) : "No data yet"}
+            eyebrow="Din statistik"
+            title="Genomsnittlig alkoholhalt"
+            value={averageAbv ? formatAbv(averageAbv.overall) : "Ingen data än"}
             detail={
               averageAbv
-                ? `Real beers average ${averageAbv.real !== null ? formatAbv(averageAbv.real) : "n/a"} and fake beers average ${averageAbv.fake !== null ? formatAbv(averageAbv.fake) : "n/a"}.`
-                : "Finish a run first to see your average ABV across real and fake beers."
+                ? `Riktiga öl ligger i snitt på ${averageAbv.real !== null ? formatAbv(averageAbv.real) : "saknas"} och fejkade öl ligger i snitt på ${averageAbv.fake !== null ? formatAbv(averageAbv.fake) : "saknas"}.`
+                : "Slutför en runda först för att se din genomsnittliga ABV för riktiga och fejkade öl."
             }
           />
         </section>
 
         <section className="grid gap-4 xl:grid-cols-2">
           <StatCard
-            eyebrow="Overall • Real Beer"
-            title="Most known beer"
-            value={realStats.mostKnownBeer?.name ?? "No guesses yet"}
+            eyebrow="Totalt • Riktig öl"
+            title="Mest igenkända öl"
+            value={realStats.mostKnownBeer?.name ?? "Inga gissningar än"}
             detail={
               realStats.mostKnownBeer
-                ? `${realStats.mostKnownBeer.brewery}. Players identify it correctly ${formatAccuracy(realStats.mostKnownBeer.accuracy)} of the time across ${realStats.mostKnownBeer.totalGuesses} guesses.`
-                : "Finish a few games and this card will light up."
+                ? `${realStats.mostKnownBeer.brewery}. Spelare gissar rätt ${formatAccuracy(realStats.mostKnownBeer.accuracy)} av gångerna över ${realStats.mostKnownBeer.totalGuesses} gissningar.`
+                : "Spela några rundor så vaknar det här kortet till liv."
             }
           />
           <StatCard
-            eyebrow="Overall • Real Beer"
-            title="Most unknown beer"
-            value={realStats.mostUnknownBeer?.name ?? "No guesses yet"}
+            eyebrow="Totalt • Riktig öl"
+            title="Minst igenkända öl"
+            value={realStats.mostUnknownBeer?.name ?? "Inga gissningar än"}
             detail={
               realStats.mostUnknownBeer
-                ? `${realStats.mostUnknownBeer.brewery}. Players miss it ${formatAccuracy(1 - realStats.mostUnknownBeer.accuracy)} of the time across ${realStats.mostUnknownBeer.totalGuesses} guesses.`
-                : "Finish a few games and this card will light up."
+                ? `${realStats.mostUnknownBeer.brewery}. Spelare missar den ${formatAccuracy(1 - realStats.mostUnknownBeer.accuracy)} av gångerna över ${realStats.mostUnknownBeer.totalGuesses} gissningar.`
+                : "Spela några rundor så vaknar det här kortet till liv."
             }
           />
           <StatCard
-            eyebrow="Overall • Fake Beer"
-            title="Most known beer"
-            value={fakeStats.mostKnownBeer?.name ?? "No guesses yet"}
+            eyebrow="Totalt • Fejköl"
+            title="Mest igenkända öl"
+            value={fakeStats.mostKnownBeer?.name ?? "Inga gissningar än"}
             detail={
               fakeStats.mostKnownBeer
-                ? `${fakeStats.mostKnownBeer.brewery}. Players identify it correctly ${formatAccuracy(fakeStats.mostKnownBeer.accuracy)} of the time across ${fakeStats.mostKnownBeer.totalGuesses} guesses.`
-                : "Finish a few games and this card will light up."
+                ? `${fakeStats.mostKnownBeer.brewery}. Spelare gissar rätt ${formatAccuracy(fakeStats.mostKnownBeer.accuracy)} av gångerna över ${fakeStats.mostKnownBeer.totalGuesses} gissningar.`
+                : "Spela några rundor så vaknar det här kortet till liv."
             }
           />
           <StatCard
-            eyebrow="Overall • Fake Beer"
-            title="Most unknown beer"
-            value={fakeStats.mostUnknownBeer?.name ?? "No guesses yet"}
+            eyebrow="Totalt • Fejköl"
+            title="Minst igenkända öl"
+            value={fakeStats.mostUnknownBeer?.name ?? "Inga gissningar än"}
             detail={
               fakeStats.mostUnknownBeer
-                ? `${fakeStats.mostUnknownBeer.brewery}. Players miss it ${formatAccuracy(1 - fakeStats.mostUnknownBeer.accuracy)} of the time across ${fakeStats.mostUnknownBeer.totalGuesses} guesses.`
-                : "Finish a few games and this card will light up."
+                ? `${fakeStats.mostUnknownBeer.brewery}. Spelare missar den ${formatAccuracy(1 - fakeStats.mostUnknownBeer.accuracy)} av gångerna över ${fakeStats.mostUnknownBeer.totalGuesses} gissningar.`
+                : "Spela några rundor så vaknar det här kortet till liv."
             }
           />
         </section>
@@ -144,24 +144,24 @@ export default async function StatsPage() {
         <section className="grid gap-4 rounded-3xl border border-amber-700/60 bg-amber-950/70 p-5 text-amber-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur sm:grid-cols-2">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
-              Totals
+              Totalt
             </p>
             <p className="mt-3 text-3xl font-black text-amber-200">
               {stats.overall.totalCompletedGames}
             </p>
             <p className="mt-2 text-sm text-amber-50/75">
-              completed games contribute to these overall stats.
+              avslutade spel ligger till grund för den här statistiken.
             </p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
-              Sample Size
+              Underlag
             </p>
             <p className="mt-3 text-3xl font-black text-amber-200">
               {stats.overall.totalGuesses}
             </p>
             <p className="mt-2 text-sm text-amber-50/75">
-              recorded guesses across all finished runs.
+              registrerade gissningar från alla avslutade rundor.
             </p>
           </div>
         </section>
