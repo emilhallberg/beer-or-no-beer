@@ -20,16 +20,35 @@ export async function getBeerCount() {
   return result.count ?? 0;
 }
 
+function shuffle<T>(array: T[]): T[] {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 export async function getBeers() {
   const supabase = await createClient();
-  const result = await supabase.from("random_beers").select().limit(100);
 
-  if (result.error) {
-    console.debug("Beers not fetched", result.error);
+  const [realResult, fakeResult] = await Promise.all([
+    supabase.from("random_beers").select().eq("real", true).limit(50),
+    supabase.from("random_beers").select().eq("real", false).limit(50),
+  ]);
+
+  if (realResult.error) {
+    console.debug("Real beers not fetched", realResult.error);
     return [];
   }
 
-  return result.data.flatMap((beer) => {
+  if (fakeResult.error) {
+    console.debug("Fake beers not fetched", fakeResult.error);
+    return [];
+  }
+
+  const result = shuffle([...realResult.data, ...fakeResult.data]);
+
+  return result.flatMap((beer) => {
     if (
       beer.abv === null ||
       beer.brewery === null ||

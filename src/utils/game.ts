@@ -111,20 +111,57 @@ export type CompletedGameSummary = {
   score: number;
 };
 
+function shuffleIds(ids: number[]): number[] {
+  for (let i = ids.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+  }
+  return ids;
+}
+
 async function fetchRandomBeerIds(
   supabase: Awaited<ReturnType<typeof createClient>>,
+  excludeIds: number[] = [],
 ): Promise<number[]> {
-  const beers = await supabase
+  const half = DEFAULT_DECK_SIZE / 2;
+  const exclusion =
+    excludeIds.length > 0 ? `(${excludeIds.join(",")})` : null;
+
+  let realQuery = supabase
     .from("random_beers")
     .select("id")
-    .limit(DEFAULT_DECK_SIZE);
+    .eq("real", true);
+  let fakeQuery = supabase
+    .from("random_beers")
+    .select("id")
+    .eq("real", false);
 
-  if (beers.error) {
-    console.error("Beer deck not fetched", beers.error);
+  if (exclusion) {
+    realQuery = realQuery.not("id", "in", exclusion);
+    fakeQuery = fakeQuery.not("id", "in", exclusion);
+  }
+
+  const [realBeers, fakeBeers] = await Promise.all([
+    realQuery.limit(half),
+    fakeQuery.limit(half),
+  ]);
+
+  if (realBeers.error) {
+    console.error("Real beer deck not fetched", realBeers.error);
     throw new Error("Unable to create beer deck");
   }
 
-  return beers.data.flatMap((beer) => (beer.id === null ? [] : [beer.id]));
+  if (fakeBeers.error) {
+    console.error("Fake beer deck not fetched", fakeBeers.error);
+    throw new Error("Unable to create beer deck");
+  }
+
+  const ids = [
+    ...realBeers.data.flatMap((b) => (b.id === null ? [] : [b.id])),
+    ...fakeBeers.data.flatMap((b) => (b.id === null ? [] : [b.id])),
+  ];
+
+  return shuffleIds(ids);
 }
 
 async function getOrCreateBeerIds(
@@ -395,6 +432,42 @@ export async function completeGame(
   payload: CompletedGameInput,
 ) {
   return persistGame(gameId, payload);
+}
+
+export async function extendGameDeck(
+  gameId: number,
+  excludeIds: number[],
+): Promise<Beers> {
+  const supabase = await createClient();
+
+  const newIds = await fetchRandomBeerIds(supabase, excludeIds);
+
+  if (newIds.length === 0) return [];
+
+  const gameRow = await supabase
+    .from("games")
+    .select("beerIds")
+    .eq("id", gameId)
+    .single();
+
+  if (gameRow.error) {
+    console.error("Game not found for deck extension", gameRow.error);
+    return [];
+  }
+
+  const updatedBeerIds = [...(gameRow.data.beerIds ?? []), ...newIds];
+
+  const update = await supabase
+    .from("games")
+    .update({ beerIds: updatedBeerIds })
+    .eq("id", gameId);
+
+  if (update.error) {
+    console.error("Game deck not extended", update.error);
+    return [];
+  }
+
+  return getBeersByIds(supabase, newIds);
 }
 
 export async function getCompletedGameSummary(

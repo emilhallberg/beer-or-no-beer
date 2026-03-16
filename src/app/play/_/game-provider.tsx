@@ -17,6 +17,7 @@ import { GAME_SCORE_EVENT } from "@/app/play/_/game-events";
 import { Beer, Beers } from "@/utils/beer";
 import {
   completeGame,
+  extendGameDeck,
   PersistedGameState,
   saveGameProgress,
 } from "@/utils/game";
@@ -65,6 +66,7 @@ type Game = State & {
 const GameContext = createContext<Game | undefined>(undefined);
 
 type Action =
+  | { type: "ADD_BEERS"; payload: Beers }
   | { type: "GUESS"; payload: boolean }
   | { type: "HINT"; payload: boolean }
   | { type: "INIT"; payload: State }
@@ -159,6 +161,8 @@ const reducer = (state: State, action: Action): State => {
 
       return nextState;
     }
+    case "ADD_BEERS":
+      return { ...state, beers: [...state.beers, ...action.payload] };
     case "HINT":
       return { ...state, showHint: action.payload };
     case "INIT":
@@ -204,6 +208,7 @@ export default function GameProvider({
   const { user } = useUser();
   const summaryPath = `/play/${gameId}/summary` as Route;
   const lastPersistedResultCountRef = useRef(initialGameState.result.length);
+  const isFetchingMoreBeersRef = useRef(false);
 
   const [state, dispatch] = useReducer(
     reducer,
@@ -315,6 +320,25 @@ export default function GameProvider({
       }),
     );
   }, [state.score]);
+
+  useEffect(() => {
+    if (state.gameOver || isFetchingMoreBeersRef.current) return;
+
+    const currentIndex = state.beers.indexOf(state.beer);
+    const remaining = state.beers.length - 1 - currentIndex;
+
+    if (remaining > 5) return;
+
+    isFetchingMoreBeersRef.current = true;
+    const excludeIds = state.beers.map((b) => b.id);
+
+    void extendGameDeck(Number(gameId), excludeIds).then((newBeers) => {
+      isFetchingMoreBeersRef.current = false;
+      if (newBeers.length > 0) {
+        dispatch({ type: "ADD_BEERS", payload: newBeers });
+      }
+    });
+  }, [state.beer, state.beers, state.gameOver, gameId]);
 
   useEffect(() => {
     if (state.gameOver) return;
