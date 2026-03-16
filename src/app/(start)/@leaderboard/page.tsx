@@ -18,7 +18,7 @@ export default async function LeaderboardSlot() {
         <span>Placering</span>
         <span className="text-right">Poäng</span>
         <span className="text-right">Träffsäkerhet</span>
-        <span className="text-right">Svit</span>
+        <span className="text-right">Streak</span>
       </div>
       <ol className="grid gap-2">
         {leaderboard.map(

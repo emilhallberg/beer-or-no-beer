@@ -15,7 +15,7 @@ export default function NoBeerButton() {
           onBeer(false);
         }}
       >
-        Inte öl
+        No Beer
       </button>
     </Activity>
   );

@@ -210,17 +210,10 @@ async function fetchRandomBeerIds(
   excludeIds: number[] = [],
 ): Promise<number[]> {
   const half = DEFAULT_DECK_SIZE / 2;
-  const exclusion =
-    excludeIds.length > 0 ? `(${excludeIds.join(",")})` : null;
+  const exclusion = excludeIds.length > 0 ? `(${excludeIds.join(",")})` : null;
 
-  let realQuery = supabase
-    .from("random_beers")
-    .select("id")
-    .eq("real", true);
-  let fakeQuery = supabase
-    .from("random_beers")
-    .select("id")
-    .eq("real", false);
+  let realQuery = supabase.from("random_beers").select("id").eq("real", true);
+  let fakeQuery = supabase.from("random_beers").select("id").eq("real", false);
 
   if (exclusion) {
     realQuery = realQuery.not("id", "in", exclusion);
