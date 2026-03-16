@@ -45,21 +45,21 @@ function StatCard({
   value: string;
 }) {
   return (
-    <article className="rounded-[1.75rem] border border-amber-300/15 bg-amber-50/8 p-4 text-left text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur">
+    <article className="rounded-3xl border border-amber-700/60 bg-amber-950/80 p-5 text-left text-amber-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-amber-200/70">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
             {label}
           </p>
-          <p className="mt-3 text-2xl font-black tracking-tight text-amber-100">
+          <p className="mt-3 text-2xl font-black tracking-tight text-amber-200">
             {value}
           </p>
         </div>
-        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-300/15 bg-black/15 text-amber-200">
+        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-700/60 bg-black/15 text-amber-300">
           <Icon className="size-5" strokeWidth={2.1} />
         </div>
       </div>
-      <p className="mt-3 text-sm leading-6 text-amber-50/72">{detail}</p>
+      <p className="mt-3 text-sm leading-6 text-amber-50/75">{detail}</p>
     </article>
   );
 }
@@ -92,22 +92,22 @@ export default function SummaryScreen({
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-[1.75rem] border border-amber-300/20 bg-black/20 px-5 py-4">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-amber-200/70">
+              <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 px-5 py-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
                   Slutpoäng
                 </p>
-                <p className="mt-3 text-4xl font-black text-amber-100">
+                <p className="mt-3 text-4xl font-black text-amber-200">
                   {score}
                 </p>
               </div>
-              <div className="rounded-[1.75rem] border border-amber-300/20 bg-black/20 px-5 py-4">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-amber-200/70">
+              <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 px-5 py-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
                   Total rank
                 </p>
-                <p className="mt-3 text-4xl font-black text-amber-100">
+                <p className="mt-3 text-4xl font-black text-amber-200">
                   {overallRank ? `#${overallRank}` : "Gästläge"}
                 </p>
-                <p className="mt-2 text-sm text-amber-50/72">
+                <p className="mt-2 text-sm text-amber-50/75">
                   {overallRank
                     ? `Av ${totalRankedPlayers} rankade spelare.`
                     : "Logga in för att hamna på topplistan."}
@@ -123,7 +123,7 @@ export default function SummaryScreen({
           </div>
 
           <SignedOut>
-            <div className="mt-4 rounded-[1.5rem] border border-amber-300/15 bg-black/20 p-4">
+            <div className="mt-4 rounded-3xl border border-amber-700/60 bg-amber-950/80 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
               <p className="text-sm text-amber-50/78">
                 Logga in för att spara rundan, synas i rankingen och bygga upp
                 din statistik.
@@ -164,13 +164,13 @@ export default function SummaryScreen({
 
         <section className="grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)]">
           <div className="grid gap-4">
-            <div className="rounded-[1.75rem] border border-emerald-300/15 bg-emerald-500/10 p-5 text-emerald-50">
+            <div className="rounded-3xl border border-emerald-700/60 bg-emerald-950/80 p-5 text-emerald-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
               <div className="flex items-center gap-3">
-                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-emerald-300/15 bg-black/10">
+                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-emerald-700/60 bg-black/10">
                   <ShieldCheck className="size-5" strokeWidth={2.1} />
                 </div>
                 <div>
-                  <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-emerald-100/70">
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-300/80">
                     Rätt gissningar
                   </p>
                   <p className="text-3xl font-black">{stats.correctGuesses}</p>
@@ -181,13 +181,13 @@ export default function SummaryScreen({
               </p>
             </div>
 
-            <div className="rounded-[1.75rem] border border-rose-300/15 bg-rose-500/10 p-5 text-rose-50">
+            <div className="rounded-3xl border border-rose-700/60 bg-rose-950/80 p-5 text-rose-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
               <div className="flex items-center gap-3">
-                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-rose-300/15 bg-black/10">
+                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-rose-700/60 bg-black/10">
                   <CircleX className="size-5" strokeWidth={2.1} />
                 </div>
                 <div>
-                  <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-rose-100/70">
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-rose-300/80">
                     Missar
                   </p>
                   <p className="text-3xl font-black">
@@ -201,13 +201,13 @@ export default function SummaryScreen({
               </p>
             </div>
 
-            <div className="rounded-[1.75rem] border border-amber-300/15 bg-amber-50/8 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-              <div className="flex items-center gap-3 text-amber-100">
-                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-300/15 bg-black/15">
+            <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 p-5 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+              <div className="flex items-center gap-3 text-amber-200">
+                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-700/60 bg-black/15">
                   <Crown className="size-5" strokeWidth={2.1} />
                 </div>
                 <div>
-                  <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-amber-200/70">
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
                     Global placering
                   </p>
                   <p className="text-3xl font-black">
@@ -215,7 +215,7 @@ export default function SummaryScreen({
                   </p>
                 </div>
               </div>
-              <p className="mt-3 text-sm leading-6 text-amber-50/76">
+              <p className="mt-3 text-sm leading-6 text-amber-50/75">
                 {overallRank
                   ? `Din bästa sparade runda placerar dig på plats ${overallRank} av ${totalRankedPlayers}.`
                   : "Gästrundor rankas inte globalt, men poäng och matchstatistik visas ändå här."}
@@ -223,17 +223,17 @@ export default function SummaryScreen({
             </div>
           </div>
 
-          <div className="rounded-[1.75rem] border border-amber-300/15 bg-amber-50/8 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur sm:p-5">
-            <div className="mb-4 flex items-end justify-between gap-3 border-b border-amber-200/10 pb-3">
+          <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur sm:p-5">
+            <div className="mb-4 flex items-end justify-between gap-3 border-b border-amber-700/30 pb-3">
               <div>
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-amber-200/70">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
                   Gissning för gissning
                 </p>
-                <h2 className="mt-2 text-2xl font-black tracking-tight text-amber-100">
+                <h2 className="mt-2 text-2xl font-black tracking-tight text-amber-200">
                   Så gick rundan
                 </h2>
               </div>
-              <div className="flex items-center gap-2 rounded-full border border-amber-300/15 bg-black/15 px-3 py-1.5 text-sm text-amber-100">
+              <div className="flex items-center gap-2 rounded-full border border-amber-700/60 bg-black/15 px-3 py-1.5 text-sm text-amber-200">
                 <Trophy className="size-4 text-amber-300" strokeWidth={2.1} />
                 {score} poäng
               </div>
