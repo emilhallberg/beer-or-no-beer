@@ -206,6 +206,47 @@ export type Database = {
         };
         Relationships: [];
       };
+      promo_clicks: {
+        Row: {
+          actorId: string | null;
+          createdAt: string;
+          gameId: number | null;
+          href: string;
+          id: number;
+          kind: string;
+          placement: string;
+          promoId: string;
+        };
+        Insert: {
+          actorId?: string | null;
+          createdAt?: string;
+          gameId?: number | null;
+          href: string;
+          id?: number;
+          kind: string;
+          placement: string;
+          promoId: string;
+        };
+        Update: {
+          actorId?: string | null;
+          createdAt?: string;
+          gameId?: number | null;
+          href?: string;
+          id?: number;
+          kind?: string;
+          placement?: string;
+          promoId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "promo_clicks_gameId_fkey";
+            columns: ["gameId"];
+            isOneToOne: false;
+            referencedRelation: "games";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       random_beers: {

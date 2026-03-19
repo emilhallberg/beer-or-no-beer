@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import PromoCard from "@/ui/promo-card";
 import { createGame } from "@/utils/game";
+import { getActivePromoForPlacement } from "@/utils/promos";
 
 type SearchParams = {
   from?: string;
@@ -81,6 +83,7 @@ export default async function ChallengePage({ searchParams }: Props) {
   const { from, score } = await searchParams;
   const normalizedScore = normalizeScore(score);
   const copy = buildChallengeCopy(from, score);
+  const promo = getActivePromoForPlacement("challenge");
 
   if (!normalizedScore && !score) redirect("/");
 
@@ -137,7 +140,7 @@ export default async function ChallengePage({ searchParams }: Props) {
                 Uppdrag
               </p>
               <p className="mt-2 text-3xl font-black text-amber-100">
-                Real or fake
+                Beer or No Beer
               </p>
             </div>
           </div>
@@ -154,6 +157,8 @@ export default async function ChallengePage({ searchParams }: Props) {
             </button>
           </form>
         </section>
+
+        {promo ? <PromoCard promo={promo} /> : null}
       </div>
     </div>
   );

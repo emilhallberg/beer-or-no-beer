@@ -17,9 +17,14 @@ import ChallengeButton from "@/app/play/_/challenge-button";
 import HomeButton from "@/app/play/_/home-button";
 import PlayAgainButton from "@/app/play/_/play-again-button";
 import SignInButton from "@/app/play/_/sign-in-button";
+import PromoCard from "@/ui/promo-card";
 import type { CompletedGameSummary } from "@/utils/game";
+import type { PromoConfig } from "@/utils/promos";
 
-type Props = CompletedGameSummary;
+type Props = CompletedGameSummary & {
+  gameId: number;
+  promo: PromoConfig | null;
+};
 
 function formatAccuracy(value: number) {
   return `${Math.round(value * 100)}%`;
@@ -65,8 +70,10 @@ function StatCard({
 }
 
 export default function SummaryScreen({
+  gameId,
   newHighScore,
   overallRank,
+  promo,
   result,
   score,
   stats,
@@ -139,6 +146,12 @@ export default function SummaryScreen({
               </div>
             </div>
           </SignedOut>
+
+          {promo ? (
+            <div className="mt-4">
+              <PromoCard gameId={gameId} promo={promo} />
+            </div>
+          ) : null}
         </section>
 
         <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
