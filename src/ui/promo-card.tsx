@@ -8,11 +8,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { trackPromoClick } from "@/utils/promo-tracking";
-import type { PromoConfig } from "@/utils/promos";
+import type { Promo } from "@/utils/promo-types";
 
 type Props = {
   gameId?: number;
-  promo: PromoConfig;
+  promo: Promo;
 };
 
 function isExternalHref(href: string) {

@@ -11,7 +11,7 @@ type Props = {
 export default async function PlaySummaryPage({ params }: Props) {
   const { gameId } = await params;
   const summary = await getCompletedGameSummary(Number(gameId));
-  const promo = getActivePromoForPlacement("summary");
+  const promo = await getActivePromoForPlacement("summary");
 
   if (!summary) notFound();
 

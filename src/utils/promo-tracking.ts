@@ -1,7 +1,7 @@
 "use server";
 
 import { getActorId } from "@/utils/actor";
-import type { PromoKind, PromoPlacement } from "@/utils/promos";
+import type { PromoKind, PromoPlacement } from "@/utils/promo-types";
 import { createClient } from "@/utils/supabase/server";
 
 type TrackPromoClickInput = {

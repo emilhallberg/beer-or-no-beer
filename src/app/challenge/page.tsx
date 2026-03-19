@@ -83,7 +83,7 @@ export default async function ChallengePage({ searchParams }: Props) {
   const { from, score } = await searchParams;
   const normalizedScore = normalizeScore(score);
   const copy = buildChallengeCopy(from, score);
-  const promo = getActivePromoForPlacement("challenge");
+  const promo = await getActivePromoForPlacement("challenge");
 
   if (!normalizedScore && !score) redirect("/");
 

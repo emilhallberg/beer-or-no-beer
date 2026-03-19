@@ -1,7 +1,46 @@
+truncate table public.promo_clicks restart identity cascade;
+truncate table public.promos restart identity cascade;
 truncate table public.game_guesses restart identity cascade;
 truncate table public.games restart identity cascade;
 truncate table public.profiles restart identity cascade;
 truncate table public.beers restart identity cascade;
+
+insert into public.promos (
+  "id",
+  "title",
+  "body",
+  "ctaLabel",
+  "href",
+  "kind",
+  "placement",
+  "label",
+  "sortOrder",
+  "isActive"
+) values
+  (
+    'challenge-leaderboard',
+    'Topplistan väntar',
+    'Skapa en profil och se hur långt dina ölkunskaper kan ta dig när poängen faktiskt räknas.',
+    'Se startsidan',
+    '/',
+    'internal',
+    'challenge',
+    'Utvalt',
+    0,
+    true
+  ),
+  (
+    'summary-stats',
+    'Djupdyk i din ölstatistik',
+    'Öppna statistikläget och se vilka bryggerier, stilar och rundor som definierar ditt spel.',
+    'Öppna statistik',
+    '/stats',
+    'internal',
+    'summary',
+    'Fortsätt',
+    0,
+    true
+  );
 
 -- Beers (4993 entries)
 insert into public.beers ("name", "description", "real", "createdAt", "brewery", "abv", "type", "meta") values

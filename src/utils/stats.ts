@@ -28,8 +28,10 @@ type BeerRecognitionStat = {
   brewery: string;
   correctGuesses: number;
   incorrectGuesses: number;
+  real: boolean;
   name: string;
   totalGuesses: number;
+  type: string;
 };
 
 type BeerRecognitionPair = {
@@ -48,6 +50,27 @@ type LoyalBreweryStat = {
   name: string;
   realGuesses: number;
   totalGuesses: number;
+};
+
+export type RankedBeerInsight = BeerRecognitionStat & {
+  rank: number;
+};
+
+export type BreweryInsight = {
+  accuracy: number;
+  beerCount: number;
+  name: string;
+  topBeer: string | null;
+  totalGuesses: number;
+  weakestBeer: string | null;
+};
+
+export type AdminBeerInsights = {
+  breweries: BreweryInsight[];
+  fakeMostConvincing: RankedBeerInsight[];
+  fakeMostTransparent: RankedBeerInsight[];
+  realMostKnown: RankedBeerInsight[];
+  realMostMissed: RankedBeerInsight[];
 };
 
 export type BeerStatsPageData = {
@@ -118,6 +141,8 @@ function buildRecognitionStats(guesses: GuessRow[], beers: BeerRow[]) {
       {
         name: beer.name,
         brewery: beer.brewery,
+        type: beer.type,
+        real: beer.real,
         totalGuesses: aggregate.totalGuesses,
         correctGuesses: aggregate.correctGuesses,
         incorrectGuesses,
@@ -235,6 +260,82 @@ function buildMostLoyalBreweryStat(guesses: GuessRow[], beers: BeerRow[]) {
   };
 }
 
+function buildRankedBeerInsights(
+  stats: BeerRecognitionStat[],
+  compare: (a: BeerRecognitionStat, b: BeerRecognitionStat) => number,
+  limit = 100,
+): RankedBeerInsight[] {
+  return [...stats]
+    .sort(compare)
+    .slice(0, limit)
+    .map((stat, index) => ({
+      ...stat,
+      rank: index + 1,
+    }));
+}
+
+function buildBreweryInsights(stats: BeerRecognitionStat[], limit = 100) {
+  const byBrewery = new Map<
+    string,
+    {
+      beerCount: number;
+      topBeer: BeerRecognitionStat | null;
+      totalCorrectGuesses: number;
+      totalGuesses: number;
+      weakestBeer: BeerRecognitionStat | null;
+    }
+  >();
+
+  for (const stat of stats) {
+    const current = byBrewery.get(stat.brewery) ?? {
+      beerCount: 0,
+      topBeer: null,
+      totalCorrectGuesses: 0,
+      totalGuesses: 0,
+      weakestBeer: null,
+    };
+
+    current.beerCount += 1;
+    current.totalCorrectGuesses += stat.correctGuesses;
+    current.totalGuesses += stat.totalGuesses;
+
+    if (!current.topBeer || compareMostKnown(stat, current.topBeer) < 0) {
+      current.topBeer = stat;
+    }
+
+    if (
+      !current.weakestBeer ||
+      compareMostUnknown(stat, current.weakestBeer) < 0
+    ) {
+      current.weakestBeer = stat;
+    }
+
+    byBrewery.set(stat.brewery, current);
+  }
+
+  return Array.from(byBrewery.entries())
+    .map(([name, aggregate]) => ({
+      name,
+      beerCount: aggregate.beerCount,
+      totalGuesses: aggregate.totalGuesses,
+      accuracy:
+        aggregate.totalGuesses === 0
+          ? 0
+          : aggregate.totalCorrectGuesses / aggregate.totalGuesses,
+      topBeer: aggregate.topBeer?.name ?? null,
+      weakestBeer: aggregate.weakestBeer?.name ?? null,
+    }))
+    .sort((a, b) => {
+      if (b.totalGuesses !== a.totalGuesses) {
+        return b.totalGuesses - a.totalGuesses;
+      }
+
+      if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
+      return a.name.localeCompare(b.name);
+    })
+    .slice(0, limit);
+}
+
 function emptyStats(
   totalCompletedGames = 0,
   totalGuesses = 0,
@@ -328,5 +429,108 @@ export async function getBeerStatsPageData(): Promise<BeerStatsPageData> {
       totalCompletedGames: games.length,
       totalGuesses: guesses.length,
     },
+  };
+}
+
+export async function getAdminBeerInsights(): Promise<AdminBeerInsights> {
+  const stats = await getBeerStatsPageData();
+  const [supabase] = await Promise.all([createClient()]);
+  const completedGames = await supabase
+    .from("games")
+    .select("id")
+    .not("endedAt", "is", null);
+
+  if (completedGames.error) {
+    console.error(
+      "Completed games not fetched for admin insights",
+      completedGames.error,
+    );
+    return {
+      realMostKnown: [],
+      realMostMissed: [],
+      fakeMostConvincing: [],
+      fakeMostTransparent: [],
+      breweries: [],
+    };
+  }
+
+  const gameIds = completedGames.data.map((game) => game.id);
+
+  if (gameIds.length === 0) {
+    return {
+      realMostKnown: [],
+      realMostMissed: [],
+      fakeMostConvincing: [],
+      fakeMostTransparent: [],
+      breweries: [],
+    };
+  }
+
+  const guessesResult = await supabase
+    .from("game_guesses")
+    .select("beerId, gameId, isCorrect")
+    .in("gameId", gameIds);
+
+  if (guessesResult.error) {
+    console.error(
+      "Game guesses not fetched for admin insights",
+      guessesResult.error,
+    );
+    return {
+      realMostKnown: [],
+      realMostMissed: [],
+      fakeMostConvincing: [],
+      fakeMostTransparent: [],
+      breweries: [],
+    };
+  }
+
+  const guesses = guessesResult.data as GuessRow[];
+  const beerIds = Array.from(new Set(guesses.map((guess) => guess.beerId)));
+  const beersResult =
+    beerIds.length === 0
+      ? { data: [], error: null }
+      : await supabase
+          .from("beers")
+          .select("id, name, brewery, abv, real, type")
+          .in("id", beerIds);
+
+  if (beersResult.error) {
+    console.error(
+      "Beer metadata not fetched for admin insights",
+      beersResult.error,
+    );
+    return {
+      realMostKnown: [],
+      realMostMissed: [],
+      fakeMostConvincing: [],
+      fakeMostTransparent: [],
+      breweries: [],
+    };
+  }
+
+  const beers = (beersResult.data ?? []) as BeerRow[];
+  const realBeers = beers.filter((beer) => beer.real);
+  const fakeBeers = beers.filter((beer) => !beer.real);
+  const realBeerIds = new Set(realBeers.map((beer) => beer.id));
+  const fakeBeerIds = new Set(fakeBeers.map((beer) => beer.id));
+  const realStats = buildRecognitionStats(
+    guesses.filter((guess) => realBeerIds.has(guess.beerId)),
+    realBeers,
+  );
+  const fakeStats = buildRecognitionStats(
+    guesses.filter((guess) => fakeBeerIds.has(guess.beerId)),
+    fakeBeers,
+  );
+  const allStats = [...realStats, ...fakeStats];
+
+  void stats;
+
+  return {
+    realMostKnown: buildRankedBeerInsights(realStats, compareMostKnown),
+    realMostMissed: buildRankedBeerInsights(realStats, compareMostUnknown),
+    fakeMostConvincing: buildRankedBeerInsights(fakeStats, compareMostUnknown),
+    fakeMostTransparent: buildRankedBeerInsights(fakeStats, compareMostKnown),
+    breweries: buildBreweryInsights(allStats),
   };
 }

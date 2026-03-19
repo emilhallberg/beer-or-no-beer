@@ -206,6 +206,63 @@ export type Database = {
         };
         Relationships: [];
       };
+      promos: {
+        Row: {
+          activeFrom: string | null;
+          activeTo: string | null;
+          body: string;
+          createdAt: string;
+          ctaLabel: string;
+          disclaimer: string | null;
+          href: string;
+          id: string;
+          imageSrc: string | null;
+          isActive: boolean;
+          kind: string;
+          label: string | null;
+          placement: string;
+          sortOrder: number;
+          title: string;
+          updatedAt: string;
+        };
+        Insert: {
+          activeFrom?: string | null;
+          activeTo?: string | null;
+          body: string;
+          createdAt?: string;
+          ctaLabel: string;
+          disclaimer?: string | null;
+          href: string;
+          id: string;
+          imageSrc?: string | null;
+          isActive?: boolean;
+          kind: string;
+          label?: string | null;
+          placement: string;
+          sortOrder?: number;
+          title: string;
+          updatedAt?: string;
+        };
+        Update: {
+          activeFrom?: string | null;
+          activeTo?: string | null;
+          body?: string;
+          createdAt?: string;
+          ctaLabel?: string;
+          disclaimer?: string | null;
+          href?: string;
+          id?: string;
+          imageSrc?: string | null;
+          isActive?: boolean;
+          kind?: string;
+          label?: string | null;
+          placement?: string;
+          sortOrder?: number;
+          title?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       promo_clicks: {
         Row: {
           actorId: string | null;

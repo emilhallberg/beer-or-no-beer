@@ -6,10 +6,6 @@ function formatAbv(value: number) {
   return `${value.toFixed(1)}% ABV`;
 }
 
-function formatAccuracy(value: number) {
-  return `${Math.round(value * 100)}%`;
-}
-
 function StatCard({
   eyebrow,
   title,
@@ -22,7 +18,7 @@ function StatCard({
   value: string;
 }) {
   return (
-    <article className="rounded-3xl border border-amber-700/60 bg-amber-950/80 p-5 text-amber-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+    <article className="rounded-3xl border border-amber-700/60 bg-[#1b0f08]/82 p-5 text-amber-50 shadow-[0_18px_48px_rgba(0,0,0,0.18)] backdrop-blur">
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
         {eyebrow}
       </p>
@@ -32,7 +28,7 @@ function StatCard({
       <p className="mt-6 text-3xl font-black text-amber-200 sm:text-4xl">
         {value}
       </p>
-      <p className="mt-3 max-w-[28ch] text-sm leading-6 text-amber-50/75">
+      <p className="mt-3 max-w-[28ch] text-sm leading-6 text-amber-50/82">
         {detail}
       </p>
     </article>
@@ -47,13 +43,11 @@ export default async function StatsPage() {
   const stats = await getBeerStatsPageData();
   const loyalBrewery = stats.user.mostLoyalBrewery;
   const averageAbv = stats.user.averageAbv;
-  const realStats = stats.overall.real;
-  const fakeStats = stats.overall.fake;
 
   return (
     <div className="min-h-screen px-4 py-6 sm:px-6 sm:py-8">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
-        <div className="flex flex-col gap-4 rounded-3xl border border-amber-700/70 bg-black/20 p-5 text-amber-50 shadow-[0_20px_80px_rgba(0,0,0,0.24)] backdrop-blur sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-4 rounded-3xl border border-amber-700/70 bg-[#1a0f08]/80 p-5 text-amber-50 shadow-[0_20px_80px_rgba(0,0,0,0.24)] backdrop-blur sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-300/80">
               Beer or No Beer
@@ -62,14 +56,13 @@ export default async function StatsPage() {
               Ölstatistik att skryta om
             </h1>
             <p className="mt-4 max-w-xl text-sm leading-6 text-amber-50/80 sm:text-base">
-              Din profil visar nu vilket bryggeri du är mest lojal mot och din
-              genomsnittliga alkoholhalt, och topplistan är uppdelad så att
-              riktiga och fejkade öl får varsin kategori.
+              Här ser du bara din egen profil: vilka bryggerier som följer med
+              dig genom rundorna och vilken alkoholhalt som präglar ditt spel.
             </p>
           </div>
           <Link
             href="/"
-            className="grid h-12 place-items-center rounded border-b-4 border-amber-700 bg-amber-950 px-4 font-bold text-white uppercase transition-colors hover:border-amber-500 hover:bg-amber-400"
+            className="inline-flex min-h-15 items-center justify-center rounded-2xl border border-amber-800/70 bg-black/14 px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.06em] text-amber-100/92 transition-colors hover:border-amber-700/80 hover:bg-black/24 hover:text-amber-50"
           >
             Till startsidan
           </Link>
@@ -98,72 +91,15 @@ export default async function StatsPage() {
           />
         </section>
 
-        <section className="grid gap-4 xl:grid-cols-2">
-          <StatCard
-            eyebrow="Totalt • Riktig öl"
-            title="Mest igenkända öl"
-            value={realStats.mostKnownBeer?.name ?? "Inga gissningar än"}
-            detail={
-              realStats.mostKnownBeer
-                ? `${realStats.mostKnownBeer.brewery}. Spelare gissar rätt ${formatAccuracy(realStats.mostKnownBeer.accuracy)} av gångerna över ${realStats.mostKnownBeer.totalGuesses} gissningar.`
-                : "Spela några rundor så vaknar det här kortet till liv."
-            }
-          />
-          <StatCard
-            eyebrow="Totalt • Riktig öl"
-            title="Minst igenkända öl"
-            value={realStats.mostUnknownBeer?.name ?? "Inga gissningar än"}
-            detail={
-              realStats.mostUnknownBeer
-                ? `${realStats.mostUnknownBeer.brewery}. Spelare missar den ${formatAccuracy(1 - realStats.mostUnknownBeer.accuracy)} av gångerna över ${realStats.mostUnknownBeer.totalGuesses} gissningar.`
-                : "Spela några rundor så vaknar det här kortet till liv."
-            }
-          />
-          <StatCard
-            eyebrow="Totalt • Fejköl"
-            title="Mest igenkända öl"
-            value={fakeStats.mostKnownBeer?.name ?? "Inga gissningar än"}
-            detail={
-              fakeStats.mostKnownBeer
-                ? `${fakeStats.mostKnownBeer.brewery}. Spelare gissar rätt ${formatAccuracy(fakeStats.mostKnownBeer.accuracy)} av gångerna över ${fakeStats.mostKnownBeer.totalGuesses} gissningar.`
-                : "Spela några rundor så vaknar det här kortet till liv."
-            }
-          />
-          <StatCard
-            eyebrow="Totalt • Fejköl"
-            title="Minst igenkända öl"
-            value={fakeStats.mostUnknownBeer?.name ?? "Inga gissningar än"}
-            detail={
-              fakeStats.mostUnknownBeer
-                ? `${fakeStats.mostUnknownBeer.brewery}. Spelare missar den ${formatAccuracy(1 - fakeStats.mostUnknownBeer.accuracy)} av gångerna över ${fakeStats.mostUnknownBeer.totalGuesses} gissningar.`
-                : "Spela några rundor så vaknar det här kortet till liv."
-            }
-          />
-        </section>
-
-        <section className="grid gap-4 rounded-3xl border border-amber-700/60 bg-amber-950/70 p-5 text-amber-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur sm:grid-cols-2">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
-              Totalt
-            </p>
-            <p className="mt-3 text-3xl font-black text-amber-200">
-              {stats.overall.totalCompletedGames}
-            </p>
-            <p className="mt-2 text-sm text-amber-50/75">
-              avslutade spel ligger till grund för den här statistiken.
-            </p>
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
-              Underlag
-            </p>
-            <p className="mt-3 text-3xl font-black text-amber-200">
-              {stats.overall.totalGuesses}
-            </p>
-            <p className="mt-2 text-sm text-amber-50/75">
-              registrerade gissningar från alla avslutade rundor.
-            </p>
-          </div>
+        <section className="rounded-3xl border border-amber-700/60 bg-[#1b0f08]/80 p-5 text-amber-50 shadow-[0_18px_48px_rgba(0,0,0,0.18)] backdrop-blur">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
+            Din profil
+          </p>
+          <p className="mt-3 text-sm leading-6 text-amber-50/82 sm:text-base">
+            Vill du använda globala insikter i bryggeri- eller sponsorsamtal? I
+            promo-admin ligger de nu tillsammans med klickdata och aktiva
+            erbjudanden.
+          </p>
         </section>
       </div>
     </div>
