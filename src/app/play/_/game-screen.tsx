@@ -10,8 +10,8 @@ import NoBeerButton from "@/app/play/_/no-beer-button";
 export default function GameScreen() {
   return (
     <div className="h-svh grid grid-rows-[max-content_1fr_max-content]">
-      <div>
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 rounded-b-3xl border-b-4 border-amber-700 bg-[var(--background)] px-4 pt-4 pb-4 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-6">
+      <div className="relative z-20">
+        <header className="relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 rounded-b-3xl border-b-4 border-amber-700 bg-[var(--background)] px-4 pt-4 pb-4 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-6">
           <div className="justify-self-start">
             <BeerHearts />
           </div>
