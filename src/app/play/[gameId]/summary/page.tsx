@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import SummaryScreen from "@/app/play/_/summary-screen";
 import { getCompletedGameSummary } from "@/utils/game";
+import { getActivePromoForPlacement } from "@/utils/promos";
 
 type Props = {
   params: Promise<{ gameId: string }>;
@@ -10,8 +11,9 @@ type Props = {
 export default async function PlaySummaryPage({ params }: Props) {
   const { gameId } = await params;
   const summary = await getCompletedGameSummary(Number(gameId));
+  const promo = await getActivePromoForPlacement("summary");
 
   if (!summary) notFound();
 
-  return <SummaryScreen {...summary} />;
+  return <SummaryScreen {...summary} gameId={Number(gameId)} promo={promo} />;
 }

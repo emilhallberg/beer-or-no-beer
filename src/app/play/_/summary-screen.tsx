@@ -17,9 +17,14 @@ import ChallengeButton from "@/app/play/_/challenge-button";
 import HomeButton from "@/app/play/_/home-button";
 import PlayAgainButton from "@/app/play/_/play-again-button";
 import SignInButton from "@/app/play/_/sign-in-button";
+import PromoCard from "@/ui/promo-card";
 import type { CompletedGameSummary } from "@/utils/game";
+import type { Promo } from "@/utils/promo-types";
 
-type Props = CompletedGameSummary;
+type Props = CompletedGameSummary & {
+  gameId: number;
+  promo: Promo | null;
+};
 
 function formatAccuracy(value: number) {
   return `${Math.round(value * 100)}%`;
@@ -45,7 +50,7 @@ function StatCard({
   value: string;
 }) {
   return (
-    <article className="rounded-3xl border border-amber-800/70 bg-black/18 p-5 text-left text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+    <article className="rounded-3xl border border-amber-800/70 bg-[#1b0f08]/82 p-5 text-left text-amber-50 shadow-[0_18px_42px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-400/70">
@@ -55,18 +60,20 @@ function StatCard({
             {value}
           </p>
         </div>
-        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-800/70 bg-black/15 text-amber-300/85">
+        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-800/70 bg-black/30 text-amber-300/90">
           <Icon className="size-5" strokeWidth={2.1} />
         </div>
       </div>
-      <p className="mt-3 text-sm leading-6 text-amber-50/72">{detail}</p>
+      <p className="mt-3 text-sm leading-6 text-amber-50/82">{detail}</p>
     </article>
   );
 }
 
 export default function SummaryScreen({
+  gameId,
   newHighScore,
   overallRank,
+  promo,
   result,
   score,
   stats,
@@ -92,7 +99,7 @@ export default function SummaryScreen({
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-[1.75rem] border border-amber-800/70 bg-black/18 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+              <div className="rounded-[1.75rem] border border-amber-800/70 bg-[#1b0f08]/82 px-5 py-4 shadow-[0_16px_38px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-400/70">
                   Slutpoäng
                 </p>
@@ -100,14 +107,14 @@ export default function SummaryScreen({
                   {score}
                 </p>
               </div>
-              <div className="rounded-[1.75rem] border border-amber-800/70 bg-black/18 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+              <div className="rounded-[1.75rem] border border-amber-800/70 bg-[#1b0f08]/82 px-5 py-4 shadow-[0_16px_38px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-400/70">
                   Total rank
                 </p>
                 <p className="mt-3 text-4xl font-black text-amber-100">
                   {overallRank ? `#${overallRank}` : "Gästläge"}
                 </p>
-                <p className="mt-2 text-sm text-amber-50/72">
+                <p className="mt-2 text-sm text-amber-50/82">
                   {overallRank
                     ? `Av ${totalRankedPlayers} rankade spelare.`
                     : "Logga in för att hamna på topplistan."}
@@ -129,8 +136,8 @@ export default function SummaryScreen({
           </div>
 
           <SignedOut>
-            <div className="mt-4 rounded-3xl border border-amber-800/70 bg-black/18 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
-              <p className="text-sm text-amber-50/74">
+            <div className="mt-4 rounded-3xl border border-amber-800/70 bg-[#1b0f08]/82 p-4 shadow-[0_16px_38px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+              <p className="text-sm text-amber-50/82">
                 Logga in för att spara rundan, synas i rankingen och bygga upp
                 din statistik.
               </p>
@@ -139,6 +146,12 @@ export default function SummaryScreen({
               </div>
             </div>
           </SignedOut>
+
+          {promo ? (
+            <div className="mt-4">
+              <PromoCard gameId={gameId} promo={promo} />
+            </div>
+          ) : null}
         </section>
 
         <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
@@ -170,7 +183,7 @@ export default function SummaryScreen({
 
         <section className="grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)]">
           <div className="grid gap-4">
-            <div className="rounded-3xl border border-emerald-800/65 bg-emerald-950/55 p-5 text-emerald-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+            <div className="rounded-3xl border border-emerald-800/65 bg-[rgba(8,37,27,0.82)] p-5 text-emerald-50 shadow-[0_18px_42px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
               <div className="flex items-center gap-3">
                 <div className="grid h-11 w-11 place-items-center rounded-2xl border border-emerald-700/60 bg-black/10">
                   <ShieldCheck className="size-5" strokeWidth={2.1} />
@@ -182,12 +195,12 @@ export default function SummaryScreen({
                   <p className="text-3xl font-black">{stats.correctGuesses}</p>
                 </div>
               </div>
-              <p className="mt-3 text-sm leading-6 text-emerald-50/78">
+              <p className="mt-3 text-sm leading-6 text-emerald-50/84">
                 Varje rad visar exakt hur många poäng rätt svar gav i rundan.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-rose-800/65 bg-rose-950/55 p-5 text-rose-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+            <div className="rounded-3xl border border-rose-800/65 bg-[rgba(70,16,22,0.82)] p-5 text-rose-50 shadow-[0_18px_42px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
               <div className="flex items-center gap-3">
                 <div className="grid h-11 w-11 place-items-center rounded-2xl border border-rose-700/60 bg-black/10">
                   <CircleX className="size-5" strokeWidth={2.1} />
@@ -201,13 +214,13 @@ export default function SummaryScreen({
                   </p>
                 </div>
               </div>
-              <p className="mt-3 text-sm leading-6 text-rose-50/78">
+              <p className="mt-3 text-sm leading-6 text-rose-50/84">
                 Missar kostar liv, men nu syns också exakt vilken öl som fällde
                 dig och vad rätt svar var.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-amber-800/70 bg-black/18 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+            <div className="rounded-3xl border border-amber-800/70 bg-[#1b0f08]/82 p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
               <div className="flex items-center gap-3 text-amber-200">
                 <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-700/60 bg-black/15">
                   <Crown className="size-5" strokeWidth={2.1} />
@@ -221,7 +234,7 @@ export default function SummaryScreen({
                   </p>
                 </div>
               </div>
-              <p className="mt-3 text-sm leading-6 text-amber-50/75">
+              <p className="mt-3 text-sm leading-6 text-amber-50/82">
                 {overallRank
                   ? `Din bästa sparade runda placerar dig på plats ${overallRank} av ${totalRankedPlayers}.`
                   : "Gästrundor rankas inte globalt, men poäng och matchstatistik visas ändå här."}
@@ -229,7 +242,7 @@ export default function SummaryScreen({
             </div>
           </div>
 
-          <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur sm:p-5">
+          <div className="rounded-3xl border border-amber-700/60 bg-[#1b0f08]/84 p-4 shadow-[0_20px_52px_rgba(0,0,0,0.2)] backdrop-blur sm:p-5">
             <div className="mb-4 flex items-end justify-between gap-3 border-b border-amber-700/30 pb-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">

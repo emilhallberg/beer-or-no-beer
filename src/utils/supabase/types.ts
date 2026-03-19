@@ -206,6 +206,104 @@ export type Database = {
         };
         Relationships: [];
       };
+      promos: {
+        Row: {
+          activeFrom: string | null;
+          activeTo: string | null;
+          body: string;
+          createdAt: string;
+          ctaLabel: string;
+          disclaimer: string | null;
+          href: string;
+          id: string;
+          imageSrc: string | null;
+          isActive: boolean;
+          kind: string;
+          label: string | null;
+          placement: string;
+          sortOrder: number;
+          title: string;
+          updatedAt: string;
+        };
+        Insert: {
+          activeFrom?: string | null;
+          activeTo?: string | null;
+          body: string;
+          createdAt?: string;
+          ctaLabel: string;
+          disclaimer?: string | null;
+          href: string;
+          id: string;
+          imageSrc?: string | null;
+          isActive?: boolean;
+          kind: string;
+          label?: string | null;
+          placement: string;
+          sortOrder?: number;
+          title: string;
+          updatedAt?: string;
+        };
+        Update: {
+          activeFrom?: string | null;
+          activeTo?: string | null;
+          body?: string;
+          createdAt?: string;
+          ctaLabel?: string;
+          disclaimer?: string | null;
+          href?: string;
+          id?: string;
+          imageSrc?: string | null;
+          isActive?: boolean;
+          kind?: string;
+          label?: string | null;
+          placement?: string;
+          sortOrder?: number;
+          title?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
+      promo_clicks: {
+        Row: {
+          actorId: string | null;
+          createdAt: string;
+          gameId: number | null;
+          href: string;
+          id: number;
+          kind: string;
+          placement: string;
+          promoId: string;
+        };
+        Insert: {
+          actorId?: string | null;
+          createdAt?: string;
+          gameId?: number | null;
+          href: string;
+          id?: number;
+          kind: string;
+          placement: string;
+          promoId: string;
+        };
+        Update: {
+          actorId?: string | null;
+          createdAt?: string;
+          gameId?: number | null;
+          href?: string;
+          id?: number;
+          kind?: string;
+          placement?: string;
+          promoId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "promo_clicks_gameId_fkey";
+            columns: ["gameId"];
+            isOneToOne: false;
+            referencedRelation: "games";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       random_beers: {
