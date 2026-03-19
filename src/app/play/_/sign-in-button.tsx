@@ -9,7 +9,7 @@ export default function SignInButton() {
 
   return (
     <ClerkSignInButton fallbackRedirectUrl={pathname}>
-      <button className="h-15 w-full rounded border-b-4 border-amber-700 bg-amber-950 px-4 py-2 font-bold text-white uppercase hover:border-amber-500 hover:bg-amber-400 active:border-b-0">
+      <button className="inline-flex min-h-15 w-full items-center justify-center rounded-2xl border border-amber-600/75 bg-amber-950/45 px-4 py-3 text-center font-bold uppercase tracking-[0.06em] text-amber-100 transition-colors hover:border-amber-400 hover:bg-amber-900/65">
         Logga in
       </button>
     </ClerkSignInButton>

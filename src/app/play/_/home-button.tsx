@@ -3,9 +3,9 @@ import Link from "next/link";
 export default function HomeButton() {
   return (
     <Link href="/" className="w-full grid">
-      <button className="h-15 bg-amber-950 hover:bg-amber-400 text-white font-bold py-2 px-4 border-b-4 active:border-b-0 border-amber-700 hover:border-amber-500 rounded uppercase">
+      <span className="inline-flex min-h-15 w-full items-center justify-center rounded-2xl border border-amber-800/70 bg-black/14 px-4 py-3 text-center text-base font-bold uppercase tracking-[0.06em] text-amber-100/92 transition-colors hover:border-amber-700/80 hover:bg-black/24 hover:text-amber-50">
         Hem
-      </button>
+      </span>
     </Link>
   );
 }

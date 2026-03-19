@@ -1,3 +1,5 @@
+import { Flame, Medal, Target, Trophy } from "lucide-react";
+
 import Image from "next/image";
 
 import LeaderboardNumber from "@/app/(start)/@leaderboard/leaderboard-number";
@@ -14,11 +16,31 @@ export default async function LeaderboardSlot() {
           Endast bästa rundor
         </p>
       </div>
-      <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,0.7fr)_minmax(0,0.55fr)_minmax(0,0.55fr)] gap-3 px-3 pb-2 text-[0.65rem] uppercase tracking-[0.28em] text-amber-200/60">
-        <span>Placering</span>
-        <span className="text-right">Poäng</span>
-        <span className="text-right">Träffsäkerhet</span>
-        <span className="text-right">Streak</span>
+      <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,0.7fr)_minmax(0,0.55fr)_minmax(0,0.55fr)] gap-3 px-3 pb-2 text-[0.6rem] uppercase tracking-[0.18em] text-amber-200/60 sm:text-[0.65rem] sm:tracking-[0.28em]">
+        <span>
+          <span className="flex sm:hidden">
+            <Medal className="size-3.5" strokeWidth={2.1} />
+          </span>
+          <span className="hidden sm:inline">Placering</span>
+        </span>
+        <span className="text-right">
+          <span className="inline-flex sm:hidden">
+            <Trophy className="size-3.5" strokeWidth={2.1} />
+          </span>
+          <span className="hidden sm:inline">Poäng</span>
+        </span>
+        <span className="text-right">
+          <span className="inline-flex sm:hidden">
+            <Target className="size-3.5" strokeWidth={2.1} />
+          </span>
+          <span className="hidden sm:inline">Träffsäkerhet</span>
+        </span>
+        <span className="text-right">
+          <span className="inline-flex sm:hidden">
+            <Flame className="size-3.5" strokeWidth={2.1} />
+          </span>
+          <span className="hidden sm:inline">Streak</span>
+        </span>
       </div>
       <ol className="grid gap-2">
         {leaderboard.map(

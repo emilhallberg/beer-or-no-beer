@@ -45,21 +45,21 @@ function StatCard({
   value: string;
 }) {
   return (
-    <article className="rounded-3xl border border-amber-700/60 bg-amber-950/80 p-5 text-left text-amber-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+    <article className="rounded-3xl border border-amber-800/70 bg-black/18 p-5 text-left text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-400/70">
             {label}
           </p>
-          <p className="mt-3 text-2xl font-black tracking-tight text-amber-200">
+          <p className="mt-3 text-2xl font-black tracking-tight text-amber-100">
             {value}
           </p>
         </div>
-        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-700/60 bg-black/15 text-amber-300">
+        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-800/70 bg-black/15 text-amber-300/85">
           <Icon className="size-5" strokeWidth={2.1} />
         </div>
       </div>
-      <p className="mt-3 text-sm leading-6 text-amber-50/75">{detail}</p>
+      <p className="mt-3 text-sm leading-6 text-amber-50/72">{detail}</p>
     </article>
   );
 }
@@ -92,22 +92,22 @@ export default function SummaryScreen({
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 px-5 py-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
+              <div className="rounded-[1.75rem] border border-amber-800/70 bg-black/18 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-400/70">
                   Slutpoäng
                 </p>
-                <p className="mt-3 text-4xl font-black text-amber-200">
+                <p className="mt-3 text-4xl font-black text-amber-100">
                   {score}
                 </p>
               </div>
-              <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 px-5 py-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300/80">
+              <div className="rounded-[1.75rem] border border-amber-800/70 bg-black/18 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-400/70">
                   Total rank
                 </p>
-                <p className="mt-3 text-4xl font-black text-amber-200">
+                <p className="mt-3 text-4xl font-black text-amber-100">
                   {overallRank ? `#${overallRank}` : "Gästläge"}
                 </p>
-                <p className="mt-2 text-sm text-amber-50/75">
+                <p className="mt-2 text-sm text-amber-50/72">
                   {overallRank
                     ? `Av ${totalRankedPlayers} rankade spelare.`
                     : "Logga in för att hamna på topplistan."}
@@ -116,15 +116,21 @@ export default function SummaryScreen({
             </div>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="mt-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-300/70">
+              Nästa steg
+            </p>
+          </div>
+
+          <div className="mt-3 grid gap-3 sm:grid-cols-3">
             <PlayAgainButton />
             <ChallengeButton score={score} />
             <HomeButton />
           </div>
 
           <SignedOut>
-            <div className="mt-4 rounded-3xl border border-amber-700/60 bg-amber-950/80 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
-              <p className="text-sm text-amber-50/78">
+            <div className="mt-4 rounded-3xl border border-amber-800/70 bg-black/18 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
+              <p className="text-sm text-amber-50/74">
                 Logga in för att spara rundan, synas i rankingen och bygga upp
                 din statistik.
               </p>
@@ -164,7 +170,7 @@ export default function SummaryScreen({
 
         <section className="grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)]">
           <div className="grid gap-4">
-            <div className="rounded-3xl border border-emerald-700/60 bg-emerald-950/80 p-5 text-emerald-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+            <div className="rounded-3xl border border-emerald-800/65 bg-emerald-950/55 p-5 text-emerald-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
               <div className="flex items-center gap-3">
                 <div className="grid h-11 w-11 place-items-center rounded-2xl border border-emerald-700/60 bg-black/10">
                   <ShieldCheck className="size-5" strokeWidth={2.1} />
@@ -181,7 +187,7 @@ export default function SummaryScreen({
               </p>
             </div>
 
-            <div className="rounded-3xl border border-rose-700/60 bg-rose-950/80 p-5 text-rose-50 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+            <div className="rounded-3xl border border-rose-800/65 bg-rose-950/55 p-5 text-rose-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
               <div className="flex items-center gap-3">
                 <div className="grid h-11 w-11 place-items-center rounded-2xl border border-rose-700/60 bg-black/10">
                   <CircleX className="size-5" strokeWidth={2.1} />
@@ -201,7 +207,7 @@ export default function SummaryScreen({
               </p>
             </div>
 
-            <div className="rounded-3xl border border-amber-700/60 bg-amber-950/80 p-5 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+            <div className="rounded-3xl border border-amber-800/70 bg-black/18 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur">
               <div className="flex items-center gap-3 text-amber-200">
                 <div className="grid h-11 w-11 place-items-center rounded-2xl border border-amber-700/60 bg-black/15">
                   <Crown className="size-5" strokeWidth={2.1} />
