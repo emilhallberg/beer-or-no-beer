@@ -216,6 +216,8 @@ export default function GameProvider({
   );
 
   const onBeer: Game["onBeer"] = (guess) => {
+    if (state.gameOver) return;
+
     dispatch({ type: "GUESS", payload: guess });
   };
 
