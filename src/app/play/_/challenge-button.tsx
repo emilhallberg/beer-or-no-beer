@@ -2,50 +2,23 @@
 
 import { useUser } from "@clerk/nextjs";
 
-type Props = {
-  score: number;
-};
+import { useChallengeShare } from "@/hooks/use-challenge-share";
 
-export default function ChallengeButton({ score }: Props) {
+export default function ChallengeButton({ score }: { score: number }) {
   const { user } = useUser();
-
-  async function onShare() {
-    const query = new URLSearchParams({});
-
-    if (user?.fullName) {
-      query.set("from", user.fullName);
-    }
-
-    query.set("score", score.toString());
-
-    const relativeUrl = `/challenge?${query}`;
-    const shareUrl = new URL(relativeUrl, window.location.origin).toString();
-
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: "Beer or No Beer?",
-          url: shareUrl,
-        });
-        return;
-      }
-
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(shareUrl);
-      }
-    } catch (error) {
-      console.debug(error);
-    }
-  }
-
+  const { share, pending, message } = useChallengeShare(score, user?.fullName);
   return (
-    <button
-      className="inline-flex min-h-15 w-full items-center justify-center rounded-2xl border border-amber-700/70 bg-black/18 px-4 py-3 text-center text-base font-bold uppercase tracking-[0.06em] text-amber-100 transition-colors hover:border-amber-500 hover:bg-amber-950/60"
-      onClick={() => {
-        void onShare();
-      }}
-    >
-      Utmana
-    </button>
+    <div>
+      <button
+        className="button-secondary w-full"
+        disabled={pending}
+        onClick={() => void share()}
+      >
+        {pending ? "Delar…" : "Utmana en vän"}
+      </button>
+      <p role="status" className="mt-2 text-sm text-gold-100">
+        {message}
+      </p>
+    </div>
   );
 }

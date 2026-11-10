@@ -1,142 +1,244 @@
 "use client";
 
-import { type KeyboardEvent, type PointerEvent, useRef, useState } from "react";
+import {
+  type KeyboardEvent,
+  type PointerEvent,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import NumberFlow from "@number-flow/react";
 
 import { useGame } from "@/app/play/_/game-provider";
-
-const SWIPE_THRESHOLD = 72;
-const MAX_DRAG_OFFSET = 140;
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import {
+  advanceWheelGesture,
+  dragOffset,
+  pointerVelocity,
+  settleSpring,
+  swipeAnswer,
+} from "@/utils/swipe";
 
 type DragStart = {
   pointerId: number;
   x: number;
   y: number;
+  offset: number;
+  horizontal: boolean;
+  samples: { x: number; time: number }[];
 };
 
 export default function BeerHero() {
   const { beer, gameOver, onBeer, showHint } = useGame();
+  const reducedMotion = useReducedMotion();
   const dragStartRef = useRef<DragStart | null>(null);
+  const positionRef = useRef(0);
+  const velocityRef = useRef(0);
+  const frameRef = useRef(0);
   const [dragX, setDragX] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
+  const wheelRef = useRef({ distance: 0, answered: false, active: false });
+  const wheelTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const resetDrag = () => {
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(frameRef.current);
+      clearTimeout(wheelTimerRef.current);
+    },
+    [],
+  );
+
+  function updatePosition(x: number) {
+    positionRef.current = x;
+    setDragX(x);
+  }
+
+  function release() {
     dragStartRef.current = null;
-    setDragX(0);
-    setIsDragging(false);
-  };
+    cancelAnimationFrame(frameRef.current);
+    if (reducedMotion) {
+      updatePosition(0);
+      velocityRef.current = 0;
+      return;
+    }
+    let previous = performance.now();
+    function tick(now: number) {
+      const next = settleSpring(
+        positionRef.current,
+        velocityRef.current,
+        Math.min((now - previous) / 1000, 0.05),
+      );
+      previous = now;
+      velocityRef.current = next.velocity;
+      if (Math.abs(next.position) < 0.1 && Math.abs(next.velocity) < 1) {
+        updatePosition(0);
+        velocityRef.current = 0;
+        return;
+      }
+      updatePosition(next.position);
+      frameRef.current = requestAnimationFrame(tick);
+    }
+    frameRef.current = requestAnimationFrame(tick);
+  }
 
-  const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (gameOver || !event.isPrimary) return;
-
+  function onPointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (gameOver || !event.isPrimary || event.button !== 0) return;
+    clearTimeout(wheelTimerRef.current);
+    wheelRef.current = { distance: 0, answered: false, active: false };
+    cancelAnimationFrame(frameRef.current);
     dragStartRef.current = {
       pointerId: event.pointerId,
       x: event.clientX,
       y: event.clientY,
+      offset: positionRef.current,
+      horizontal: false,
+      samples: [{ x: event.clientX, time: event.timeStamp }],
     };
-    setIsDragging(true);
     event.currentTarget.setPointerCapture(event.pointerId);
-  };
+  }
 
-  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    const dragStart = dragStartRef.current;
-    if (!dragStart || dragStart.pointerId !== event.pointerId) return;
-
-    const deltaX = event.clientX - dragStart.x;
-    const deltaY = event.clientY - dragStart.y;
-
-    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 24) {
-      resetDrag();
-      return;
+  function onPointerMove(event: PointerEvent<HTMLDivElement>) {
+    const start = dragStartRef.current;
+    if (!start || start.pointerId !== event.pointerId) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    if (!start.horizontal) {
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 10) return;
+      if (Math.abs(dy) > Math.abs(dx) * 1.25) {
+        release();
+        if (event.currentTarget.hasPointerCapture(event.pointerId))
+          event.currentTarget.releasePointerCapture(event.pointerId);
+        return;
+      }
+      if (Math.abs(dx) <= Math.abs(dy)) return;
+      start.horizontal = true;
     }
-
-    const clampedDeltaX = Math.max(
-      -MAX_DRAG_OFFSET,
-      Math.min(MAX_DRAG_OFFSET, deltaX),
+    start.samples.push({ x: event.clientX, time: event.timeStamp });
+    start.samples = start.samples.filter(
+      (sample) => event.timeStamp - sample.time <= 100,
     );
+    velocityRef.current = pointerVelocity(start.samples, event.timeStamp);
+    updatePosition(start.offset + dragOffset(dx));
+  }
 
-    setDragX(clampedDeltaX);
-  };
+  function onPointerUp(event: PointerEvent<HTMLDivElement>) {
+    const start = dragStartRef.current;
+    if (!start || start.pointerId !== event.pointerId) return;
+    const velocity = pointerVelocity(
+      [...start.samples, { x: event.clientX, time: event.timeStamp }],
+      event.timeStamp,
+    );
+    const answer = swipeAnswer(
+      event.clientX - start.x,
+      event.clientY - start.y,
+      velocity,
+    );
+    velocityRef.current = velocity;
+    release();
+    if (answer !== null) onBeer(answer);
+  }
 
-  const onPointerUp = (event: PointerEvent<HTMLDivElement>) => {
-    const dragStart = dragStartRef.current;
-    if (!dragStart || dragStart.pointerId !== event.pointerId) return;
-
-    const deltaX = event.clientX - dragStart.x;
-    const deltaY = event.clientY - dragStart.y;
-    const shouldSubmit =
-      Math.abs(deltaX) >= SWIPE_THRESHOLD &&
-      Math.abs(deltaX) > Math.abs(deltaY);
-
-    resetDrag();
-
-    if (shouldSubmit) {
-      onBeer(deltaX > 0);
-    }
-  };
-
-  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (gameOver) return;
-
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      onBeer(true);
+  const onWheel = useEffectEvent((event: WheelEvent) => {
+    if (gameOver || event.ctrlKey || dragStartRef.current) return;
+    const wheel = wheelRef.current;
+    if (!wheel.active && Math.abs(event.deltaX) <= Math.abs(event.deltaY))
       return;
+    event.preventDefault();
+    clearTimeout(wheelTimerRef.current);
+    wheel.active = true;
+    if (!wheel.answered) {
+      cancelAnimationFrame(frameRef.current);
+      const unit =
+        event.deltaMode === 1
+          ? 16
+          : event.deltaMode === 2
+            ? window.innerWidth
+            : 1;
+      // Wheel deltas describe scrolling; the content follows the fingers in the opposite direction.
+      const next = advanceWheelGesture(wheel, -event.deltaX * unit);
+      wheelRef.current = { ...next, active: true };
+      updatePosition(dragOffset(next.distance));
+      if (next.answer !== null) {
+        release();
+        onBeer(next.answer);
+      }
     }
+    // Consume the rest of this gesture's momentum, so it cannot answer the next card.
+    wheelTimerRef.current = setTimeout(() => {
+      if (!wheelRef.current.answered) release();
+      wheelRef.current = { distance: 0, answered: false, active: false };
+    }, 220);
+  });
 
-    if (event.key === "ArrowLeft") {
+  useEffect(() => {
+    const card = cardRef.current;
+    function handleWheel(event: WheelEvent) {
+      onWheel(event);
+    }
+    card?.addEventListener("wheel", handleWheel, { passive: false });
+    return () => card?.removeEventListener("wheel", handleWheel);
+  }, []);
+
+  function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (gameOver || event.repeat) return;
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
       event.preventDefault();
-      onBeer(false);
+      onBeer(event.key === "ArrowRight");
     }
-  };
-
-  const swipeDirection =
-    Math.abs(dragX) >= SWIPE_THRESHOLD / 2
-      ? dragX > 0
-        ? "beer"
-        : "no-beer"
-      : null;
+  }
 
   return (
-    <div
-      aria-label="Swipe right for Beer, left for No Beer"
-      className="relative w-full max-w-xl touch-pan-y select-none outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--background)]"
-      onKeyDown={onKeyDown}
-      onPointerCancel={resetDrag}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      role="group"
-      style={{
-        transform: `translateX(${dragX}px) rotate(${dragX / 18}deg)`,
-        transition: isDragging ? "none" : "transform 180ms ease-out",
-      }}
-      tabIndex={0}
-    >
+    <div className="w-[calc(100vw-3rem)] max-w-md">
       <div
-        className={`pointer-events-none absolute -left-3 top-1/2 -translate-y-1/2 rounded-xl border border-emerald-300/60 bg-emerald-500/20 px-4 py-2 text-sm font-black uppercase tracking-[0.08em] text-emerald-100 shadow-[0_8px_30px_rgba(0,0,0,0.24)] transition-opacity ${
-          swipeDirection === "beer" ? "opacity-100" : "opacity-0"
-        }`}
+        ref={cardRef}
+        aria-label="Svep eller tryck höger för Beer, vänster för No Beer"
+        className="relative w-full max-w-xl touch-pan-y select-none cursor-grab active:cursor-grabbing rounded-3xl outline-none"
+        onKeyDown={onKeyDown}
+        onPointerCancel={release}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onLostPointerCapture={() => {
+          if (dragStartRef.current) release();
+        }}
+        role="group"
+        style={{
+          transform: reducedMotion
+            ? undefined
+            : `translateX(${dragX}px) rotate(${dragX / 24}deg)`,
+        }}
+        tabIndex={0}
       >
-        Beer
-      </div>
-      <div
-        className={`pointer-events-none absolute -right-3 top-1/2 -translate-y-1/2 rounded-xl border border-rose-300/60 bg-rose-500/20 px-4 py-2 text-sm font-black uppercase tracking-[0.08em] text-rose-100 shadow-[0_8px_30px_rgba(0,0,0,0.24)] transition-opacity ${
-          swipeDirection === "no-beer" ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        No Beer
-      </div>
-      <div className="rounded-2xl border border-amber-700/60 bg-black/12 px-6 py-8 shadow-[0_18px_55px_rgba(0,0,0,0.2)]">
-        <h1 className="text-center text-4xl font-bold">{beer.name}</h1>
-        <p className="mt-1 text-center text-sm font-medium text-white">
-          {beer.type} · <NumberFlow value={beer.abv} suffix="%" />
-        </p>
-        <p
-          className={`mt-2 text-center ${showHint ? "opacity-100" : "opacity-0"}`}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute right-3 top-3 rounded-lg bg-pub-950 px-3 py-1 text-sm font-semibold text-pub-100 ${dragX > 36 ? "opacity-100" : "opacity-0"}`}
         >
-          {beer.description}
-        </p>
+          Beer →
+        </div>
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute left-3 top-3 rounded-lg bg-raspberry-950 px-3 py-1 text-sm font-semibold text-raspberry-100 ${dragX < -36 ? "opacity-100" : "opacity-0"}`}
+        >
+          ← No Beer
+        </div>
+        <div className="surface px-6 py-10 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-balance text-gold-50">
+            {beer.name}
+          </h1>
+          <p className="mt-3 text-sm text-gold-100/80">
+            {beer.type} ·{" "}
+            <NumberFlow value={beer.abv} suffix="%" animated={!reducedMotion} />
+          </p>
+          <p
+            aria-hidden={!showHint}
+            className={`mt-5 text-sm leading-6 text-gold-100/80 ${showHint ? "visible" : "invisible"}`}
+          >
+            {beer.description}
+          </p>
+        </div>
       </div>
     </div>
   );

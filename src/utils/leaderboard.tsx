@@ -102,7 +102,7 @@ async function getProfilesByIds(userIds: string[]) {
   return new Map(profiles.data.map((profile) => [profile.id, profile]));
 }
 
-export async function getLeaderboard() {
+export async function getLeaderboardResult() {
   const supabase = await createClient();
   const games = await supabase
     .from("games")
@@ -117,7 +117,7 @@ export async function getLeaderboard() {
 
   if (games.error) {
     console.error("Leaderboard not fetched", games.error);
-    return [];
+    return { entries: [], error: true };
   }
 
   const profilesById = await getProfilesByIds(
@@ -138,7 +138,14 @@ export async function getLeaderboard() {
     return map;
   }, new Map());
 
-  return Array.from(byUser.values()).sort((a, b) => b.score - a.score);
+  return {
+    entries: Array.from(byUser.values()).sort((a, b) => b.score - a.score),
+    error: false,
+  };
+}
+
+export async function getLeaderboard() {
+  return (await getLeaderboardResult()).entries;
 }
 
 export async function getUserEntry(): Promise<UserEntry | null> {

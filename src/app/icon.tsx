@@ -8,8 +8,12 @@ export default function Icon() {
   return new ImageResponse(
     <div
       style={{
-        borderRadius: "10px",
-        backgroundColor: "#00bc7d",
+        borderRadius: "8px",
+        border: "1px solid #d6c390",
+        color: "#d6c390",
+        fontFamily: "serif",
+        fontSize: 25,
+        backgroundColor: "#092d22",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -17,7 +21,7 @@ export default function Icon() {
         width: "100%",
       }}
     >
-      🍻
+      B
     </div>,
     { ...size },
   );

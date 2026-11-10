@@ -2,8 +2,12 @@
   "name": "beer-or-no-beer",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
     "dev": "next dev",
+    "test": "node --experimental-strip-types --test tests/interactions.test.mts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --cache --max-warnings=0 --ext .js,.jsx,.ts,.tsx src next.config.ts eslint.config.mjs",
@@ -11,32 +15,32 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.37.3",
-    "@number-flow/react": "^0.6.0",
-    "@supabase/ssr": "^0.8.0",
-    "@supabase/supabase-js": "^2.95.3",
+    "@clerk/nextjs": "7.9.25",
+    "@number-flow/react": "0.6.2",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.119.0",
     "@vercel/analytics": "^2.0.1",
-    "@vercel/blob": "^2.2.0",
-    "lucide-react": "^0.577.0",
-    "next": "16.1.6",
-    "prettier": "^3.8.1",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "@vercel/blob": "2.9.0",
+    "lucide-react": "1.71.0",
+    "next": "16.4.6",
+    "prettier": "3.9.10",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^25",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9.10.0",
-    "eslint-config-next": "16.1.6",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.6",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-prettier": "5.5.7",
+    "eslint-plugin-simple-import-sort": "14.0.0",
     "eslint-plugin-unused-imports": "^4.4.1",
-    "supabase": "^2.76.8",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "supabase": "3.1.0",
+    "tailwindcss": "4.3.5",
+    "typescript": "6.0.3"
   }
 }

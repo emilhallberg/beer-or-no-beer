@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import {
-  SignedOut,
-  SignInButton as ClerkSignInButton,
-  SignUpButton as ClerkSignUpButton,
-  useUser,
-} from "@clerk/nextjs";
+import { Show, SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import {
   CircleHelp,
   Home,
@@ -17,226 +12,197 @@ import {
   X,
 } from "lucide-react";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { useGame } from "@/app/play/_/game-provider";
+import { useChallengeShare } from "@/hooks/use-challenge-share";
 
-const menuItemClassName =
-  "flex w-full items-center justify-between rounded-2xl border border-amber-800/80 bg-amber-950/80 px-4 py-3 text-left text-sm font-bold uppercase tracking-[0.18em] text-amber-50 transition hover:border-amber-500 hover:bg-amber-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300";
+const itemClass =
+  "flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-semibold text-gold-50 hover:bg-white/10";
 
 export default function BeerMenu() {
   const { user } = useUser();
   const { score, streak } = useGame();
   const pathname = usePathname();
   const menuId = useId();
+  const titleId = useId();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const { share, pending, message } = useChallengeShare(score, user?.fullName);
 
   useEffect(() => {
-    if (!isMenuOpen && !isHelpOpen) return;
-
-    function onPointerDown(event: PointerEvent) {
-      if (isMenuOpen && !containerRef.current?.contains(event.target as Node)) {
+    if (!isMenuOpen) return;
+    menuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
+    function outside(event: PointerEvent) {
+      if (!containerRef.current?.contains(event.target as Node))
         setIsMenuOpen(false);
-      }
     }
-
-    function onKeyDown(event: KeyboardEvent) {
+    function key(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setIsMenuOpen(false);
-        setIsHelpOpen(false);
+        triggerRef.current?.focus();
       }
     }
-
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-
+    document.addEventListener("pointerdown", outside);
+    document.addEventListener("keydown", key);
     return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", outside);
+      document.removeEventListener("keydown", key);
     };
-  }, [isHelpOpen, isMenuOpen]);
+  }, [isMenuOpen]);
 
-  async function onChallenge() {
-    const query = new URLSearchParams({});
-
-    if (user?.fullName) {
-      query.set("from", user.fullName);
-    }
-
-    query.set("score", score.toString());
-
-    const relativeUrl = `/challenge?${query}`;
-    const shareUrl = new URL(relativeUrl, window.location.origin).toString();
-
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: "Beer or No Beer?",
-          url: shareUrl,
-        });
-      } else if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(shareUrl);
-      }
-    } catch (error) {
-      console.debug(error);
-    } finally {
-      setIsMenuOpen(false);
-    }
-  }
-
-  function openHelp() {
-    setIsHelpOpen(true);
-    setIsMenuOpen(false);
-  }
+  useEffect(() => {
+    if (!isHelpOpen) return;
+    const dialog = dialogRef.current;
+    const trigger = triggerRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    dialog?.showModal();
+    return () => {
+      dialog?.close();
+      document.body.style.overflow = previousOverflow;
+      trigger?.focus();
+    };
+  }, [isHelpOpen]);
 
   return (
     <>
-      <div className="relative" ref={containerRef}>
+      <div
+        className="relative"
+        ref={containerRef}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null))
+            setIsMenuOpen(false);
+        }}
+      >
         <button
           type="button"
+          ref={triggerRef}
           aria-controls={menuId}
           aria-expanded={isMenuOpen}
-          aria-haspopup="menu"
-          className="group flex items-center justify-center rounded-full border border-amber-500/60 bg-amber-950/80 p-2 shadow-[0_8px_24px_rgba(0,0,0,0.24)] transition hover:border-amber-300 hover:bg-amber-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+          className="button-secondary min-w-13"
           onClick={() => setIsMenuOpen((current) => !current)}
         >
-          <span className="sr-only">Öppna spelmenyn</span>
-          <div className="relative size-10 overflow-hidden rounded-full bg-amber-50/95 ring-2 ring-amber-300/60 sm:size-14">
-            <Image
-              src="/logo.svg"
-              alt="Beer or No Beer?"
-              fill
-              priority
-              className="object-contain p-2"
-              sizes="56px"
-            />
-          </div>
-          <div className="absolute -right-1 -top-1 rounded-full border border-amber-400 bg-amber-300 p-1 text-amber-950 shadow-sm transition group-hover:scale-105">
-            <Menu className="size-3.5" strokeWidth={2.5} />
-          </div>
+          <Menu className="size-5" aria-hidden="true" />
+          <span className="sr-only">Spelmeny</span>
         </button>
         {isMenuOpen ? (
           <div
             id={menuId}
-            role="menu"
-            className="absolute right-0 top-[calc(100%+0.75rem)] z-30 grid w-[min(16rem,calc(100vw-2rem))] gap-2 rounded-[1.75rem] border-2 border-amber-700 bg-[var(--background)] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.45)] sm:left-1/2 sm:right-auto sm:w-64 sm:-translate-x-1/2"
+            ref={menuRef}
+            aria-label="Spelmeny"
+            className="surface absolute right-0 top-[calc(100%+0.5rem)] z-30 grid w-64 max-w-[calc(100vw-2rem)] gap-1 p-2"
           >
-            <Link
-              href="/"
-              className={menuItemClassName}
-              role="menuitem"
-              onClick={() => setIsMenuOpen(false)}
-            >
+            <Link href="/" className={itemClass}>
               <span>Hem</span>
-              <Home className="size-4" strokeWidth={2.25} />
+              <Home className="size-4" aria-hidden="true" />
             </Link>
             <button
               type="button"
-              className={menuItemClassName}
-              role="menuitem"
-              onClick={onChallenge}
+              className={itemClass}
+              disabled={pending}
+              onClick={() => {
+                void share().then(() => {
+                  setIsMenuOpen(false);
+                  triggerRef.current?.focus();
+                });
+              }}
             >
-              <span>Utmana</span>
-              <Share2 className="size-4" strokeWidth={2.25} />
+              <span>{pending ? "Delar…" : "Utmana en vän"}</span>
+              <Share2 className="size-4" aria-hidden="true" />
             </button>
-            <SignedOut>
-              <ClerkSignInButton fallbackRedirectUrl={pathname}>
-                <button
-                  type="button"
-                  className={menuItemClassName}
-                  role="menuitem"
-                  onClick={() => setIsMenuOpen(false)}
-                >
+            <Show when="signed-out">
+              <SignInButton fallbackRedirectUrl={pathname}>
+                <button type="button" className={itemClass}>
                   <span>Logga in</span>
-                  <LogIn className="size-4" strokeWidth={2.25} />
+                  <LogIn className="size-4" aria-hidden="true" />
                 </button>
-              </ClerkSignInButton>
-              <ClerkSignUpButton fallbackRedirectUrl={pathname}>
-                <button
-                  type="button"
-                  className={menuItemClassName}
-                  role="menuitem"
-                  onClick={() => setIsMenuOpen(false)}
-                >
+              </SignInButton>
+              <SignUpButton fallbackRedirectUrl={pathname}>
+                <button type="button" className={itemClass}>
                   <span>Skapa konto</span>
-                  <UserPlus className="size-4" strokeWidth={2.25} />
+                  <UserPlus className="size-4" aria-hidden="true" />
                 </button>
-              </ClerkSignUpButton>
-            </SignedOut>
+              </SignUpButton>
+            </Show>
             <button
               type="button"
-              className={menuItemClassName}
-              role="menuitem"
-              onClick={openHelp}
+              className={itemClass}
+              onClick={() => {
+                setIsMenuOpen(false);
+                setIsHelpOpen(true);
+              }}
             >
-              <span>Hjälp</span>
-              <CircleHelp className="size-4" strokeWidth={2.25} />
+              <span>Så spelar du</span>
+              <CircleHelp className="size-4" aria-hidden="true" />
             </button>
           </div>
         ) : null}
       </div>
-      {isHelpOpen ? (
-        <div
-          className="fixed inset-0 z-40 grid place-items-center bg-black/55 p-6"
-          onClick={() => setIsHelpOpen(false)}
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="beer-menu-help-title"
-            className="w-full max-w-sm rounded-[2rem] border-2 border-amber-700 bg-[var(--background)] p-6 text-amber-50 shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
-            onClick={(event) => event.stopPropagation()}
+      <p
+        role="status"
+        className={
+          message
+            ? "surface fixed bottom-24 left-4 right-4 z-30 mx-auto max-w-md p-4 text-sm text-gold-50"
+            : "sr-only"
+        }
+      >
+        {message}
+      </p>
+      <dialog
+        ref={dialogRef}
+        aria-labelledby={titleId}
+        className="surface m-auto max-h-[calc(100svh-2rem)] w-[calc(100%-2rem)] max-w-md overflow-y-auto p-6 text-gold-50 backdrop:bg-black/65"
+        onCancel={(event) => {
+          event.preventDefault();
+          setIsHelpOpen(false);
+        }}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) setIsHelpOpen(false);
+        }}
+      >
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <h2 id={titleId} className="text-2xl font-bold tracking-tight">
+            Så spelar du
+          </h2>
+          <button
+            type="button"
+            className="button-secondary min-w-11 px-3"
+            onClick={() => setIsHelpOpen(false)}
           >
-            <div className="mb-4 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300">
-                  Så spelar du
-                </p>
-                <h2
-                  id="beer-menu-help-title"
-                  className="mt-2 text-2xl font-bold"
-                >
-                  Beer or No Beer?
-                </h2>
-              </div>
-              <button
-                type="button"
-                className="rounded-full border border-amber-600 p-2 text-amber-200 transition hover:bg-amber-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
-                onClick={() => setIsHelpOpen(false)}
-              >
-                <span className="sr-only">Stäng hjälp</span>
-                <X className="size-4" strokeWidth={2.25} />
-              </button>
-            </div>
-            <div className="space-y-4 text-sm leading-6 text-amber-100/90">
-              <p>
-                Ett dryckesnamn visas på skärmen. Välj <strong>Öl</strong> om du
-                tror att det är en riktig öl, eller <strong>Inte öl</strong> om
-                du tror att det är fejk.
-              </p>
-              <p>
-                Varje rätt gissning ger poäng. Din nuvarande svit är{" "}
-                <strong>{streak}</strong>. Varje rätt svar ger{" "}
-                <strong>100</strong> poäng plus <strong>10</strong> bonuspoäng
-                per svitnivå.
-              </p>
-              <p>
-                Du börjar med tre liv. Ett fel svar kostar ett liv, och rundan
-                är slut när alla är borta. Din nuvarande poäng är{" "}
-                <strong>{score}</strong>.
-              </p>
-              <p>
-                Använd <strong>Utmana</strong> för att dela din poäng och se om
-                någon annan kan slå den.
-              </p>
-            </div>
-          </div>
+            <X className="size-4" aria-hidden="true" />
+            <span className="sr-only">Stäng hjälp</span>
+          </button>
         </div>
-      ) : null}
+        <div className="space-y-4 text-sm leading-6 text-gold-100/90">
+          <p>
+            Ett dryckesnamn visas. Välj <strong>Beer</strong> om du tror att det
+            är en riktig öl, eller <strong>No Beer</strong> om namnet är fejk.
+          </p>
+          <p>
+            Svep åt höger för Beer och vänster för No Beer. Du kan också använda
+            knapparna eller fokusera kortet och använda piltangenterna.
+          </p>
+          <p>
+            Varje rätt svar ger <strong>100 poäng</strong> plus{" "}
+            <strong>10 bonuspoäng</strong> per svitnivå. Din nuvarande svit är{" "}
+            <strong>{streak}</strong>.
+          </p>
+          <p>
+            Du börjar med tre liv. Ett fel svar kostar ett liv. När alla är slut
+            visas din summering.
+          </p>
+          <p>
+            Välj <strong>Utmana en vän</strong> för att dela din poäng på{" "}
+            <strong>{score}</strong>.
+          </p>
+        </div>
+      </dialog>
     </>
   );
 }

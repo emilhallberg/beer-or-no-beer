@@ -14,7 +14,7 @@ export async function getBeerCount() {
 
   if (result.error) {
     console.debug("Beer count not fetched", result.error);
-    return 0;
+    return null;
   }
 
   return result.count ?? 0;

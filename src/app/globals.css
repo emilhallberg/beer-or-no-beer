@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #2e1707;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #071f19;
+  --foreground: #f1e8d3;
+  --champagne: #d6c390;
+  --raspberry: #e8336d;
+  --surface: #0c2c23;
+  --line: rgb(214 195 144 / 22%);
 }
 
 @theme inline {
@@ -10,17 +15,267 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #2e1707;
-    --foreground: #ededed;
-  }
+  --color-gold-50: #f8f2e4;
+  --color-gold-100: #eee3c9;
+  --color-gold-200: #d6c390;
+  --color-gold-300: #cdb77f;
+  --color-gold-400: #c1a669;
+  --color-gold-500: #a98c50;
+  --color-gold-600: #87713f;
+  --color-gold-700: #665733;
+  --color-gold-800: #48442d;
+  --color-gold-900: #303326;
+  --color-gold-950: #10271e;
+  --color-pub-50: #e4f3e9;
+  --color-pub-100: #c5e2d0;
+  --color-pub-200: #9fcbb2;
+  --color-pub-300: #7eb497;
+  --color-pub-400: #609b7d;
+  --color-pub-500: #428360;
+  --color-pub-600: #306a4c;
+  --color-pub-700: #23513b;
+  --color-pub-800: #173e2e;
+  --color-pub-900: #0d3024;
+  --color-pub-950: #071f19;
+  --color-raspberry-50: #fff0f5;
+  --color-raspberry-100: #ffdae6;
+  --color-raspberry-200: #ffb4cf;
+  --color-raspberry-300: #ff87af;
+  --color-raspberry-400: #f85c8f;
+  --color-raspberry-500: #e8336d;
+  --color-raspberry-600: #c52158;
+  --color-raspberry-700: #a31e4b;
+  --color-raspberry-800: #7c1b3e;
+  --color-raspberry-900: #57152d;
+  --color-raspberry-950: #330e1e;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, #164333 0%, transparent 65%),
+    var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+}
+
+h1,
+h2,
+.brand-compact {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+h1,
+h2 {
+  color: var(--champagne);
+}
+::selection {
+  background: var(--raspberry);
+  color: #fff;
+}
+
+.surface {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: linear-gradient(145deg, rgb(20 57 44 / 96%), rgb(8 34 26 / 98%));
+  box-shadow:
+    0 16px 45px rgb(0 0 0 / 12%),
+    inset 0 1px 0 rgb(214 195 144 / 4%);
+}
+.surface .surface {
+  background: rgb(7 31 25 / 50%);
+  box-shadow: none;
+}
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--champagne);
+}
+
+.button-primary,
+.button-secondary {
+  display: inline-flex;
+  min-height: 3.4rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+  transition:
+    background-color 140ms ease-out,
+    border-color 140ms ease-out,
+    transform 100ms ease-out;
+}
+.button-primary {
+  background: linear-gradient(110deg, #e1d0a4, #ceba84);
+  color: #10271e;
+  border-color: #e1d0a4;
+  box-shadow:
+    0 4px 18px rgb(0 0 0 / 12%),
+    inset 0 1px 0 rgb(255 255 255 / 20%);
+}
+.button-primary:hover {
+  background: #eadab4;
+  border-color: #eadab4;
+}
+.button-secondary {
+  background: rgb(12 44 35 / 70%);
+  color: #e8d9b4;
+  border-color: rgb(214 195 144 / 35%);
+}
+.button-secondary:hover {
+  background: #194936;
+  border-color: #d6c390;
+}
+button:enabled:active {
+  scale: 0.98;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+:where(button, a, [tabindex]):focus-visible {
+  outline: 2px solid #ff87af;
+  outline-offset: 4px;
+}
+
+.brand-link {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+}
+.brand-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--champagne);
+  font-size: 1.35rem;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+.brand-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--raspberry);
+  box-shadow: 0 0 0 4px rgb(232 51 109 / 9%);
+}
+.brand-question {
+  margin-left: -0.6rem;
+  color: #ff87af;
+  font-style: italic;
+}
+.brand-original {
+  display: block;
+  width: min(100%, 380px);
+  height: auto;
+  margin: 0 auto;
+}
+.brand-lockup {
+  color: var(--champagne);
+  text-align: center;
+}
+
+.pub-start {
+  min-height: 100svh;
+}
+
+.pub-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 5rem;
+  max-width: 65rem;
+  margin: auto;
+  padding: 4rem 2.25rem 4.5rem;
+}
+.pub-hero-title {
+  font-size: 2.1rem;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: #eee3c9;
+}
+.pub-leaderboard-wrap {
+  max-width: 65rem;
+  margin: auto;
+  padding: 0 2.25rem 2rem;
+}
+
+.pub-game-header {
+  border-bottom: 1px solid var(--line);
+  background: rgb(7 31 25 / 90%);
+}
+.pub-game-footer {
+  background: rgb(7 31 25 / 90%);
+  border-top: 1px solid var(--line);
+}
+.pub-score {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--line);
+  background: #0c2c23;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  color: var(--champagne);
+}
+.pub-promo {
+  border-left: 2px solid var(--raspberry);
+}
+.game-footer {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 639px) {
+  .pub-hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem 2.5rem;
+  }
+  .brand-original {
+    width: 280px;
+  }
+
+  .pub-hero-title {
+    font-size: 1.8rem;
+  }
+  .pub-leaderboard-wrap {
+    padding: 0 1.25rem 1.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  button:enabled:active {
+    scale: none;
+  }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .surface,
+  [class*="backdrop-blur"],
+  .pub-game-header,
+  .pub-game-footer {
+    background: #0c2c23;
+    backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  .surface {
+    border-color: var(--champagne);
+  }
 }

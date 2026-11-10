@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { usePathname } from "next/navigation";
 
 import { GAME_SCORE_EVENT } from "@/app/play/_/game-events";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 type Vec2 = { x: number; y: number };
 
@@ -49,6 +50,7 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
   const scoreRef = useRef(0);
   const displayedScoreRef = useRef(0);
   const pathname = usePathname();
+  const reducedMotion = useReducedMotion();
 
   // Mouse position is tracked globally, but we smooth inside the animation loop.
   const mouseRef = useRef<Vec2>({ x: 0.5, y: 0.5 });
@@ -93,6 +95,7 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
   );
 
   useEffect(() => {
+    if (reducedMotion) return;
     const isPlayRoute = pathname.startsWith("/play/");
     const baseScore = isPlayRoute ? 0 : userHighScore;
 
@@ -217,7 +220,7 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
 
       // Subtle background tint (helps it feel like a background layer)
       // No fixed style/colors requested, but we need some. Keep it neutral & soft.
-      ctx2d.fillStyle = "rgb(151,132,23)";
+      ctx2d.fillStyle = "#071f19";
       ctx2d.fillRect(0, 0, w, h);
 
       // --- liquid geometry ---
@@ -255,9 +258,9 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
 
       // Draw liquid (abstract gradient look)
       const grad = ctx2d.createLinearGradient(0, liquidTopY, 0, h);
-      grad.addColorStop(0, "rgba(255, 198, 92, 0.55)");
-      grad.addColorStop(0.55, "rgba(255, 170, 56, 0.42)");
-      grad.addColorStop(1, "rgba(255, 125, 30, 0.28)");
+      grad.addColorStop(0, "rgba(214, 195, 144, 0.18)");
+      grad.addColorStop(0.55, "rgba(31, 83, 60, 0.2)");
+      grad.addColorStop(1, "rgba(10, 48, 35, 0.12)");
 
       ctx2d.beginPath();
       // Surface curve
@@ -295,7 +298,7 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
         yLeft + 55,
       );
       ctx2d.closePath();
-      ctx2d.fillStyle = "rgba(255,255,255,0.06)";
+      ctx2d.fillStyle = "rgba(214,195,144,0.06)";
       ctx2d.fill();
       ctx2d.restore();
 
@@ -334,8 +337,8 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
         0,
         liquidTopY + foamBand,
       );
-      foamGrad.addColorStop(0, "rgba(255,255,255,0.26)");
-      foamGrad.addColorStop(1, "rgba(255,255,255,0.10)");
+      foamGrad.addColorStop(0, "rgba(214,195,144,0.26)");
+      foamGrad.addColorStop(1, "rgba(214,195,144,0.10)");
       ctx2d.fillStyle = foamGrad;
       ctx2d.fill();
 
@@ -372,7 +375,7 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
 
         ctx2d.beginPath();
         ctx2d.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-        ctx2d.fillStyle = `rgba(255,255,255,${b.alpha})`;
+        ctx2d.fillStyle = `rgba(214,195,144,${b.alpha})`;
         ctx2d.fill();
 
         // Small specular
@@ -384,7 +387,7 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
           0,
           Math.PI * 2,
         );
-        ctx2d.fillStyle = `rgba(255,255,255,${b.alpha * 0.9})`;
+        ctx2d.fillStyle = `rgba(214,195,144,${b.alpha * 0.9})`;
         ctx2d.fill();
       }
       ctx2d.restore();
@@ -409,7 +412,7 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
           // Draw
           ctx2d.beginPath();
           ctx2d.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx2d.fillStyle = `rgba(255,255,255,${0.28 * a})`;
+          ctx2d.fillStyle = `rgba(214,195,144,${0.28 * a})`;
           ctx2d.fill();
 
           // Remove when dead or offscreen
@@ -481,9 +484,13 @@ export default function DrinkBackground({ highScore, userHighScore }: Props) {
         onScoreChange as EventListener,
       );
     };
-  }, [highScore, pathname, settings, userHighScore]);
+  }, [highScore, pathname, settings, userHighScore, reducedMotion]);
 
   return (
-    <canvas ref={canvasRef} className="fixed inset-0 z-0" aria-hidden="true" />
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none fixed inset-0 z-0 opacity-15 motion-reduce:hidden"
+      aria-hidden="true"
+    />
   );
 }

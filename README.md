@@ -12,23 +12,37 @@ The repo now includes a local Supabase schema and seed flow for the tables the a
 
 `supabase/seed.sql` seeds the beer catalog and restores the current local leaderboard so `db reset` keeps the visible standings.
 
+The local stack uses ports `553xx` (API: `http://127.0.0.1:55321`) to avoid conflicts with other projects. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.env.development.local` to this stack’s URL and publishable key from `npx supabase status`.
+
 ### Reset the local database
 
 1. Start Supabase locally if it is not already running:
 
 ```bash
-supabase start
+npx supabase start
 ```
 
 2. Reset the database and re-run migrations + seed:
 
 ```bash
-npm run supabase:db:reset
+npx supabase db reset
 ```
 
 After reset, the local database will contain the app schema, the seeded beers, and the preserved leaderboard entries from `supabase/seed.sql`.
 
 ## Getting Started
+
+Use Node.js 22.13 or later. The app uses Next.js 16 (Active LTS), React 19,
+and Supabase client libraries that require Node.js 22 or later.
+
+TypeScript stays on 6.x and ESLint on 9.x to satisfy the peer dependencies of
+the current Next.js lint plugins. Update these together when the plugins support
+TypeScript 7 and ESLint 10.
+
+Supabase CLI 3 targets the local stack by default. Hosted database commands need
+`--remote`, and hosted changes in unattended scripts also need `--yes`.
+
+Run `npm test` for gesture physics and sharing regression checks.
 
 First, run the development server:
 

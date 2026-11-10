@@ -1,32 +1,17 @@
 import { ReactNode } from "react";
-import { SignedIn, UserButton } from "@clerk/nextjs";
 
-import Image from "next/image";
+import Brand from "@/ui/brand";
 
-type Props = {
-  children: ReactNode;
-  leaderboard: ReactNode;
-};
+type Props = { children: ReactNode; leaderboard: ReactNode };
 
 export default function StartLayout({ children, leaderboard }: Props) {
   return (
-    <div className="grid">
-      <div className="grid justify-center rounded-b-3xl border-b-4 border-amber-700 bg-[var(--background)] p-6 pt-4 pb-4">
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </div>
-      <div className="h-[80vh] grid place-content-center">
-        <Image
-          src="/logo.svg"
-          alt="Logotyp"
-          width={300}
-          height={300}
-          loading="eager"
-        />
+    <div className="pub-start">
+      <section className="pub-hero">
+        <Brand />
         {children}
-      </div>
-      {leaderboard}
+      </section>
+      <div className="pub-leaderboard-wrap">{leaderboard}</div>
     </div>
   );
 }

@@ -61,6 +61,7 @@ type State = {
 
 type Game = State & {
   onBeer: (guess: boolean) => void;
+  retrySave: () => void;
 };
 
 const GameContext = createContext<Game | undefined>(undefined);
@@ -71,6 +72,7 @@ type Action =
   | { type: "HINT"; payload: boolean }
   | { type: "INIT"; payload: State }
   | { type: "SAVE_ERROR" }
+  | { type: "SAVE_RETRY" }
   | { type: "SAVE_PENDING" }
   | { type: "SAVE_SUCCESS"; payload: number };
 
@@ -167,6 +169,10 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, showHint: action.payload };
     case "INIT":
       return action.payload;
+    case "SAVE_RETRY":
+      return state.saveStatus === "error"
+        ? { ...state, saveStatus: "idle" }
+        : state;
     case "SAVE_PENDING":
       return { ...state, saveStatus: "saving" };
     case "SAVE_SUCCESS":
@@ -209,6 +215,7 @@ export default function GameProvider({
   const summaryPath = `/play/${gameId}/summary` as Route;
   const lastPersistedResultCountRef = useRef(initialGameState.result.length);
   const isFetchingMoreBeersRef = useRef(false);
+  const saveInFlightRef = useRef(false);
 
   const [state, dispatch] = useReducer(
     reducer,
@@ -222,8 +229,14 @@ export default function GameProvider({
   };
 
   useEffect(() => {
-    if (!state.gameOver || state.saveStatus !== "idle" || !state.endedAt)
+    if (
+      !state.gameOver ||
+      state.saveStatus !== "idle" ||
+      !state.endedAt ||
+      saveInFlightRef.current
+    )
       return;
+    saveInFlightRef.current = true;
     dispatch({ type: "SAVE_PENDING" });
 
     void completeGame(Number(gameId), {
@@ -248,15 +261,22 @@ export default function GameProvider({
         lifeDelta: item.lifeDelta,
         createdAt: item.createdAt,
       })),
-    }).then((savedGame) => {
-      if (!savedGame) {
-        dispatch({ type: "SAVE_ERROR" });
-        return;
-      }
+    })
+      .then((savedGame) => {
+        if (!savedGame) {
+          dispatch({ type: "SAVE_ERROR" });
+          return;
+        }
 
-      dispatch({ type: "SAVE_SUCCESS", payload: savedGame.id });
-      replace(summaryPath);
-    });
+        dispatch({ type: "SAVE_SUCCESS", payload: savedGame.id });
+        replace(summaryPath);
+      })
+      .catch(() => {
+        dispatch({ type: "SAVE_ERROR" });
+      })
+      .finally(() => {
+        saveInFlightRef.current = false;
+      });
   }, [
     gameId,
     state.bestStreak,
@@ -356,7 +376,13 @@ export default function GameProvider({
   }, [state.beer, state.gameOver]);
 
   return (
-    <GameContext.Provider value={{ ...state, onBeer }}>
+    <GameContext.Provider
+      value={{
+        ...state,
+        onBeer,
+        retrySave: () => dispatch({ type: "SAVE_RETRY" }),
+      }}
+    >
       {children}
     </GameContext.Provider>
   );
