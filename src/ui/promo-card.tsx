@@ -79,7 +79,7 @@ export default function PromoCard({ gameId, promo }: Props) {
               />
             </div>
           ) : null}
-          <h2 className="mt-2 text-2xl font-black tracking-tight text-balance text-white sm:text-3xl">
+          <h2 className="mt-2 text-2xl font-black tracking-tight text-balance text-gold-50 sm:text-3xl">
             {promo.title}
           </h2>
           <p className="mt-3 text-sm leading-6 text-gold-50/78 sm:text-base">

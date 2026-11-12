@@ -10,7 +10,13 @@ export default function Brand({
 }) {
   const content = compact ? (
     <span className="brand-compact">
-      <span aria-hidden="true" className="brand-dot" />
+      <Image
+        src="/logo-pub.png"
+        alt=""
+        width={48}
+        height={48}
+        className="brand-mini"
+      />
       Beer or No Beer<span className="brand-question">?</span>
     </span>
   ) : (

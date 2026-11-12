@@ -7,13 +7,14 @@ import {
   useEffect,
   useReducer,
   useRef,
+  useState,
 } from "react";
 import { useUser } from "@clerk/nextjs";
 
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
 
-import { GAME_SCORE_EVENT } from "@/app/play/_/game-events";
+import { GAME_ANSWER_EVENT, GAME_SCORE_EVENT } from "@/app/play/_/game-events";
 import { Beer, Beers } from "@/utils/beer";
 import {
   completeGame,
@@ -60,6 +61,9 @@ type State = {
 };
 
 type Game = State & {
+  gameId: string;
+  isAnswering: boolean;
+  answerCorrect: boolean | null;
   onBeer: (guess: boolean) => void;
   retrySave: () => void;
 };
@@ -216,6 +220,15 @@ export default function GameProvider({
   const lastPersistedResultCountRef = useRef(initialGameState.result.length);
   const isFetchingMoreBeersRef = useRef(false);
   const saveInFlightRef = useRef(false);
+  const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isAnswering, setIsAnswering] = useState(false);
+  const [answerCorrect, setAnswerCorrect] = useState<boolean | null>(null);
+  useEffect(
+    () => () => {
+      if (answerTimer.current) clearTimeout(answerTimer.current);
+    },
+    [],
+  );
 
   const [state, dispatch] = useReducer(
     reducer,
@@ -223,9 +236,31 @@ export default function GameProvider({
   );
 
   const onBeer: Game["onBeer"] = (guess) => {
-    if (state.gameOver) return;
-
-    dispatch({ type: "GUESS", payload: guess });
+    if (state.gameOver || answerTimer.current !== null) return;
+    setIsAnswering(true);
+    const correct = state.beer.real === guess;
+    setAnswerCorrect(correct);
+    const streak = correct ? state.streak + 1 : 0;
+    window.dispatchEvent(
+      new CustomEvent(GAME_ANSWER_EVENT, {
+        detail: {
+          correct,
+          streak,
+          name: state.beer.name,
+          real: state.beer.real,
+          points: getPointsAwarded(streak, correct),
+        },
+      }),
+    );
+    answerTimer.current = setTimeout(
+      () => {
+        dispatch({ type: "GUESS", payload: guess });
+        setIsAnswering(false);
+        setAnswerCorrect(null);
+        answerTimer.current = null;
+      },
+      correct ? 1150 : 850,
+    );
   };
 
   useEffect(() => {
@@ -379,6 +414,9 @@ export default function GameProvider({
     <GameContext.Provider
       value={{
         ...state,
+        gameId,
+        isAnswering,
+        answerCorrect,
         onBeer,
         retrySave: () => dispatch({ type: "SAVE_RETRY" }),
       }}

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  type CSSProperties,
   type KeyboardEvent,
   type PointerEvent,
   useEffect,
@@ -10,8 +11,10 @@ import {
 } from "react";
 import NumberFlow from "@number-flow/react";
 
+import CanFoam from "@/app/play/_/can-foam";
 import { useGame } from "@/app/play/_/game-provider";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import BeerArt, { getBeerCharacter } from "@/ui/beer-art";
 import {
   advanceWheelGesture,
   dragOffset,
@@ -19,6 +22,17 @@ import {
   settleSpring,
   swipeAnswer,
 } from "@/utils/swipe";
+
+const condensation = [
+  [6, 17, 5],
+  [92, 26, 7],
+  [8, 45, 8],
+  [94, 62, 5],
+  [5, 76, 4],
+  [91, 83, 7],
+  [31, 27, 4],
+  [72, 38, 5],
+] as const;
 
 type DragStart = {
   pointerId: number;
@@ -30,7 +44,15 @@ type DragStart = {
 };
 
 export default function BeerHero() {
-  const { beer, gameOver, onBeer, showHint } = useGame();
+  const {
+    beer,
+    gameOver,
+    onBeer,
+    showHint,
+    totalGuesses,
+    isAnswering,
+    answerCorrect,
+  } = useGame();
   const reducedMotion = useReducedMotion();
   const dragStartRef = useRef<DragStart | null>(null);
   const positionRef = useRef(0);
@@ -85,7 +107,8 @@ export default function BeerHero() {
   }
 
   function onPointerDown(event: PointerEvent<HTMLDivElement>) {
-    if (gameOver || !event.isPrimary || event.button !== 0) return;
+    if (gameOver || isAnswering || !event.isPrimary || event.button !== 0)
+      return;
     clearTimeout(wheelTimerRef.current);
     wheelRef.current = { distance: 0, answered: false, active: false };
     cancelAnimationFrame(frameRef.current);
@@ -102,7 +125,27 @@ export default function BeerHero() {
 
   function onPointerMove(event: PointerEvent<HTMLDivElement>) {
     const start = dragStartRef.current;
-    if (!start || start.pointerId !== event.pointerId) return;
+    if (!start) {
+      if (event.pointerType === "mouse" && !reducedMotion && !isAnswering) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = Math.max(
+          0,
+          Math.min(1, (event.clientX - rect.left) / rect.width),
+        );
+        const y = Math.max(
+          0,
+          Math.min(1, (event.clientY - rect.top) / rect.height),
+        );
+        event.currentTarget.style.setProperty(
+          "--can-yaw",
+          `${(x - 0.5) * 12}deg`,
+        );
+        event.currentTarget.style.setProperty("--can-pitch", `${4 - y * 5}deg`);
+        event.currentTarget.style.setProperty("--can-glint", `${24 + x * 12}%`);
+      }
+      return;
+    }
+    if (start.pointerId !== event.pointerId) return;
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
     if (!start.horizontal) {
@@ -142,7 +185,8 @@ export default function BeerHero() {
   }
 
   const onWheel = useEffectEvent((event: WheelEvent) => {
-    if (gameOver || event.ctrlKey || dragStartRef.current) return;
+    if (gameOver || isAnswering || event.ctrlKey || dragStartRef.current)
+      return;
     const wheel = wheelRef.current;
     if (!wheel.active && Math.abs(event.deltaX) <= Math.abs(event.deltaY))
       return;
@@ -183,7 +227,7 @@ export default function BeerHero() {
   }, []);
 
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (gameOver || event.repeat) return;
+    if (gameOver || isAnswering || event.repeat) return;
     if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
       event.preventDefault();
       onBeer(event.key === "ArrowRight");
@@ -191,20 +235,27 @@ export default function BeerHero() {
   }
 
   return (
-    <div className="w-[calc(100vw-3rem)] max-w-md">
+    <div className="beer-can-wrap">
       <div
         ref={cardRef}
-        aria-label="Svep eller tryck höger för Beer, vänster för No Beer"
-        className="relative w-full max-w-xl touch-pan-y select-none cursor-grab active:cursor-grabbing rounded-3xl outline-none"
+        aria-label="Svep burken höger för Beer, vänster för No Beer"
+        className="can-interactive relative w-full max-w-xl touch-pan-y select-none cursor-grab active:cursor-grabbing rounded-3xl outline-none"
         onKeyDown={onKeyDown}
         onPointerCancel={release}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
+        onPointerLeave={(event) => {
+          if (dragStartRef.current) return;
+          event.currentTarget.style.removeProperty("--can-yaw");
+          event.currentTarget.style.removeProperty("--can-pitch");
+          event.currentTarget.style.removeProperty("--can-glint");
+        }}
         onPointerUp={onPointerUp}
         onLostPointerCapture={() => {
           if (dragStartRef.current) release();
         }}
         role="group"
+        aria-busy={isAnswering}
         style={{
           transform: reducedMotion
             ? undefined
@@ -224,22 +275,80 @@ export default function BeerHero() {
         >
           ← No Beer
         </div>
-        <div className="surface px-6 py-10 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-balance text-gold-50">
-            {beer.name}
-          </h1>
-          <p className="mt-3 text-sm text-gold-100/80">
-            {beer.type} ·{" "}
-            <NumberFlow value={beer.abv} suffix="%" animated={!reducedMotion} />
-          </p>
-          <p
-            aria-hidden={!showHint}
-            className={`mt-5 text-sm leading-6 text-gold-100/80 ${showHint ? "visible" : "invisible"}`}
+        <div
+          className={`beer-can ${isAnswering && answerCorrect ? "is-opening" : ""}`}
+          key={totalGuesses}
+        >
+          {isAnswering && answerCorrect ? <CanFoam /> : null}
+          <div className="can-lid" aria-hidden="true">
+            <span className="can-opening" />
+            <span className="can-tab" />
+            <span className="can-rivet" />
+          </div>
+          <div className="can-shoulder" aria-hidden="true" />
+          <div
+            className={`beer-playing-card can-label theme-${getBeerCharacter(beer.id, beer.name).theme} ${isAnswering ? "card-revealing" : ""}`}
           >
-            {beer.description}
-          </p>
+            <div className="can-condensation" aria-hidden="true">
+              {condensation.map(([x, y, size], index) => (
+                <span
+                  key={index}
+                  style={
+                    {
+                      "--drop-x": `${x}%`,
+                      "--drop-y": `${y}%`,
+                      "--drop-size": `${size}px`,
+                    } as CSSProperties
+                  }
+                />
+              ))}
+            </div>
+            <div className="card-topline">
+              <span>
+                BEER OR
+                <br />
+                NO BEER?
+              </span>
+              <span>#{String(totalGuesses + 1).padStart(2, "0")}</span>
+            </div>
+            <div className="playing-card-art">
+              <BeerArt seed={beer.id} beerName={beer.name} priority />
+              <div className="card-stars" aria-hidden="true">
+                ✦<br />✦<br />✦
+              </div>
+              {isAnswering ? (
+                <div className="answer-stamp">
+                  {beer.real ? "Beer" : "No Beer"}
+                </div>
+              ) : null}
+            </div>
+            <div className="playing-card-copy">
+              <p className="card-question">VAD SÄGER MAGKÄNSLAN?</p>
+              <h1 className="text-4xl font-bold tracking-tight text-balance">
+                {beer.name}
+              </h1>
+              <p className="mt-3 text-sm opacity-75">
+                {beer.type} ·{" "}
+                <NumberFlow
+                  value={beer.abv}
+                  suffix="%"
+                  animated={!reducedMotion}
+                />
+              </p>
+              <p
+                aria-live="polite"
+                className="card-hint mt-5 text-sm leading-6"
+              >
+                {showHint
+                  ? beer.description
+                  : "Ledtråden dyker upp efter 15 sekunder…"}
+              </p>
+            </div>
+          </div>
+          <div className="can-base" aria-hidden="true" />
         </div>
       </div>
+      <p className="art-caption">Spelillustration · ingen produktbild</p>
     </div>
   );
 }

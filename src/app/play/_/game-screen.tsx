@@ -9,10 +9,13 @@ import BeerMenu from "@/app/play/_/beer-menu";
 import BeerScore from "@/app/play/_/beer-score";
 import { useGame } from "@/app/play/_/game-provider";
 import NoBeerButton from "@/app/play/_/no-beer-button";
+import { ChallengeProgress } from "@/ui/challenge-progress";
+import { SoundToggle } from "@/ui/game-feel";
 
 export default function GameScreen() {
   const {
     gameOver,
+    gameId,
     saveStatus,
     retrySave,
     score,
@@ -73,10 +76,18 @@ export default function GameScreen() {
           <BeerHearts />
           <BeerScore />
         </div>
-        <BeerMenu />
+        <div className="flex items-center gap-2">
+          <SoundToggle />
+          <BeerMenu />
+        </div>
       </header>
-      <div className="p-6 min-h-64 grid place-content-center">
+      <div className="game-stage p-6 min-h-64 grid place-content-center">
+        <ChallengeProgress gameId={gameId} score={score} />
+        <p className="eyebrow mb-4 text-center">
+          Syna namnet. Följ magkänslan.
+        </p>
         <BeerHero />
+        <p className="swipe-instruction">← No Beer · Svep burken · Beer →</p>
       </div>
       <footer className="game-footer p-4 grid grid-cols-2 gap-4 pub-game-footer">
         <NoBeerButton />

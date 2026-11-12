@@ -5,8 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import DrinkBackground from "@/ui/DrinkBackground";
-import { getLeaderboard, getUserEntry } from "@/utils/leaderboard";
+import { GameFeel } from "@/ui/game-feel";
 
 import "./globals.css";
 
@@ -28,25 +27,16 @@ export const metadata: Metadata = {
 
 type Props = Readonly<{ children: ReactNode }>;
 
-export default async function RootLayout({ children }: Props) {
-  const [leaderboard, userEntry] = await Promise.all([
-    getLeaderboard(),
-    getUserEntry(),
-  ]);
-  const highScore = leaderboard[0]?.score ?? 0;
-  const userHighScore = userEntry?.score ?? 0;
-
+export default function RootLayout({ children }: Props) {
   return (
     <ClerkProvider>
       <html lang="sv">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased relative isolate overflow-x-hidden`}
         >
-          <main className="relative z-10 w-screen">{children}</main>
-          <DrinkBackground
-            highScore={highScore}
-            userHighScore={userHighScore}
-          />
+          <GameFeel>
+            <main className="relative z-10 w-full">{children}</main>
+          </GameFeel>
           <Analytics />
         </body>
       </html>

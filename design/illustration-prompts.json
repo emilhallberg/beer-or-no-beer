@@ -1,0 +1,37 @@
+{
+  "generator": "Built-in image_gen.imagegen",
+  "purpose": "Original decorative character artwork for Beer or No Beer. Three name-inspired motifs match names encountered during gameplay; the fallback pool includes all six illustrations for real and fake beers. Artwork selection never uses the real/fake answer. These are not product images or collectible rewards.",
+  "assets": [
+    {
+      "path": "public/illustrations/hop-fox.webp",
+      "character": "Humleräven",
+      "prompt": "Use case: illustration-story. Create an original premium craft-beer label illustration for a playful adult beer-name quiz website. Portrait 4:5 composition, edge-to-edge flat mint turquoise background. A charismatic orange fox brewer with scruffy cheek fur, mischievous grin and dark navy outlines, wearing a lilac work jacket, lifting a foamy amber beer stein. Surround with big graphic hop leaves, cream foam clouds, coral lightning bolts and small stars. Bold screen printed editorial cartoon, chunky expressive shapes, subtly imperfect ink outlines, very slight risograph grain, punchy flat color blocks. Poster and collectible trading-card aesthetic, polished hand drawn illustration. Character waist-up centered, ears and face fully visible, generous turquoise space above head for app overlay. Rich orange, butter yellow, coral pink, mint turquoise, deep ink navy, cream. NO words, lettering, labels, numbers, logos, borders, watermark, photography, 3D, gradients or existing IP. This is reusable fictional decorative artwork; must not imply a real brewery or provide any answer to the quiz."
+    },
+    {
+      "path": "public/illustrations/foam-captain.webp",
+      "character": "Skumkaptenen",
+      "prompt": "Use case: illustration-story. Original premium craft beer label art for an adult quiz game, portrait 4:5 edge-to-edge poster. A charismatic coral-pink octopus sea captain with eight playful curling tentacles, navy sailor cap, cream striped shirt, one tentacle holding a foamy amber beer stein, another holding a hop cone. Charming confident expression, grown-up underground comic cartoon. Full composition filled with character, only 10% headroom; face centered upper third, tentacles spilling towards lower corners. Butter-yellow background, mint leaves, lilac bubbles, coral lightning stars. Chunky dark navy ink outlines, flat screen print colors, subtle risograph grain, expressive collectible trading card illustration. Polished hand drawn craft brewery label aesthetic. NO text, lettering, numbers, logos, border, watermark, photography, 3D or existing characters. Character and every item original. Decorative game art, no real brewery branding."
+    },
+    {
+      "path": "public/illustrations/malt-bear.webp",
+      "character": "Maltmonstret",
+      "prompt": "Use case: illustration-story. Original premium craft beer label art for an adult quiz game, portrait 4:5 edge-to-edge poster. A cool stocky lavender grizzly bear drummer in coral bowling shirt and black sunglasses, leaning on a foamy amber beer stein, holding two drumsticks, surrounded by graphic hop leaves, music sparkles and cream foam clouds. Friendly mischievous grown-up comic-book character. Fill the composition with character, only 10% headroom; face in upper third. Solid warm coral pink background, deep navy ink outlines, lavender, butter-yellow, mint and cream flat color blocks. Chunky expressive screen printed cartoon, subtly imperfect ink outlines, light risograph grain. Premium collectible trading card meets independent craft brewery label aesthetic. NO words, lettering, numbers, logos, borders, watermark, photography, 3D or existing characters. All artwork original and decorative, not a real beer label."
+    },
+    {
+      "path": "public/illustrations/hallmark-badger.webp",
+      "inspiredBy": "Hällmark IPA",
+      "prompt": "Use case: illustration-story. Original premium craft beer label artwork for an adult beer-name quiz. Match a cohesive collectible-card series: bold dark navy hand-inked outlines, chunky expressive cartoon shapes, flat mint/coral/butter-yellow/lavender colors, light screen-print grain. Portrait 4:5 edge-to-edge composition, character face in upper third, only 8% headroom, character fills frame. No text, typography, lettering, numbers, logos, borders, watermark, real brewery branding, 3D or photography. Decorative fictional artwork inspired by a name encountered during gameplay; no indication whether the beer is real or fake. Inspired by the name Hällmark IPA: a charismatic charcoal-and-cream badger wilderness guide with a moss green work jacket and coral neckerchief, perched on rounded Scandinavian granite bedrock, lifting a foamy amber stein. Surround with stylized pine branches, hop cones, heather, lilac mountain silhouettes and a golden sun. Mint-green sky, adventurous mischievous expression, rich nature details, indie craft brewery poster aesthetic."
+    },
+    {
+      "path": "public/illustrations/classic-hare.webp",
+      "inspiredBy": "Classic Pale Ale",
+      "prompt": "Use case: illustration-story. Original premium craft beer label artwork for an adult beer-name quiz. Match a cohesive collectible-card series: bold dark navy hand-inked outlines, chunky expressive cartoon shapes, flat mint/coral/butter-yellow/lavender colors, light screen-print grain. Portrait 4:5 edge-to-edge composition, character face in upper third, only 8% headroom, character fills frame. No text, typography, lettering, numbers, logos, borders, watermark, real brewery branding, 3D or photography. Decorative fictional artwork inspired by a name encountered during gameplay; no indication whether the beer is real or fake. Inspired by the name Classic Pale Ale: a dapper golden-brown hare jazz musician in a lavender tweed blazer and mint waistcoat, lounging beside a brass gramophone, holding a foamy amber stein, one eyebrow raised with a confident amused smile. Include hops, musical sparkles and graphic cream foam clouds. Coral pink backdrop with golden pale-ale hues. Charming vintage pub sophistication with playful adult comic-book energy."
+    },
+    {
+      "path": "public/illustrations/breakfast-rooster.webp",
+      "inspiredBy": "Breakfast IPA",
+      "prompt": "Use case: illustration-story. Original premium craft beer label artwork for an adult beer-name quiz. Match a cohesive collectible-card series: bold dark navy hand-inked outlines, chunky expressive cartoon shapes, flat mint/coral/butter-yellow/lavender colors, light screen-print grain. Portrait 4:5 edge-to-edge composition, character face in upper third, only 8% headroom, character fills frame. No text, typography, lettering, numbers, logos, borders, watermark, real brewery branding, 3D or photography. Decorative fictional artwork inspired by a name encountered during gameplay; no indication whether the beer is real or fake. Inspired by the name Breakfast IPA: an exuberant coral-red rooster brunch chef with a cream toque and mint apron, flipping a stack of pancakes in a skillet, a foamy amber stein and grapefruit wedges beside him. Surround with sunny-side-up egg shapes, hop leaves, golden sunburst and lilac coffee steam. Warm butter-yellow background, big charismatic face and cheeky smile. Playful grown-up independent craft brewery label aesthetic."
+    }
+  ],
+  "optimization": "Converted to 900px-wide WebP, quality 86. Cropping is responsive CSS; original generated PNGs retained in the Codex generated_images directory."
+}

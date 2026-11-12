@@ -12,7 +12,13 @@ export default async function LeaderboardSlot() {
   return (
     <div className="pub-leaderboard">
       <div className="mb-4 flex items-end justify-between gap-3 border-b border-gold-200/20 pb-3">
-        <h2 className="text-3xl font-normal tracking-tight">Topplista</h2>
+        <div>
+          <p className="eyebrow mb-1">Ära, berömmelse & ölkunskap</p>
+          <h2 className="text-3xl font-normal tracking-tight">
+            Pubens topplista
+          </h2>
+        </div>
+        <Trophy className="size-7 text-gold-300" aria-hidden="true" />
       </div>
       <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,0.7fr)_minmax(0,0.55fr)_minmax(0,0.55fr)] gap-3 px-3 pb-2 text-[0.6rem] tracking-[0.04em] text-gold-200/60 sm:text-[0.65rem] sm:tracking-[0.04em]">
         <span>

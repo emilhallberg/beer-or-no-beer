@@ -1,7 +1,10 @@
+import { Trophy } from "lucide-react";
+
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import BeerArt from "@/ui/beer-art";
 import Brand from "@/ui/brand";
 import PromoCard from "@/ui/promo-card";
 import StartGameButton from "@/ui/start-game-button";
@@ -19,7 +22,7 @@ type Props = {
 function normalizeScore(score?: string) {
   const parsedScore = Number(score);
 
-  if (!Number.isFinite(parsedScore) || parsedScore < 0) {
+  if (!Number.isSafeInteger(Math.floor(parsedScore)) || parsedScore < 0) {
     return null;
   }
 
@@ -33,8 +36,8 @@ function buildChallengeCopy(from?: string, score?: string) {
   if (challengerName && normalizedScore !== null) {
     return {
       title: `${challengerName} utmanar dig i Beer or No Beer?`,
-      description: `Slå ${challengerName}s poäng på ${normalizedScore} och visa vem som faktiskt känner igen ett riktigt ölnamn.`,
-      heading: `${challengerName} utmanar dina ölkunskaper!`,
+      description: `Slå ${normalizedScore} poäng och visa ${challengerName} vem som faktiskt känner igen ett riktigt ölnamn.`,
+      heading: `${challengerName} utmanar dig!`,
       cta: `Slå ${normalizedScore} poäng`,
     };
   }
@@ -93,12 +96,20 @@ export default async function ChallengePage({ searchParams }: Props) {
   return (
     <div className="min-h-svh px-4 py-6 text-gold-50 sm:px-6 sm:py-8">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6">
-        <section className="surface overflow-hidden p-6 text-center sm:p-8">
+        <section className="surface challenge-hero overflow-hidden p-6 text-center sm:p-8">
           <div className="mx-auto grid max-w-2xl place-items-center">
             <Brand compact linked />
+            <div className="challenge-mascot mt-6">
+              <BeerArt seed={1} priority sizes="112px" />
+            </div>
             <p className="mt-4 text-xs font-semibold tracking-[0.04em] text-gold-200/70">
               Utmaning
             </p>
+            <div className="challenge-target mt-5">
+              <Trophy size={28} aria-hidden="true" />
+              <strong>{normalizedScore}</strong>
+              <span>POÄNG ATT SLÅ</span>
+            </div>
             <h1 className="mt-3 text-4xl font-black tracking-tight text-balance sm:text-5xl">
               {copy.heading}
             </h1>
@@ -108,7 +119,10 @@ export default async function ChallengePage({ searchParams }: Props) {
           </div>
 
           <div className="mx-auto mt-6 max-w-sm">
-            <StartGameButton label={copy.cta} />
+            <StartGameButton
+              label={copy.cta}
+              challengeTarget={normalizedScore ?? undefined}
+            />
             <p className="mt-4 text-sm text-gold-100/80">
               Tre liv · Rätt svar ger poäng · Spela utan konto
             </p>

@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+import BeerArt from "@/ui/beer-art";
+import Brand from "@/ui/brand";
+import StartGameButton from "@/ui/start-game-button";
 import { getBeerStatsPageData } from "@/utils/stats";
 
 function formatAbv(value: number) {
@@ -47,27 +50,34 @@ export default async function StatsPage() {
   return (
     <div className="min-h-screen px-4 py-6 sm:px-6 sm:py-8">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
-        <div className="surface flex flex-col gap-4 p-5 text-gold-50 sm:flex-row sm:items-end sm:justify-between">
+        <Brand compact linked />
+        <div className="surface stats-hero flex flex-col gap-4 p-5 text-gold-50 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <p className="text-xs font-semibold tracking-[0.04em] text-gold-300/80">
               Beer or No Beer
             </p>
             <h1 className="mt-3 text-4xl font-black tracking-tight text-balance sm:text-5xl">
-              Ölstatistik att skryta om
+              Din ölprofil.
             </h1>
             <p className="mt-4 max-w-xl text-sm leading-6 text-gold-50/80 sm:text-base">
-              Här ser du bara din egen profil: vilka bryggerier som följer med
-              dig genom rundorna och vilken alkoholhalt som präglar ditt spel.
+              Dina rundor, dina bryggerier och lite statistik att skryta med.
+              Varje gissning bygger din ölprofil.
             </p>
           </div>
-          <Link
-            href="/"
-            className="inline-flex min-h-15 items-center justify-center rounded-2xl border border-gold-800/70 bg-black/14 px-4 py-3 text-center text-sm font-bold tracking-[0.06em] text-gold-100/92 transition-colors hover:border-gold-700/80 hover:bg-black/24 hover:text-gold-50"
-          >
+          <div className="stats-mascot">
+            <BeerArt seed={2} sizes="(max-width: 639px) 70px, 110px" />
+          </div>
+          <Link href="/" className="button-secondary">
             Till startsidan
           </Link>
         </div>
 
+        <div className="flex flex-wrap items-center justify-between gap-4 px-1">
+          <p className="eyebrow">Varje runda bygger din ölprofil</p>
+          <div className="w-full sm:w-auto">
+            <StartGameButton label="Spela en ny runda" />
+          </div>
+        </div>
         <section className="grid gap-4 lg:grid-cols-2">
           <StatCard
             eyebrow="Din statistik"

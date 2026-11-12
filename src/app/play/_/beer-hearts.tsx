@@ -13,11 +13,11 @@ export default function BeerHearts() {
       aria-label={`${lives} liv kvar`}
       className="flex shrink-0 items-center gap-1 text-gold-300"
     >
-      {Array.from({ length: lives }, (_, i) => (
+      {Array.from({ length: 3 }, (_, i) => (
         <Beer
           aria-hidden="true"
           key={i}
-          className="size-5 sm:size-6"
+          className={`life-mug size-5 sm:size-6 ${i < lives ? "" : "life-empty"}`}
           strokeWidth={2.25}
         />
       ))}
