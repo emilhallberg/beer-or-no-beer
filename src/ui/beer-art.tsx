@@ -132,6 +132,21 @@ const characters = [
     name: "Skuggmagikern",
     theme: "dusk",
   },
+  {
+    image: "/illustrations/farmhouse-goat.webp",
+    name: "Gårdsbryggaren",
+    theme: "farmhouse",
+  },
+  {
+    image: "/illustrations/garage-raccoon.webp",
+    name: "Garagemästaren",
+    theme: "garage",
+  },
+  {
+    image: "/illustrations/great-bear-astronomer.webp",
+    name: "Stjärnbjörnen",
+    theme: "ursa",
+  },
 ] as const;
 
 const nameIllustrations: Record<string, number> = {
@@ -160,6 +175,9 @@ const nameIllustrations: Record<string, number> = {
   "kåtöl reserva stout": 24,
   "rekodeko lager": 25,
   mörkrus: 26,
+  "animal farmhouse ale": 27,
+  "#3 garage project": 28,
+  "great bear new england dipa": 29,
 };
 
 export function getBeerCharacter(seed: number, beerName = "") {

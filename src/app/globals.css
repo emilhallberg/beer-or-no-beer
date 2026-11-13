@@ -1678,3 +1678,21 @@ button:disabled {
 .character-dusk {
   object-position: 50% 12%;
 }
+
+.theme-farmhouse {
+  --can-color: #eddaa9;
+  background: #eddaa9;
+}
+.theme-garage {
+  --can-color: #b8d6cc;
+  background: #b8d6cc;
+}
+.theme-ursa {
+  --can-color: #c7c5e5;
+  background: #c7c5e5;
+}
+.character-farmhouse,
+.character-garage,
+.character-ursa {
+  object-position: 50% 12%;
+}
