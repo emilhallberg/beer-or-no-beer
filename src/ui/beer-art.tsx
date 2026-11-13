@@ -117,6 +117,21 @@ const characters = [
     name: "Lagunkrokodilen",
     theme: "bayou",
   },
+  {
+    image: "/illustrations/reserva-stag.webp",
+    name: "Fatmästaren",
+    theme: "reserve",
+  },
+  {
+    image: "/illustrations/rekodeko-magpie.webp",
+    name: "Dekoratören",
+    theme: "deco",
+  },
+  {
+    image: "/illustrations/morkrus-panther.webp",
+    name: "Skuggmagikern",
+    theme: "dusk",
+  },
 ] as const;
 
 const nameIllustrations: Record<string, number> = {
@@ -142,6 +157,9 @@ const nameIllustrations: Record<string, number> = {
   stenfyr: 21,
   nattklang: 22,
   "crocodile glutenfri": 23,
+  "kåtöl reserva stout": 24,
+  "rekodeko lager": 25,
+  mörkrus: 26,
 };
 
 export function getBeerCharacter(seed: number, beerName = "") {

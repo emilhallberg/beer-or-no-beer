@@ -1660,3 +1660,21 @@ button:disabled {
 .character-bayou {
   object-position: 50% 12%;
 }
+
+.theme-reserve {
+  --can-color: #e2c59f;
+  background: #e2c59f;
+}
+.theme-deco {
+  --can-color: #c8dcca;
+  background: #c8dcca;
+}
+.theme-dusk {
+  --can-color: #c9bfd8;
+  background: #c9bfd8;
+}
+.character-reserve,
+.character-deco,
+.character-dusk {
+  object-position: 50% 12%;
+}
