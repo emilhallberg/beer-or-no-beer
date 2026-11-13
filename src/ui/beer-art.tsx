@@ -57,6 +57,21 @@ const characters = [
     name: "Kosmostvättbjörnen",
     theme: "cosmic",
   },
+  {
+    image: "/illustrations/leap-gate.webp",
+    name: "Portalgrodan",
+    theme: "portal",
+  },
+  {
+    image: "/illustrations/el-cuatro.webp",
+    name: "Trubaduren",
+    theme: "terracotta",
+  },
+  {
+    image: "/illustrations/hoppy-trail.webp",
+    name: "Humlekängurun",
+    theme: "trail",
+  },
 ] as const;
 
 const nameIllustrations: Record<string, number> = {
@@ -70,6 +85,9 @@ const nameIllustrations: Record<string, number> = {
   "the holy grail": 9,
   "nattfrost porter": 10,
   "cosmic void": 11,
+  "leap gate": 12,
+  "el cuatro": 13,
+  "hoppy trail": 14,
 };
 
 export function getBeerCharacter(seed: number, beerName = "") {

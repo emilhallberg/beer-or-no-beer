@@ -1592,3 +1592,20 @@ button:disabled {
 .character-cosmic {
   object-position: 50% 12%;
 }
+.theme-portal {
+  --can-color: #cfb6e7;
+  background: #cfb6e7;
+}
+.theme-terracotta {
+  --can-color: #f3c7aa;
+  background: #f3c7aa;
+}
+.theme-trail {
+  --can-color: #c6ddb2;
+  background: #c6ddb2;
+}
+.character-portal,
+.character-terracotta,
+.character-trail {
+  object-position: 50% 12%;
+}
