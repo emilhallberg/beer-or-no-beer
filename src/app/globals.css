@@ -1609,3 +1609,20 @@ button:disabled {
 .character-trail {
   object-position: 50% 12%;
 }
+.theme-mist {
+  --can-color: #cbd9d8;
+  background: #cbd9d8;
+}
+.theme-citrus {
+  --can-color: #f6d58a;
+  background: #f6d58a;
+}
+.theme-lagoon {
+  --can-color: #adcdbf;
+  background: #adcdbf;
+}
+.character-mist,
+.character-citrus,
+.character-lagoon {
+  object-position: 50% 12%;
+}
