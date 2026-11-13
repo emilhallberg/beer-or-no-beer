@@ -1643,3 +1643,20 @@ button:disabled {
 .character-hoplab {
   object-position: 50% 12%;
 }
+.theme-harbor {
+  --can-color: #c5d5d5;
+  background: #c5d5d5;
+}
+.theme-nocturne {
+  --can-color: #c3b8df;
+  background: #c3b8df;
+}
+.theme-bayou {
+  --can-color: #b5dca8;
+  background: #b5dca8;
+}
+.character-harbor,
+.character-nocturne,
+.character-bayou {
+  object-position: 50% 12%;
+}
