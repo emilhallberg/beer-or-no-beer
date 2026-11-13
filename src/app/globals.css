@@ -1558,3 +1558,37 @@ button:disabled {
     transform: rotate(-38deg) rotateX(-28deg) translateY(-8px);
   }
 }
+.theme-ice {
+  --can-color: #b9dfeb;
+  background: #b9dfeb;
+}
+.theme-aqua {
+  --can-color: #9bdcd2;
+  background: #9bdcd2;
+}
+.theme-guava {
+  --can-color: #f6a6b0;
+  background: #f6a6b0;
+}
+.character-ice,
+.character-aqua,
+.character-guava {
+  object-position: 50% 12%;
+}
+.theme-grail {
+  --can-color: #ecd5a1;
+  background: #ecd5a1;
+}
+.theme-frost {
+  --can-color: #c7cbe8;
+  background: #c7cbe8;
+}
+.theme-cosmic {
+  --can-color: #99d8db;
+  background: #99d8db;
+}
+.character-grail,
+.character-frost,
+.character-cosmic {
+  object-position: 50% 12%;
+}

@@ -1,6 +1,6 @@
 {
   "generator": "Built-in image_gen.imagegen",
-  "purpose": "Original decorative character artwork for Beer or No Beer. Three name-inspired motifs match names encountered during gameplay; the fallback pool includes all six illustrations for real and fake beers. Artwork selection never uses the real/fake answer. These are not product images or collectible rewards.",
+  "purpose": "Original decorative character artwork for Beer or No Beer. Name-inspired motifs match names encountered during gameplay; the fallback pool includes all illustrations for both real and fake beers. Artwork selection never uses the real/fake answer. These are not product images or collectible rewards.",
   "assets": [
     {
       "path": "public/illustrations/hop-fox.webp",
@@ -31,6 +31,42 @@
       "path": "public/illustrations/breakfast-rooster.webp",
       "inspiredBy": "Breakfast IPA",
       "prompt": "Use case: illustration-story. Original premium craft beer label artwork for an adult beer-name quiz. Match a cohesive collectible-card series: bold dark navy hand-inked outlines, chunky expressive cartoon shapes, flat mint/coral/butter-yellow/lavender colors, light screen-print grain. Portrait 4:5 edge-to-edge composition, character face in upper third, only 8% headroom, character fills frame. No text, typography, lettering, numbers, logos, borders, watermark, real brewery branding, 3D or photography. Decorative fictional artwork inspired by a name encountered during gameplay; no indication whether the beer is real or fake. Inspired by the name Breakfast IPA: an exuberant coral-red rooster brunch chef with a cream toque and mint apron, flipping a stack of pancakes in a skillet, a foamy amber stein and grapefruit wedges beside him. Surround with sunny-side-up egg shapes, hop leaves, golden sunburst and lilac coffee steam. Warm butter-yellow background, big charismatic face and cheeky smile. Playful grown-up independent craft brewery label aesthetic."
+    },
+    {
+      "path": "public/illustrations/rhino-suit.webp",
+      "character": "Kostymnoshörningen",
+      "inspiredBy": "Rhino Suit",
+      "prompt": "Use case: illustration-story. Original premium craft beer label art for an adult quiz game. Portrait 4:5, edge-to-edge composition. Cohesive collectible card series, bold dark navy hand-inked outlines, expressive grown-up cartoon character, chunky flat shapes, mint/coral/butter yellow/lavender palette, subtle screen-print grain. Face entirely visible in upper third, no more than 8 percent headroom, waist-up character fills frame. No text, lettering, numbers, logos, brand names, border, watermark, photography or 3D. Fictional decorative art inspired by a beer name, no indication whether the beer is real or fake. Inspired by Rhino Suit: a charismatic slate-blue rhinoceros wearing an impeccably tailored coral pinstripe suit, lavender tie, mint pocket square and round gold spectacles, raising a frothy amber beer stein with a confident crooked smile. Comically tiny briefcase and oversized hop cones, cream foam clouds and golden geometric Art Deco accents around him. Pale ice-blue backdrop, polished independent brewery poster aesthetic."
+    },
+    {
+      "path": "public/illustrations/deep-work.webp",
+      "character": "Djupdykaren",
+      "inspiredBy": "DEEP WORK",
+      "prompt": "Use case: illustration-story. Original premium craft beer label art for an adult quiz game. Portrait 4:5, edge-to-edge composition. Cohesive collectible card series, bold dark navy hand-inked outlines, expressive grown-up cartoon character, chunky flat shapes, mint/coral/butter yellow/lavender palette, subtle screen-print grain. Face entirely visible in upper third, no more than 8 percent headroom, waist-up character fills frame. No text, lettering, numbers, logos, brand names, border, watermark, photography or 3D. Fictional decorative art inspired by a beer name, no indication whether the beer is real or fake. Inspired by DEEP WORK: a clever warm-brown beaver deep-sea engineer in a vintage cream brass diving helmet worn open so the whole face is visible, mint work overalls and coral tool belt, operating a whimsical submarine console while raising a frothy amber stein. Surround with graphic kelp, hop-shaped sea plants, lavender fish, golden bubbles and playful coral cables. Saturated turquoise backdrop; mischievous focused expression. Original independent brewery illustration."
+    },
+    {
+      "path": "public/illustrations/birds-paradise.webp",
+      "character": "Paradisfågeln",
+      "inspiredBy": "Birds of Paradise",
+      "prompt": "Use case: illustration-story. Original premium craft beer label art for an adult quiz game. Portrait 4:5, edge-to-edge composition. Cohesive collectible card series, bold dark navy hand-inked outlines, expressive grown-up cartoon character, chunky flat shapes, mint/coral/butter yellow/lavender palette, subtle screen-print grain. Face entirely visible in upper third, no more than 8 percent headroom, waist-up character fills frame. No text, lettering, numbers, logos, brand names, border, watermark, photography or 3D. Fictional decorative art inspired by a beer name, no indication whether the beer is real or fake. Inspired by Birds of Paradise: a flamboyant tropical toucan with a huge golden-and-coral beak, midnight-blue plumage, mint Hawaiian shirt with cream leaf pattern, round lavender sunglasses pushed onto his head, raising an amber foamy beer stein. Surround with bird-of-paradise flowers, big hop leaves, grapefruit wedges, golden sun and cream foam cloud shapes. Warm guava-pink backdrop, lively sophisticated tropical craft-brewery poster."
+    },
+    {
+      "path": "public/illustrations/holy-grail.webp",
+      "character": "Humleriddaren",
+      "inspiredBy": "The Holy Grail 2024",
+      "prompt": "Use case: illustration-story. Original premium craft beer label artwork for an adult beer-name quiz. Portrait 4:5 edge-to-edge composition. Match a cohesive collectible illustration series with chunky dark navy hand-inked outlines, expressive grown-up anthropomorphic character, flat mint/coral/butter-yellow/lavender color blocks, subtle screen-print grain. Face completely visible in upper third, minimal headroom, waist-up character fills frame. No typography, letters, numbers, logos, border, watermark, real brewery branding, photography, 3D or existing IP. Fictional decorative art; no indication whether the beer is real or fake. Inspired by The Holy Grail: a gallant golden-maned lion knight in lavender medieval plate armor and mint cape, visor raised to show a mischievous smiling face, proudly raising an ornate gold chalice overflowing with amber beer and cream foam. Hop-cone heraldry, coral pennants, stylized castle spires, cream clouds and little golden stars. Pale mint background. Whimsical sophisticated independent brewery label aesthetic, entirely original character."
+    },
+    {
+      "path": "public/illustrations/night-frost.webp",
+      "character": "Nattugglan",
+      "inspiredBy": "Nattfrost Porter",
+      "prompt": "Use case: illustration-story. Original premium craft beer label artwork for an adult beer-name quiz. Portrait 4:5 edge-to-edge composition. Match a cohesive collectible illustration series with chunky dark navy hand-inked outlines, expressive grown-up anthropomorphic character, flat mint/coral/butter-yellow/lavender color blocks, subtle screen-print grain. Face completely visible in upper third, minimal headroom, waist-up character fills frame. No typography, letters, numbers, logos, border, watermark, real brewery branding, photography, 3D or existing IP. Fictional decorative art; no indication whether the beer is real or fake. Inspired by Nattfrost Porter: a charismatic snowy owl night watchman with lavender-and-cream feathers, coral knitted scarf, mint winter coat and round gold spectacles, perched on a frosty pine branch and lifting a dark porter stein crowned with cream foam. Crescent moon, mint snowflakes, hop cones dusted with snow, little golden lantern and distant Nordic cabin silhouettes. Deep indigo-purple backdrop with bright character and clean readable silhouette. Playful adult craft brewery poster."
+    },
+    {
+      "path": "public/illustrations/cosmic-void.webp",
+      "character": "Kosmostvättbjörnen",
+      "inspiredBy": "Cosmic Void",
+      "prompt": "Use case: illustration-story. Original premium craft beer label artwork for an adult beer-name quiz. Portrait 4:5 edge-to-edge composition. Match a cohesive collectible illustration series with chunky dark navy hand-inked outlines, expressive grown-up anthropomorphic character, flat mint/coral/butter-yellow/lavender color blocks, subtle screen-print grain. Face completely visible in upper third, minimal headroom, waist-up character fills frame. No typography, letters, numbers, logos, border, watermark, real brewery branding, photography, 3D or existing IP. Fictional decorative art; no indication whether the beer is real or fake. Inspired by Cosmic Void: a cheeky charcoal-and-cream raccoon astronaut in a coral space suit, mint collar and open lavender bubble helmet, floating while raising an amber foamy beer stein. Surround with hop-shaped planets, golden shooting stars, cream nebula swirls, coral Saturn rings and tiny grapefruit moons. Saturated turquoise cosmic background. Dynamic expressive face, playful grown-up independent craft brewery illustration, no existing franchise references."
     }
   ],
   "optimization": "Converted to 900px-wide WebP, quality 86. Cropping is responsive CSS; original generated PNGs retained in the Codex generated_images directory."

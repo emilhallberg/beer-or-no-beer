@@ -27,12 +27,49 @@ const characters = [
     name: "Frukosttuppen",
     theme: "peach",
   },
+  {
+    image: "/illustrations/rhino-suit.webp",
+    name: "Kostymnoshörningen",
+    theme: "ice",
+  },
+  {
+    image: "/illustrations/deep-work.webp",
+    name: "Djupdykaren",
+    theme: "aqua",
+  },
+  {
+    image: "/illustrations/birds-paradise.webp",
+    name: "Paradisfågeln",
+    theme: "guava",
+  },
+  {
+    image: "/illustrations/holy-grail.webp",
+    name: "Humleriddaren",
+    theme: "grail",
+  },
+  {
+    image: "/illustrations/night-frost.webp",
+    name: "Nattugglan",
+    theme: "frost",
+  },
+  {
+    image: "/illustrations/cosmic-void.webp",
+    name: "Kosmostvättbjörnen",
+    theme: "cosmic",
+  },
 ] as const;
 
 const nameIllustrations: Record<string, number> = {
   "hällmark ipa": 3,
   "classic pale ale": 4,
   "breakfast ipa": 5,
+  "rhino suit": 6,
+  "deep work": 7,
+  "birds of paradise": 8,
+  "the holy grail 2024": 9,
+  "the holy grail": 9,
+  "nattfrost porter": 10,
+  "cosmic void": 11,
 };
 
 export function getBeerCharacter(seed: number, beerName = "") {
