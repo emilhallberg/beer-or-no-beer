@@ -1626,3 +1626,20 @@ button:disabled {
 .character-lagoon {
   object-position: 50% 12%;
 }
+.theme-forge {
+  --can-color: #efbd99;
+  background: #efbd99;
+}
+.theme-deepsea {
+  --can-color: #9fcdd8;
+  background: #9fcdd8;
+}
+.theme-hoplab {
+  --can-color: #d7c5eb;
+  background: #d7c5eb;
+}
+.character-forge,
+.character-deepsea,
+.character-hoplab {
+  object-position: 50% 12%;
+}

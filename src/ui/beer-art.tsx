@@ -87,6 +87,21 @@ const characters = [
     name: "Vattenhästen",
     theme: "lagoon",
   },
+  {
+    image: "/illustrations/foehammer-boar.webp",
+    name: "Humlesmeden",
+    theme: "forge",
+  },
+  {
+    image: "/illustrations/havsdjup-lobster.webp",
+    name: "Djuphavshummern",
+    theme: "deepsea",
+  },
+  {
+    image: "/illustrations/lupomax-chameleon.webp",
+    name: "Humleprofessorn",
+    theme: "hoplab",
+  },
 ] as const;
 
 const nameIllustrations: Record<string, number> = {
@@ -106,6 +121,9 @@ const nameIllustrations: Record<string, number> = {
   dimma: 15,
   "juicy mchopface": 16,
   kelpie: 17,
+  foehammer: 18,
+  "havsdjup sour": 19,
+  "x qdh lupomax citra x mosaic x azacca tipa": 20,
 };
 
 export function getBeerCharacter(seed: number, beerName = "") {
