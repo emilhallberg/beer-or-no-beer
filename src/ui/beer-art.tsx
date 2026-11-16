@@ -147,6 +147,21 @@ const characters = [
     name: "Stjärnbjörnen",
     theme: "ursa",
   },
+  {
+    image: "/illustrations/winter-bulldog.webp",
+    name: "Vintervakten",
+    theme: "winter",
+  },
+  {
+    image: "/illustrations/prism-peacock.webp",
+    name: "Prismapåfågeln",
+    theme: "prism",
+  },
+  {
+    image: "/illustrations/triple-cat.webp",
+    name: "Humlejonglören",
+    theme: "carnival",
+  },
 ] as const;
 
 const nameIllustrations: Record<string, number> = {
@@ -178,6 +193,9 @@ const nameIllustrations: Record<string, number> = {
   "animal farmhouse ale": 27,
   "#3 garage project": 28,
   "great bear new england dipa": 29,
+  "winter bulldog": 30,
+  "prisma blue": 31,
+  "three times three vol. 6": 32,
 };
 
 export function getBeerCharacter(seed: number, beerName = "") {

@@ -2660,3 +2660,21 @@ button:disabled {
     height: 110px;
   }
 }
+
+.theme-winter {
+  --can-color: #c2dce5;
+  background: #c2dce5;
+}
+.theme-prism {
+  --can-color: #b9d5e7;
+  background: #b9d5e7;
+}
+.theme-carnival {
+  --can-color: #f4cba7;
+  background: #f4cba7;
+}
+.character-winter,
+.character-prism,
+.character-carnival {
+  object-position: 50% 12%;
+}
