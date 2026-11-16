@@ -1,5 +1,7 @@
 "use client";
 
+import { Flame } from "lucide-react";
+
 import Link from "next/link";
 
 import BeerButton from "@/app/play/_/beer-button";
@@ -10,7 +12,6 @@ import BeerScore from "@/app/play/_/beer-score";
 import { useGame } from "@/app/play/_/game-provider";
 import NoBeerButton from "@/app/play/_/no-beer-button";
 import { ChallengeProgress } from "@/ui/challenge-progress";
-import { SoundToggle } from "@/ui/game-feel";
 
 export default function GameScreen() {
   const {
@@ -22,6 +23,7 @@ export default function GameScreen() {
     correctGuesses,
     totalGuesses,
     result,
+    streak,
   } = useGame();
 
   if (gameOver)
@@ -70,29 +72,49 @@ export default function GameScreen() {
     );
 
   return (
-    <div className="min-h-svh grid grid-rows-[max-content_1fr_max-content]">
+    <div className="play-screen">
       <header className="relative z-20 flex items-center justify-between gap-3 pub-game-header px-4 py-4">
-        <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
+        <BeerScore />
+        <div className="game-lives">
           <BeerHearts />
-          <BeerScore />
         </div>
-        <div className="flex items-center gap-2">
-          <SoundToggle />
+        <div className="game-tools">
           <BeerMenu />
         </div>
       </header>
-      <div className="game-stage p-6 min-h-64 grid place-content-center">
-        <ChallengeProgress gameId={gameId} score={score} />
-        <p className="eyebrow mb-4 text-center">
-          Syna namnet. Följ magkänslan.
-        </p>
-        <BeerHero />
-        <p className="swipe-instruction">← No Beer · Svep burken · Beer →</p>
-      </div>
-      <footer className="game-footer p-4 grid grid-cols-2 gap-4 pub-game-footer">
-        <NoBeerButton />
-        <BeerButton />
-      </footer>
+      <section className="play-arena" aria-label="Spelrunda">
+        <div className="game-stage">
+          <ChallengeProgress gameId={gameId} score={score} />
+          <div className="can-streak-slot" role="status" aria-atomic="true">
+            {streak >= 2 ? (
+              <div
+                key={streak}
+                className={`can-streak-badge ${streak >= 5 ? "is-hot" : ""}`}
+              >
+                <span className="streak-fire">
+                  <Flame aria-hidden="true" size={24} />
+                </span>
+                <strong>{streak} rätt i rad</strong>
+                <span className="streak-cheer">
+                  {streak >= 5
+                    ? "Glödhet!"
+                    : streak >= 3
+                      ? "På gång!"
+                      : "Snyggt!"}
+                </span>
+              </div>
+            ) : null}
+          </div>
+          <BeerHero />
+        </div>
+        <footer
+          className="game-footer pub-game-footer"
+          aria-label="Knappar för ditt svar"
+        >
+          <NoBeerButton />
+          <BeerButton />
+        </footer>
+      </section>
     </div>
   );
 }

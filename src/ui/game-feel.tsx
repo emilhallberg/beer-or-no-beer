@@ -120,14 +120,18 @@ export function GameFeel({ children }: { children: ReactNode }) {
   );
 }
 
-export function SoundToggle() {
+export function SoundToggle({
+  className = "sound-toggle",
+}: {
+  className?: string;
+}) {
   const sound = use(SoundContext);
   if (!sound) return null;
   const Icon = sound.enabled ? Volume2 : VolumeX;
   return (
     <button
       type="button"
-      className="sound-toggle"
+      className={className}
       aria-pressed={sound.enabled}
       aria-label={sound.enabled ? "Stäng av spelljud" : "Slå på spelljud"}
       onClick={sound.toggle}

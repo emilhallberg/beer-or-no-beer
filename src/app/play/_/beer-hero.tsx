@@ -261,22 +261,41 @@ export default function BeerHero() {
             ? undefined
             : `translateX(${dragX}px) rotate(${dragX / 24}deg)`,
         }}
+        data-drag-direction={
+          !isAnswering && dragX > 12
+            ? "beer"
+            : !isAnswering && dragX < -12
+              ? "no-beer"
+              : undefined
+        }
         tabIndex={0}
       >
         <div
           aria-hidden="true"
-          className={`pointer-events-none absolute right-3 top-3 rounded-lg bg-pub-950 px-3 py-1 text-sm font-semibold text-pub-100 ${dragX > 36 ? "opacity-100" : "opacity-0"}`}
+          className="can-choice can-choice-beer"
+          style={{
+            opacity: isAnswering ? 0 : Math.min(1, Math.max(0, dragX) / 72),
+          }}
         >
-          Beer →
+          <strong>Beer</strong>
+          <span>
+            {dragX >= 72 ? "Släpp för att svara →" : "Dra åt höger →"}
+          </span>
         </div>
         <div
           aria-hidden="true"
-          className={`pointer-events-none absolute left-3 top-3 rounded-lg bg-raspberry-950 px-3 py-1 text-sm font-semibold text-raspberry-100 ${dragX < -36 ? "opacity-100" : "opacity-0"}`}
+          className="can-choice can-choice-no-beer"
+          style={{
+            opacity: isAnswering ? 0 : Math.min(1, Math.max(0, -dragX) / 72),
+          }}
         >
-          ← No Beer
+          <strong>No Beer</strong>
+          <span>
+            {dragX <= -72 ? "← Släpp för att svara" : "← Dra åt vänster"}
+          </span>
         </div>
         <div
-          className={`beer-can ${isAnswering && answerCorrect ? "is-opening" : ""}`}
+          className={`beer-can theme-${getBeerCharacter(beer.id, beer.name).theme} ${isAnswering && answerCorrect ? "is-opening" : ""}`}
           key={totalGuesses}
         >
           {isAnswering && answerCorrect ? <CanFoam /> : null}
@@ -324,7 +343,10 @@ export default function BeerHero() {
             </div>
             <div className="playing-card-copy">
               <p className="card-question">VAD SÄGER MAGKÄNSLAN?</p>
-              <h1 className="text-4xl font-bold tracking-tight text-balance">
+              <h1
+                tabIndex={0}
+                className="can-name text-4xl font-bold tracking-tight text-balance"
+              >
                 {beer.name}
               </h1>
               <p className="mt-3 text-sm opacity-75">
@@ -337,6 +359,7 @@ export default function BeerHero() {
               </p>
               <p
                 aria-live="polite"
+                tabIndex={showHint ? 0 : undefined}
                 className="card-hint mt-5 text-sm leading-6"
               >
                 {showHint

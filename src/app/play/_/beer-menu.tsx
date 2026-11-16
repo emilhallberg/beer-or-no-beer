@@ -17,6 +17,7 @@ import { usePathname } from "next/navigation";
 
 import { useGame } from "@/app/play/_/game-provider";
 import { useChallengeShare } from "@/hooks/use-challenge-share";
+import { SoundToggle } from "@/ui/game-feel";
 
 const itemClass =
   "flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-semibold text-gold-50 hover:bg-white/10";
@@ -98,6 +99,7 @@ export default function BeerMenu() {
             aria-label="Spelmeny"
             className="surface absolute right-0 top-[calc(100%+0.5rem)] z-30 grid w-64 max-w-[calc(100vw-2rem)] gap-1 p-2"
           >
+            <SoundToggle className={`${itemClass} game-menu-sound`} />
             <Link href="/" className={itemClass}>
               <span>Hem</span>
               <Home className="size-4" aria-hidden="true" />
