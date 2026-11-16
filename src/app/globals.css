@@ -2678,3 +2678,21 @@ button:disabled {
 .character-carnival {
   object-position: 50% 12%;
 }
+
+.theme-crossroad {
+  --can-color: #efc8aa;
+  background: #efc8aa;
+}
+.theme-sleuth {
+  --can-color: #b9d9c7;
+  background: #b9d9c7;
+}
+.theme-skyway {
+  --can-color: #eed493;
+  background: #eed493;
+}
+.character-crossroad,
+.character-sleuth,
+.character-skyway {
+  object-position: 50% 12%;
+}
