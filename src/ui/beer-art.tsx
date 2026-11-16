@@ -177,6 +177,21 @@ const characters = [
     name: "Humlepiloten",
     theme: "skyway",
   },
+  {
+    image: "/illustrations/bitter-half-porcupine.webp",
+    name: "Bitterpiggen",
+    theme: "bitter",
+  },
+  {
+    image: "/illustrations/brabant-lion.webp",
+    name: "Bryggmästarlejonet",
+    theme: "guild",
+  },
+  {
+    image: "/illustrations/summer-sour-otter.webp",
+    name: "Sommaruttern",
+    theme: "solstice",
+  },
 ] as const;
 
 const nameIllustrations: Record<string, number> = {
@@ -214,6 +229,9 @@ const nameIllustrations: Record<string, number> = {
   "korsgatan ipa": 33,
   "side eye": 34,
   "pilot ipa": 35,
+  "bitter half": 36,
+  "brouwerij de brabandere": 37,
+  "finn summer sour": 38,
 };
 
 export function getBeerCharacter(seed: number, beerName = "") {

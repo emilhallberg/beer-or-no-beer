@@ -2696,3 +2696,21 @@ button:disabled {
 .character-skyway {
   object-position: 50% 12%;
 }
+
+.theme-bitter {
+  --can-color: #efb58b;
+  background: #efb58b;
+}
+.theme-guild {
+  --can-color: #e6d1a4;
+  background: #e6d1a4;
+}
+.theme-solstice {
+  --can-color: #efdc9e;
+  background: #efdc9e;
+}
+.character-bitter,
+.character-guild,
+.character-solstice {
+  object-position: 50% 12%;
+}
